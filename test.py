@@ -13,27 +13,24 @@ class Player:
         self.sex = sex
         self.classement = classement
 
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-# convertir en dictionnaire$
-def serialzation(player):
-    serialized_player = {
-        'familly_name': player.familly_name,
-        'first_name': player.first_name,
-        'age': player.age,
-        'sex': player.sex,
-        'classement': player.classement
-    }
-    return serialized_player
+    # convertir en dictionnaire$
+    def serialzation(player):
+        serialized_player = {
+            'familly_name': player.familly_name,
+            'first_name': player.first_name,
+            'age': player.age,
+            'sex': player.sex,
+            'classement': player.classement
+        }
+        return serialized_player
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
 player1 = Player(familly_name='John', first_name='Cena', age=44, sex='M', classement=22)
-serialized_players1 = serialzation(player=player1)
+serialized_players1 = Player.serialzation(player=player1)
 player2 = Player(familly_name='Jooooohn', first_name='Cenaaa', age=44, sex='M', classement=11)
-serialized_players2 = serialzation(player=player2)
+serialized_players2 = Player.serialzation(player=player2)
 
 
 db = TinyDB('db.json')
@@ -43,9 +40,6 @@ players_table.truncate()
 players = (serialized_players1, serialized_players2)
 for player in players:
     players_table.insert(player)
-
-
-print('==============================================================================================')
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -71,7 +65,6 @@ class Tournoi:
         self.Joueurs = Joueurs
         self.controle_temps = controle_temps
         self.Description = Description
-
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
