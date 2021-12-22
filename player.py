@@ -51,3 +51,20 @@ class Player:
         for player in players:
             players_table.insert(player)
 
+    def search_player(self):
+        try:
+            print('les joueurs sont : ')
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            i = 1
+            for player in players:
+                familly_name = player['familly_name']
+                first_name = player['first_name']
+                age = player['age']
+                sex = player['sex']
+                classement = player['classement']
+                print('N°{}: familly_name : {} | first_name : {} | age : {} | sex : {} | classement : {}'.format(i, familly_name, first_name, age, sex, classement))
+                i+=1
+        except Exception as e:
+            print('Error', e)
