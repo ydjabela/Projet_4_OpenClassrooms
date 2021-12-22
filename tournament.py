@@ -69,3 +69,32 @@ class Tournament:
         # clear the table first
         tournoi_table.truncate()
         tournoi_table.insert(serialized_tournoi)
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+    def search_tournament(self):
+        try:
+            print('le tournois est : ')
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            print(tournaments)
+            i = 1
+            print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("nom", "lieu", "date", "tour", "Tournees", "Joueurs", "controle_temps", "Description"))
+            for tournament in tournaments:
+                nom = tournament['nom']
+                lieu = tournament['lieu']
+                date = tournament['date']
+                tour = tournament['tour']
+                Tournees = tournament['Tournees']
+                Joueurs = tournament['Joueurs']
+                controle_temps = tournament['controle_temps']
+                Description = tournament['Description']
+
+                print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description))
+                i += 1
+
+        except Exception as e:
+            print('Error', e)
+
+# ---------------------------------------------------------------------------------------------------------------------#

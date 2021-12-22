@@ -11,6 +11,7 @@ class choice:
         print(" 1 : ajouter les joueurs.")
         print(" 2 : création d'un tournoi.")
         print(" 3 : Voir les joueurs.")
+        print(" 4 : Voir le Tournois.")
         print(" 10 : sortir du logiciel.")
         print("\nQuelle est votre choix : ")
         resultat = input()
@@ -26,6 +27,8 @@ while True:
             Tournament().add_tournament()
         elif int(resultat) == 3:
             Player().search_player()
+        elif int(resultat) == 4:
+            Tournament().search_tournament()
         elif int(resultat) == 10:
             break
         else:

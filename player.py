@@ -58,13 +58,15 @@ class Player:
             table = db.table('players')
             players = table.all()
             i = 1
+            print("{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format("N°", "Familly name", "First name", "Age", "Sex", "Classement"))
             for player in players:
                 familly_name = player['familly_name']
                 first_name = player['first_name']
                 age = player['age']
                 sex = player['sex']
                 classement = player['classement']
-                print('N°{}: familly_name : {} | first_name : {} | age : {} | sex : {} | classement : {}'.format(i, familly_name, first_name, age, sex, classement))
-                i+=1
+                print("{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(i, familly_name, first_name, age, sex, classement))
+                i += 1
+
         except Exception as e:
             print('Error', e)
