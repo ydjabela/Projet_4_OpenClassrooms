@@ -1,6 +1,7 @@
 from tinydb import TinyDB
 import json
 import settings
+from player.view import Error_enter
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -14,6 +15,8 @@ class Player:
         self.sex = sex
         self.classement = classement
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     # convertir en dictionnaire$
     def serialzation(self, player):
         serialized_player = {
@@ -25,16 +28,29 @@ class Player:
         }
         return serialized_player
 
-    def add_player(self):
+    # ---------------------------------------------------------------------------------------------------------------------#
 
+    def add_player(self):
+        error_enter = Error_enter()
         familly_name = str(input('familly_name : '))
         first_name = str(input('first_name: '))
-        age = int(input('age: '))
+
+        def add_age():
+            try:
+                age = int(input('age: '))
+            except:
+                error_enter.print_error_enter_int_age()
+                add_age()
+                return age
+
+        age = add_age()
         sex = str(input('sex: '))
         classement = int(input('classement: '))
         player = Player(familly_name=familly_name, first_name=first_name, age=age, sex=sex, classement=classement)
         serialized_players = self.serialzation(player=player)
         return serialized_players
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_players(self):
         players = list()
@@ -50,6 +66,8 @@ class Player:
         players_table.truncate()
         for player in players:
             players_table.insert(player)
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     def search_player(self):
         try:
@@ -70,3 +88,6 @@ class Player:
 
         except Exception as e:
             print('Error', e)
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+# ---------------------------------------------------------------------------------------------------------------------#
