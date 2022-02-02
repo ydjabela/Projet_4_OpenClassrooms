@@ -10,9 +10,13 @@ class Choice:
         print("Selectionnez le menu souhaité.\n")
         print(" 1 : ajouter les joueurs.")
         print(" 2 : création d'un tournoi.")
-        print(" 3 : sortir du logiciel.")
+        print(" 3 : Affichage des joueurs.")
+        print(" 4 : Afficher  le tournois.")
+        print(" 5 : sortir du logiciel.")
+
         print("\nQuelle est votre choix : ")
         resultat = input()
+        print('-------------------------------------------------------------------------------------------------------')
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#

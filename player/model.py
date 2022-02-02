@@ -41,7 +41,7 @@ class Player:
             except:
                 error_enter.print_error_enter_int_age()
                 add_age()
-                return age
+            return age
 
         age = add_age()
         sex = str(input('sex: '))
@@ -71,6 +71,7 @@ class Player:
 
     def search_player(self):
         try:
+
             print('les joueurs sont : ')
             db = TinyDB('db.json')
             table = db.table('players')

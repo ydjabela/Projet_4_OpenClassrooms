@@ -20,17 +20,21 @@ class MainMenu:
 
         if resultat == 1:
             player.add_players()
-            self.menu()
 
         elif resultat == 2:
             tournament.add_tournament()
-            self.menu()
 
-        elif resultat == 3:
+        elif int(resultat) == 3:
+            player.search_player()
+
+        elif int(resultat) == 4:
+            tournament.search_tournament()
+
+        elif resultat == 5:
             exit()
 
         else:
             choice.print_error_enter_int()
-            self.menu()
+        self.menu()
 
 # ---------------------------------------------------------------------------------------------------------------------#

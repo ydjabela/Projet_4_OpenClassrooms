@@ -80,7 +80,7 @@ class Tournament:
             tournaments = table.all()
             print(tournaments)
             i = 1
-            print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("nom", "lieu", "date", "tour", "Tournees", "Joueurs", "controle_temps", "Description"))
+            print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("N°", "Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))
             for tournament in tournaments:
                 nom = tournament['nom']
                 lieu = tournament['lieu']
@@ -91,7 +91,8 @@ class Tournament:
                 controle_temps = tournament['controle_temps']
                 Description = tournament['Description']
 
-                print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description))
+                print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(
+                    i, nom, lieu, date, tour, str(Tournees), str(Joueurs), controle_temps, Description))
                 i += 1
 
         except Exception as e:
