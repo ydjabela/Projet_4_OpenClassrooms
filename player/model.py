@@ -17,7 +17,7 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    # convertir en dictionnaire$
+    # convertir en dictionnaire
     def serialzation(self, player):
         serialized_player = {
             'familly_name': player.familly_name,
@@ -30,6 +30,7 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    # Ajouter un joueur
     def add_player(self):
         error_enter = Error_enter()
         familly_name = str(input('familly_name : '))
@@ -52,13 +53,13 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    # Sauvegarder le joueur
     def save_player(self):
         nbr_player_max = settings.nbr_player_max
 
         db = TinyDB('db.json')
         players_table = db.table('players')
         players = players_table.all()
-        print('======>', len(players))
         if len(players) < nbr_player_max:
             players_table.insert(self.add_player())
         else:
@@ -66,6 +67,7 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    # Ajouter et sauvegarder  plusieurs joueurs
     def add_players(self):
         players = list()
         nbr_player = settings.nbr_player
@@ -83,14 +85,17 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    # Affichage des joueurs
     def search_player(self):
         try:
-
-            print('les joueurs sont : ')
             db = TinyDB('db.json')
             table = db.table('players')
             players = table.all()
+            if len(players) == 0:
+                print('la liste des joueurs est vide')
+                return
             i = 1
+            print('les joueurs sont : ')
             print(
                 "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
                     "N°", "Familly name", "First name", "Age", "Sex", "Classement"
@@ -108,6 +113,33 @@ class Player:
                     )
                 )
                 i += 1
+
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    # Supprimer un joueur
+    def delete_player(self):
+        self.search_player()
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            print(players)
+            table.remove(1)
+
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    # Supprimer tous les joueurs
+    def delete_all_player(self):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            table.truncate()
 
         except Exception as e:
             print('Error', e)

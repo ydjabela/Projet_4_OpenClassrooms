@@ -6,11 +6,10 @@ class Choice:
 
     def main_choice(self):
         print()
-        print("Bienvenue sur le gestionnaire de jeu d'échec.\n")
-        print("Selectionnez le menu souhaité.\n")
-        print(" 1 : ajouter un joueur.")
+        print(" * * * Bienvenue sur le gestionnaire de jeu d'échec. * * * \n")
+        print(" /// Selectionnez le menu souhaité. /// \n")
+        print(" 1 : Gestion des joueurs.")
         print(" 2 : création d'un tournoi.")
-        print(" 3 : Affichage des joueurs.")
         print(" 4 : Affichage des tournois.")
         print(" 5 : sortir du logiciel.")
 
