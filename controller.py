@@ -19,7 +19,7 @@ class MainMenu:
             self.menu()
 
         if resultat == 1:
-            player.add_players()
+            player.save_player()
 
         elif resultat == 2:
             tournament.add_tournament()

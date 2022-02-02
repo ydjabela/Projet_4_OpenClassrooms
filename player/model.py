@@ -15,7 +15,7 @@ class Player:
         self.sex = sex
         self.classement = classement
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
     # convertir en dictionnaire$
     def serialzation(self, player):
@@ -28,7 +28,7 @@ class Player:
         }
         return serialized_player
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
     def add_player(self):
         error_enter = Error_enter()
@@ -47,10 +47,24 @@ class Player:
         sex = str(input('sex: '))
         classement = int(input('classement: '))
         player = Player(familly_name=familly_name, first_name=first_name, age=age, sex=sex, classement=classement)
-        serialized_players = self.serialzation(player=player)
-        return serialized_players
+        serialized_player = self.serialzation(player=player)
+        return serialized_player
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def save_player(self):
+        nbr_player_max = settings.nbr_player_max
+
+        db = TinyDB('db.json')
+        players_table = db.table('players')
+        players = players_table.all()
+        print('======>', len(players))
+        if len(players) < nbr_player_max:
+            players_table.insert(self.add_player())
+        else:
+            print('le nombre de joueurs à atteint le maximum')
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
     def add_players(self):
         players = list()
@@ -67,7 +81,7 @@ class Player:
         for player in players:
             players_table.insert(player)
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
     def search_player(self):
         try:
@@ -77,18 +91,27 @@ class Player:
             table = db.table('players')
             players = table.all()
             i = 1
-            print("{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format("N°", "Familly name", "First name", "Age", "Sex", "Classement"))
+            print(
+                "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                    "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                )
+            )
             for player in players:
                 familly_name = player['familly_name']
                 first_name = player['first_name']
                 age = player['age']
                 sex = player['sex']
                 classement = player['classement']
-                print("{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(i, familly_name, first_name, age, sex, classement))
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        i, familly_name, first_name, age, sex, classement
+                    )
+                )
                 i += 1
 
         except Exception as e:
             print('Error', e)
-    # ---------------------------------------------------------------------------------------------------------------------#
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
 # ---------------------------------------------------------------------------------------------------------------------#
