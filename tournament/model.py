@@ -78,7 +78,6 @@ class Tournament:
             db = TinyDB('db.json')
             table = db.table('tournois')
             tournaments = table.all()
-            print(tournaments)
             i = 1
             print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("N°", "Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))
             for tournament in tournaments:

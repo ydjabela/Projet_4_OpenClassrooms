@@ -11,7 +11,7 @@ class Choice:
         print(" 1 : ajouter les joueurs.")
         print(" 2 : création d'un tournoi.")
         print(" 3 : Affichage des joueurs.")
-        print(" 4 : Afficher  le tournois.")
+        print(" 4 : Afficher  des tournois.")
         print(" 5 : sortir du logiciel.")
 
         print("\nQuelle est votre choix : ")
