@@ -145,5 +145,35 @@ class Player:
             print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
+    def modif_element_player(self, player):
+        # manages the requests between the view and the modify player function
+
+        self.ask_change_name(player)
+        self.ask_change_first_name(player)
+        self.ask_change_birth_date(player)
+        self.ask_change_sex(player)
+        self.ask_change_rank(player)
+        return player
+
+    # modifier un joueur.
+    def modify_a_player(self):
+        self.search_player()
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            if len(players) == 0:
+                print('la liste des joueurs est vide')
+                return
+            elif len(players) == 1:
+                self.modif_element_player(player=players)
+            else:
+                for player in players:
+                    if player.get("pk") == modif.get("pk"):
+                        player_doc_id = player.doc_id
+                        db.upsert(Document(modif, doc_id=player_doc_id))
+
+        except Exception as e:
+            print('Error', e)
 
 # ---------------------------------------------------------------------------------------------------------------------#

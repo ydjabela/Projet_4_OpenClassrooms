@@ -1,6 +1,5 @@
 from player.model import Player
 from player.view import Sub_Choice
-import sys
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -23,7 +22,7 @@ class PlayerMenu:
 
         # modifier un joueur.
         elif resultat == 2:
-            player.add_tournament()
+            player.modify_a_player()
 
         # Supprimmer un joueur.
         elif resultat == 3:
