@@ -156,8 +156,9 @@ class Player:
         return player
 
     # modifier un joueur.
-    def modify_a_player(self):
+    def modify_a_player(self, player_number=None):
         self.search_player()
+
         try:
             db = TinyDB('db.json')
             table = db.table('players')
@@ -167,11 +168,20 @@ class Player:
                 return
             elif len(players) == 1:
                 self.modif_element_player(player=players)
+                return
+
             else:
-                for player in players:
-                    if player.get("pk") == modif.get("pk"):
-                        player_doc_id = player.doc_id
-                        db.upsert(Document(modif, doc_id=player_doc_id))
+                if player_number is not None:
+                    print('=======>', players[player_number])
+                    self.modif_element_player(player=players[player_number])
+                    '''
+                    for player in players:
+                        if player.get("pk") == modif.get("pk"):
+                            player_doc_id = player.doc_id
+                            db.upsert(Document(modif, doc_id=player_doc_id))
+                    '''
+                else:
+                    return
 
         except Exception as e:
             print('Error', e)

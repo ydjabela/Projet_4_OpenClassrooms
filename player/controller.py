@@ -23,6 +23,14 @@ class PlayerMenu:
         # modifier un joueur.
         elif resultat == 2:
             player.modify_a_player()
+            try:
+                player_number = int(sub_choice.player_modification())-1
+            except:
+                sub_choice.print_error_enter_int()
+                self.sub_menu()
+            player.modify_a_player(player_number=player_number)
+
+
 
         # Supprimmer un joueur.
         elif resultat == 3:
