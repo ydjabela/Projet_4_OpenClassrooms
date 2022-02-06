@@ -116,6 +116,7 @@ class Player:
 
         except Exception as e:
             print('Error', e)
+        return players
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -145,45 +146,41 @@ class Player:
             print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
-    def modif_element_player(self, player):
-        # manages the requests between the view and the modify player function
 
-        self.ask_change_name(player)
-        self.ask_change_first_name(player)
-        self.ask_change_birth_date(player)
-        self.ask_change_sex(player)
-        self.ask_change_rank(player)
-        return player
+    def ask_change_name(self, name, player_number):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
 
-    # modifier un joueur.
-    def modify_a_player(self, player_number=None):
-        self.search_player()
+    # -----------------------------------------------------------------------------------------------------------------#
 
-        try:
-            db = TinyDB('db.json')
-            table = db.table('players')
-            players = table.all()
-            if len(players) == 0:
-                print('la liste des joueurs est vide')
-                return
-            elif len(players) == 1:
-                self.modif_element_player(player=players)
-                return
+    def ask_change_first_name(self, prenom, player_number):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
+        print(players[player_number], prenom)
 
-            else:
-                if player_number is not None:
-                    print('=======>', players[player_number])
-                    self.modif_element_player(player=players[player_number])
-                    '''
-                    for player in players:
-                        if player.get("pk") == modif.get("pk"):
-                            player_doc_id = player.doc_id
-                            db.upsert(Document(modif, doc_id=player_doc_id))
-                    '''
-                else:
-                    return
+    # -----------------------------------------------------------------------------------------------------------------#
 
-        except Exception as e:
-            print('Error', e)
+    def ask_change_age(self, age, player_number):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_sex(self, sex, player_number):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_classement(self, classement, player_number):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
 # ---------------------------------------------------------------------------------------------------------------------#

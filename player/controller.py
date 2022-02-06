@@ -22,15 +22,36 @@ class PlayerMenu:
 
         # modifier un joueur.
         elif resultat == 2:
-            player.modify_a_player()
+            players = player.search_player()
             try:
-                player_number = int(sub_choice.player_modification())-1
+                if len(players) == 0:
+                    sub_choice.no_player()
+                    return
+                elif len(players) == 1:
+                    player_number = 1
+                else:
+                    player_number = int(sub_choice.player_modification())-1
+
+                resultat_modif = int(sub_choice.player_modification_spec())
             except:
                 sub_choice.print_error_enter_int()
                 self.sub_menu()
-            player.modify_a_player(player_number=player_number)
 
-
+            if resultat_modif == 1:
+                name = sub_choice.player_name_modification()
+                player.ask_change_name(name=name, player_number=player_number)
+            elif resultat_modif == 2:
+                prenom = sub_choice.player_first_name_modification()
+                player.ask_change_first_name(prenom=prenom, player_number=player_number)
+            elif resultat_modif == 3:
+                age = sub_choice.player_age_modification()
+                player.ask_change_age(age=age, player_number=player_number)
+            elif resultat_modif == 4:
+                sex = sub_choice.player_sex_modification()
+                player.ask_change_sex(sex=sex, player_number=player_number)
+            elif resultat_modif == 5:
+                classement = sub_choice.player_classement_modification()
+                player.ask_change_classement(classement=classement, player_number=player_number)
 
         # Supprimmer un joueur.
         elif resultat == 3:

@@ -15,9 +15,8 @@ class Sub_Choice:
         print(" 5 : Supprimmer tous les joueurs.")
         print(" 6 : Retour au menu principal.")
         print(" 7 : sortir du logiciel.")
-
-        print("\nQuelle est votre choix : ")
-        resultat = input()
+        print()
+        resultat = input("Quelle est votre choix : ")
         print('-------------------------------------------------------------------------------------------------------')
         return resultat
 
@@ -29,8 +28,63 @@ class Sub_Choice:
         print()
 
         resultat = input("Numéro  de joueur que vous souhaité modifier: ")
-        print('-------------------------------------------------------------------------------------------------------')
         return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_modification_spec(self):
+        print(" * * * Modification des joueurs. * * *\n")
+        print()
+        print(" /// Selectionnez le menu souhaité. /// \n")
+        print(" 1 : Modifier le  Nom.")
+        print(" 2 : Modifier le  Prenom.")
+        print(" 3 : Modifier le  l'age.")
+        print(" 4 : Modifier le  le sex.")
+        print(" 5 : Modifier le  Classement.")
+
+        resultat = input("Numero de l'élement de la  modif: ")
+        return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_name_modification(self):
+        print()
+        name = input("Nouveau Nom: ")
+        return name
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_first_name_modification(self):
+        print()
+        prenom = input("Nouveau prénom: ")
+        return prenom
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_age_modification(self):
+        print()
+        age = input("Nouveau age: ")
+        return age
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_sex_modification(self):
+        print()
+        genre = input("Nouveau genre: ")
+        return genre
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_classement_modification(self):
+        print()
+        classement = input("Nouveau classement: ")
+        return classement
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def no_player(self):
+        print('la liste des joueurs est vide')
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     def print_error_enter_int(self):
         # indicates to the user that he must enter a number
