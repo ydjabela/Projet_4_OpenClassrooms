@@ -22,37 +22,7 @@ class PlayerMenu:
 
         # modifier un joueur.
         elif resultat == 2:
-            players = player.search_player()
-            try:
-                if len(players) == 0:
-                    sub_choice.no_player()
-                    return
-                elif len(players) == 1:
-                    player_number = 1
-                else:
-                    player_number = int(sub_choice.player_modification())-1
-
-                resultat_modif = int(sub_choice.player_modification_spec())
-            except:
-                sub_choice.print_error_enter_int()
-                self.sub_menu()
-
-            if resultat_modif == 1:
-                name = sub_choice.player_name_modification()
-                player.ask_change_name(name=name, player_number=player_number)
-            elif resultat_modif == 2:
-                prenom = sub_choice.player_first_name_modification()
-                player.ask_change_first_name(prenom=prenom, player_number=player_number)
-            elif resultat_modif == 3:
-                age = sub_choice.player_age_modification()
-                player.ask_change_age(age=age, player_number=player_number)
-            elif resultat_modif == 4:
-                sex = sub_choice.player_sex_modification()
-                player.ask_change_sex(sex=sex, player_number=player_number)
-            elif resultat_modif == 5:
-                classement = sub_choice.player_classement_modification()
-                player.ask_change_classement(classement=classement, player_number=player_number)
-
+            self.sub_menu_player()
         # Supprimmer un joueur.
         elif resultat == 3:
             player.delete_player()
@@ -79,3 +49,63 @@ class PlayerMenu:
             sub_choice.print_error_enter_int()
         print('-------------------------------------------------------------------------------------------------------')
         self.sub_menu()
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def sub_menu_player(self):
+        sub_choice = Sub_Choice()
+        player = Player()
+        players = player.search_player()
+        try:
+            if len(players) == 0:
+                sub_choice.no_player()
+                self.sub_menu_player()
+            elif len(players) == 1:
+                player_number = 1
+            else:
+                player_number = int(sub_choice.player_modification()) - 1
+
+            resultat_modif = int(sub_choice.player_modification_spec())
+        except:
+            sub_choice.print_error_enter_int()
+            self.sub_menu_player()
+
+        if resultat_modif == 1:
+            name = sub_choice.player_name_modification()
+            player.ask_change_name(name=name, player_number=player_number)
+            sub_choice.player_modification_save()
+        elif resultat_modif == 2:
+            prenom = sub_choice.player_first_name_modification()
+            player.ask_change_first_name(prenom=prenom, player_number=player_number)
+        elif resultat_modif == 3:
+            self.change_age_player(player_number=player_number)
+        elif resultat_modif == 4:
+            sex = sub_choice.player_sex_modification()
+            player.ask_change_sex(sex=sex, player_number=player_number)
+        elif resultat_modif == 5:
+            self.change_classement_player(player_number=player_number)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def change_age_player(self, player_number):
+        sub_choice = Sub_Choice()
+        player = Player()
+        try:
+            age = int(sub_choice.player_age_modification())
+            player.ask_change_age(age=age, player_number=player_number)
+        except:
+            sub_choice.print_error_enter_int()
+            self.change_age_player(player_number=player_number)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def change_classement_player(self, player_number):
+        sub_choice = Sub_Choice()
+        player = Player()
+        try:
+            classement = int(sub_choice.player_classement_modification())
+            player.ask_change_classement(classement=classement, player_number=player_number)
+        except:
+            sub_choice.print_error_enter_int()
+            self.change_classement_player(player_number=player_number)
+# ---------------------------------------------------------------------------------------------------------------------#

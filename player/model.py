@@ -148,45 +148,62 @@ class Player:
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_name(self, name, player_number):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
-        player = players[player_number]
-        print(player, name)
-        familly_name_player = player['familly_name']
-        print(familly_name_player)
-        table.update({'familly_name': familly_name_player}, player['familly_name'] == int(name))
-        players =table.all()
-        print(players)
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            player = Query()
+            table.update({'familly_name': name}, player.familly_name == players[player_number]['familly_name'])
+        except Exception as e:
+            print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_first_name(self, prenom, player_number):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
-        print(players[player_number], prenom)
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            player = Query()
+            table.update({'first_name': prenom}, player.familly_name == players[player_number]['familly_name'])
+        except Exception as e:
+            print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_age(self, age, player_number):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            player = Query()
+            table.update({'age': age}, player.familly_name == players[player_number]['familly_name'])
+        except Exception as e:
+            print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_sex(self, sex, player_number):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            player = Query()
+            table.update({'sex': sex}, player.familly_name == players[player_number]['familly_name'])
+        except Exception as e:
+            print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_classement(self, classement, player_number):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
+        try:
+            db = TinyDB('db.json')
+            table = db.table('players')
+            players = table.all()
+            player = Query()
+            table.update({'classement': classement}, player.familly_name == players[player_number]['familly_name'])
+        except Exception as e:
+            print('Error', e)
 
     # -----------------------------------------------------------------------------------------------------------------#
 

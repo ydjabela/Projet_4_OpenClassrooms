@@ -32,7 +32,14 @@ class Sub_Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def player_modification_save(self):
+        print()
+        print(" * * * Modification Terminé. * * *\n")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def player_modification_spec(self):
+        print()
         print(" * * * Modification des joueurs. * * *\n")
         print()
         print(" /// Selectionnez le menu souhaité. /// \n")
