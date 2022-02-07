@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 import json
 import settings
 from player.view import Error_enter
@@ -151,6 +151,13 @@ class Player:
         db = TinyDB('db.json')
         table = db.table('players')
         players = table.all()
+        player = players[player_number]
+        print(player, name)
+        familly_name_player = player['familly_name']
+        print(familly_name_player)
+        table.update({'familly_name': familly_name_player}, player['familly_name'] == int(name))
+        players =table.all()
+        print(players)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
