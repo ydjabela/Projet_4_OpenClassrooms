@@ -65,6 +65,9 @@ class Player_view:
     def player_sex_modification(self):
         print()
         genre = input("Nouveau genre: ")
+        if genre not in ['m', 'M', 'f', 'F']:
+            print('Veuillez saisir M/m ou F/f')
+            genre = self.player_sex_modification()
         return genre
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -98,6 +101,7 @@ class Player_view:
             error_enter.print_error_enter_int_age()
             age = self.add_age()
         return age
+
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_classement(self):
@@ -111,12 +115,21 @@ class Player_view:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def add_sex(self):
+        sex = str(input('sex (M or F): '))
+        if sex not in ['m', 'M', 'f', 'F']:
+            print('Veuillez saisir M/m ou F/f')
+            sex = self.add_sex()
+        return sex
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def adding_player(self):
 
-        familly_name = str(input('familly_name : '))
-        first_name = str(input('first_name: '))
+        familly_name = str(input('Nom : '))
+        first_name = str(input('prénom: '))
         age = self.add_age()
-        sex = str(input('sex: '))
+        sex = self.add_sex()
         classement = self.add_classement()
         serialized_player = {
             'familly_name': familly_name,

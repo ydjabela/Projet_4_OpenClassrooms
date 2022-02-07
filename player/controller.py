@@ -42,7 +42,6 @@ class PlayerMenu:
 
         # Retour au menu principal
         elif resultat == 6:
-
             print('Retour au menu principal')
             return
 
