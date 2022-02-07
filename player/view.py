@@ -22,22 +22,6 @@ class Sub_Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def player_modification(self):
-        print()
-        print(" * * * Modification des joueurs. * * *\n")
-        print()
-
-        resultat = input("Numéro  de joueur que vous souhaité modifier: ")
-        return resultat
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
-    def player_modification_save(self):
-        print()
-        print(" * * * Modification Terminé. * * *\n")
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
     def player_modification_spec(self):
         print()
         print(" * * * Modification des joueurs. * * *\n")
@@ -53,6 +37,9 @@ class Sub_Choice:
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Player_view:
 
     def player_name_modification(self):
         print()
@@ -93,13 +80,6 @@ class Sub_Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def print_error_enter_int(self):
-        # indicates to the user that he must enter a number
-
-        print("\n ERREUR : vous devez entrer un chiffre correspondant à votre choix .")
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
     def player_to_delete(self):
         print()
         print(" * * * Modification des joueurs. * * *\n")
@@ -107,12 +87,78 @@ class Sub_Choice:
 
         resultat = input("Numéro  de joueur que vous souhaité supprimer: ")
         return resultat
+
     # ---------------------------------------------------------------------------------------------------------------------#
+
+    def add_age(self):
+        error_enter = Error_enter()
+        try:
+            age = int(input('age: '))
+        except:
+            error_enter.print_error_enter_int_age()
+            age = self.add_age()
+        return age
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def add_classement(self):
+        error_enter = Error_enter()
+        try:
+            Classement = int(input('Classement: '))
+        except:
+            error_enter.print_error_enter_int_classement()
+            Classement = self.add_classement()
+        return Classement
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def adding_player(self):
+
+        familly_name = str(input('familly_name : '))
+        first_name = str(input('first_name: '))
+        age = self.add_age()
+        sex = str(input('sex: '))
+        classement = self.add_classement()
+        serialized_player = {
+            'familly_name': familly_name,
+            'first_name': first_name,
+            'age': age,
+            'sex': sex,
+            'classement': classement
+        }
+        return serialized_player
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_modification_save(self):
+        print()
+        print(" * * * Modification Terminé. * * *\n")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_modification(self):
+        print()
+        print(" * * * Modification des joueurs. * * *\n")
+        print()
+
+        resultat = input("Numéro  de joueur que vous souhaité modifier: ")
+        return resultat
+
+# ---------------------------------------------------------------------------------------------------------------------#
 
 
 class Error_enter:
 
     def print_error_enter_int_age(self):
+        # indicates to the user that he must enter a number
+
+        print("\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! .")
+
+    def print_error_enter_int_classement(self):
+        # indicates to the user that he must enter a number
+
+        print("\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! .")
+
+    def print_error_enter_int(self):
         # indicates to the user that he must enter a number
 
         print("\n ERREUR : vous devez entrer un chiffre correspondant à votre choix .")
