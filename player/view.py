@@ -100,6 +100,15 @@ class Sub_Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def player_to_delete(self):
+        print()
+        print(" * * * Modification des joueurs. * * *\n")
+        print()
+
+        resultat = input("Numéro  de joueur que vous souhaité supprimer: ")
+        return resultat
+    # ---------------------------------------------------------------------------------------------------------------------#
+
 
 class Error_enter:
 

@@ -87,32 +87,30 @@ class Player:
 
     # Affichage des joueurs
     def search_player(self):
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
         try:
-            db = TinyDB('db.json')
-            table = db.table('players')
-            players = table.all()
-            if len(players) == 0:
-                print('la liste des joueurs est vide')
-                return
-            i = 1
-            print('les joueurs sont : ')
-            print(
-                "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
-                    "N°", "Familly name", "First name", "Age", "Sex", "Classement"
-                )
-            )
-            for player in players:
-                familly_name = player['familly_name']
-                first_name = player['first_name']
-                age = player['age']
-                sex = player['sex']
-                classement = player['classement']
+            if not len(players) == 0:
+                i = 1
+                print('les joueurs sont : ')
                 print(
                     "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
-                        i, familly_name, first_name, age, sex, classement
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
                     )
                 )
-                i += 1
+                for player in players:
+                    familly_name = player['familly_name']
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
 
         except Exception as e:
             print('Error', e)
@@ -121,14 +119,13 @@ class Player:
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer un joueur
-    def delete_player(self):
-        self.search_player()
+    def ask_delete_player(self, player_number):
         try:
             db = TinyDB('db.json')
             table = db.table('players')
             players = table.all()
-            print(players)
-            table.remove(1)
+            player = Query()
+            table.remove(player.familly_name == players[player_number]['familly_name'])
 
         except Exception as e:
             print('Error', e)
@@ -176,6 +173,7 @@ class Player:
             db = TinyDB('db.json')
             table = db.table('players')
             players = table.all()
+
             player = Query()
             table.update({'age': age}, player.familly_name == players[player_number]['familly_name'])
         except Exception as e:

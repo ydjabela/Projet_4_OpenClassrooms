@@ -25,11 +25,13 @@ class PlayerMenu:
             self.sub_menu_player()
         # Supprimmer un joueur.
         elif resultat == 3:
-            player.delete_player()
+            self.delete_player()
 
         # Affichage des joueurs.
         elif int(resultat) == 4:
-            player.search_player()
+            players = player.search_player()
+            if len(players) == 0:
+                sub_choice.no_player()
 
         # Supprimmer tous les joueurs.
         elif int(resultat) == 5:
@@ -55,13 +57,14 @@ class PlayerMenu:
     def sub_menu_player(self):
         sub_choice = Sub_Choice()
         player = Player()
-        players = player.search_player()
+
         try:
+            players = player.search_player()
             if len(players) == 0:
                 sub_choice.no_player()
-                self.sub_menu_player()
+                self.sub_menu()
             elif len(players) == 1:
-                player_number = 1
+                player_number = 0
             else:
                 player_number = int(sub_choice.player_modification()) - 1
 
@@ -108,4 +111,18 @@ class PlayerMenu:
         except:
             sub_choice.print_error_enter_int()
             self.change_classement_player(player_number=player_number)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def delete_player(self):
+        sub_choice = Sub_Choice()
+        player = Player()
+        players = player.search_player()
+        try:
+            player_number = int(sub_choice.player_to_delete())-1
+            player.ask_delete_player(player_number=player_number)
+            sub_choice.player_modification_save()
+        except:
+            sub_choice.print_error_enter_int()
+            self.delete_player()
 # ---------------------------------------------------------------------------------------------------------------------#
