@@ -1,6 +1,8 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 import json
 import settings
+
+# ---------------------------------------------------------------------------------------------------------------------#
 
 
 class Tournament:
@@ -25,7 +27,17 @@ class Tournament:
         self.controle_temps = controle_temps
         self.Description = Description
 
-# ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    # Sauvegarder le tournois
+    def save_tournament(self, serialized_tournament):
+
+        db = TinyDB('db.json')
+        tournaments_table = db.table('tournois')
+        tournaments = tournaments_table.all()
+        tournaments_table.insert(serialized_tournament)
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     # convertir en dictionnaire
     def serialzation_tournament(self, tournoi):
@@ -70,7 +82,7 @@ class Tournament:
         tournoi_table.truncate()
         tournoi_table.insert(serialized_tournoi)
 
-# ---------------------------------------------------------------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     def search_tournament(self):
         try:
@@ -96,5 +108,130 @@ class Tournament:
 
         except Exception as e:
             print('Error', e)
+        return  tournaments
 
-# ---------------------------------------------------------------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    # Supprimer un tournoi
+    def ask_delete_tournament(self, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.remove(tournament.nom == tournaments[tournament_number]['nom'])
+
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    # Supprimer tous les tournois
+    def delete_all_tournament(self):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            table.truncate()
+
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_name(self, name, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'nom': name}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_lieu(self, lieu, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'lieu': lieu}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_date(self, date, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'date': date}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_tour(self, tour, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'tour': tour}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_Tournees(self, Tournees, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'Tournees': Tournees}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_Joueurs(self, Joueurs, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'Joueurs': Joueurs}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_controle_temps(self, controle_temps, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'controle_temps': controle_temps}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def ask_change_Description(self, Description, tournament_number):
+        try:
+            db = TinyDB('db.json')
+            table = db.table('tournois')
+            tournaments = table.all()
+            tournament = Query()
+            table.update({'Description': Description}, tournament.nom == tournaments[tournament_number]['nom'])
+        except Exception as e:
+            print('Error', e)
+
+    # -----------------------------------------------------------------------------------------------------------------#

@@ -1,5 +1,5 @@
 from player.controller import PlayerMenu
-from tournament.model import Tournament
+from tournament.controller import TournamentMenu
 from view import Choice
 
 # ---------------------------------------------------------------------------------------------------------------------#
@@ -9,7 +9,7 @@ class MainMenu:
 
     def menu(self):
         choice = Choice()
-        tournament = Tournament()
+        tournament = TournamentMenu()
         player_menu = PlayerMenu()
 
         try:
@@ -22,10 +22,7 @@ class MainMenu:
             player_menu.sub_menu()
 
         elif resultat == 2:
-            tournament.add_tournament()
-
-        elif int(resultat) == 4:
-            tournament.search_tournament()
+            tournament.sub_menu()
 
         elif resultat == 5:
             print('Merci pour  votre visite')
