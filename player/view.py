@@ -6,18 +6,18 @@ class Sub_Choice:
 
     def sub_main_choice(self):
         print()
-        print(" * * * Gestionnaire des joueurs. * * *\n")
+        print('\033[92m' + " * * * Gestionnaire des joueurs. * * *\n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
-        print(" 1 : Ajouter un joueur.")
-        print(" 2 : modifier un joueur.")
-        print(" 3 : Supprimmer un joueur.")
-        print(" 4 : Affichage des joueurs.")
-        print(" 5 : Afficher le classement des joueurs.")
-        print(" 6 : Supprimmer tous les joueurs.")
-        print(" 7 : Retour au menu principal.")
-        print(" 8 : sortir du logiciel.")
+        print('\033[93m'+" 1 : Ajouter un joueur." + "\x1b[0m")
+        print('\033[93m'+" 2 : modifier un joueur." + "\x1b[0m")
+        print('\033[93m'+" 3 : Supprimmer un joueur." + "\x1b[0m")
+        print('\033[93m'+" 4 : Affichage des joueurs." + "\x1b[0m")
+        print('\033[93m'+" 5 : Afficher le classement des joueurs." + "\x1b[0m")
+        print('\033[93m'+" 6 : Supprimmer tous les joueurs." + "\x1b[0m")
+        print('\033[93m'+" 7 : Retour au menu principal." + "\x1b[0m")
+        print('\033[93m'+" 8 : sortir du logiciel." + "\x1b[0m")
         print()
-        resultat = input("Quelle est votre choix : ")
+        resultat = input('\033[91m'+"Quelle est votre choix : " + "\x1b[0m")
         print('-------------------------------------------------------------------------------------------------------')
         return resultat
 
@@ -25,16 +25,16 @@ class Sub_Choice:
 
     def player_modification_spec(self):
         print()
-        print(" * * * Modification des joueurs. * * *\n")
+        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         print()
         print(" /// Selectionnez le menu souhaité. /// \n")
-        print(" 1 : Modifier le  Nom.")
-        print(" 2 : Modifier le  Prenom.")
-        print(" 3 : Modifier le  l'age.")
-        print(" 4 : Modifier le  le sex.")
-        print(" 5 : Modifier le  Classement.")
+        print('\033[93m'+" 1 : Modifier le  Nom." + "\x1b[0m")
+        print('\033[93m'+" 2 : Modifier le  Prenom." + "\x1b[0m")
+        print('\033[93m'+" 3 : Modifier le  l'age." + "\x1b[0m")
+        print('\033[93m'+" 4 : Modifier le  le sex." + "\x1b[0m")
+        print('\033[93m'+" 5 : Modifier le  Classement." + "\x1b[0m")
 
-        resultat = input("Numero de l'élement de la  modif: ")
+        resultat = input('\033[91m' + "Numero de l'élement de la  modif: " + "\x1b[0m")
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -67,7 +67,7 @@ class Player_view:
         print()
         genre = input("Nouveau genre: ")
         if genre not in ['m', 'M', 'f', 'F']:
-            print('Veuillez saisir M/m ou F/f')
+            print('\033[91m'+ 'Veuillez saisir M/m ou F/f' + "\x1b[0m")
             genre = self.player_sex_modification()
         return genre
 
@@ -81,16 +81,16 @@ class Player_view:
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def no_player(self):
-        print('la liste des joueurs est vide')
+        print('\033[92m' +'la liste des joueurs est vide' + "\x1b[0m")
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def player_to_delete(self):
         print()
-        print(" * * * Modification des joueurs. * * *\n")
+        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         print()
 
-        resultat = input("Numéro  de joueur que vous souhaité supprimer: ")
+        resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité supprimer: " + "\x1b[0m")
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -123,7 +123,7 @@ class Player_view:
     def add_sex(self):
         sex = str(input('sex (M or F): '))
         if sex not in ['m', 'M', 'f', 'F']:
-            print('Veuillez saisir M/m ou F/f')
+            print('\033[91m'+'Veuillez saisir M/m ou F/f' + "\x1b[0m")
             sex = self.add_sex()
         return sex
 
@@ -149,16 +149,16 @@ class Player_view:
 
     def player_modification_save(self):
         print()
-        print(" * * * Modification Terminé. * * *\n")
+        print('\033[92m' +" * * * Modification Terminé. * * *\n" + "\x1b[0m")
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def player_modification(self):
         print()
-        print(" * * * Modification des joueurs. * * *\n")
+        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         print()
 
-        resultat = input("Numéro  de joueur que vous souhaité modifier: ")
+        resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m")
         return resultat
 
 # ---------------------------------------------------------------------------------------------------------------------#
@@ -169,14 +169,14 @@ class Error_enter:
     def print_error_enter_int_age(self):
         # indicates to the user that he must enter a number
 
-        print("\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! .")
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! ." + "\x1b[0m")
 
     def print_error_enter_int_classement(self):
         # indicates to the user that he must enter a number
 
-        print("\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! .")
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! ." + "\x1b[0m")
 
     def print_error_enter_int(self):
         # indicates to the user that he must enter a number
 
-        print("\n ERREUR : vous devez entrer un chiffre correspondant à votre choix .")
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix ." + "\x1b[0m")
