@@ -105,7 +105,7 @@ class Tournament_view:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def tournois_to_delete(self):
+    def tournament_to_delete(self):
         print()
         print(" * * * Modification des tournois. * * *\n")
         print()
