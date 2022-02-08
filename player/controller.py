@@ -35,18 +35,19 @@ class PlayerMenu:
             players = player.search_player()
             if len(players) == 0:
                 player_view.no_player()
-
-        # Supprimmer tous les joueurs.
         elif int(resultat) == 5:
+            player_tri_ranking, player_tri_alphabet = player.stat_classement()
+        # Supprimmer tous les joueurs.
+        elif int(resultat) == 6:
             player.delete_all_player()
 
         # Retour au menu principal
-        elif resultat == 6:
+        elif resultat == 7:
             print('Retour au menu principal')
             return
 
         # sortir du logiciel
-        elif resultat == 7:
+        elif resultat == 8:
             print('Merci pour  votre visite')
             exit()
 

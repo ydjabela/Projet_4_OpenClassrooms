@@ -12,9 +12,10 @@ class Sub_Choice:
         print(" 2 : modifier un joueur.")
         print(" 3 : Supprimmer un joueur.")
         print(" 4 : Affichage des joueurs.")
-        print(" 5 : Supprimmer tous les joueurs.")
-        print(" 6 : Retour au menu principal.")
-        print(" 7 : sortir du logiciel.")
+        print(" 5 : Afficher le classement des joueurs.")
+        print(" 6 : Supprimmer tous les joueurs.")
+        print(" 7 : Retour au menu principal.")
+        print(" 8 : sortir du logiciel.")
         print()
         resultat = input("Quelle est votre choix : ")
         print('-------------------------------------------------------------------------------------------------------')
@@ -97,6 +98,9 @@ class Player_view:
         error_enter = Error_enter()
         try:
             age = int(input('age: '))
+            if age <= 0 and age > 120:
+                error_enter.print_error_enter_int_age()
+                age = self.add_age()
         except:
             error_enter.print_error_enter_int_age()
             age = self.add_age()

@@ -62,6 +62,71 @@ class Player:
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    def stat_classement(self):
+        """returns a classification by rank or alphabetical"""
+        db = TinyDB('db.json')
+        table = db.table('players')
+        players = table.all()
+        tri_rank = sorted(players, key=lambda k: k["classement"], reverse=False)
+        print(players)
+        tri_alphabet = sorted(players, key=lambda k: k["familly_name"], reverse=True)
+        print(tri_alphabet)
+        player_tri_ranking = []
+        player_tri_alphabet = []
+        for i in tri_rank:
+            player_tri_ranking.append(i)
+        for j in tri_alphabet:
+            player_tri_alphabet.append(j)
+        print(player_tri_alphabet)
+        try:
+            if not len(players) == 0:
+                i = 1
+                print('classement des  joueurs  par ordre de classement : ')
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                    )
+                )
+                for player in player_tri_ranking:
+                    familly_name = player['familly_name']
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
+                print('classement des  joueurs  par ordre alphabetique : ')
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                    )
+                )
+                i = 0
+                for player in player_tri_alphabet:
+                    familly_name = player['familly_name']
+                    print(familly_name, type(familly_name))
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
+
+        except Exception as e:
+            print('Error', e)
+
+        return tri_rank, tri_alphabet
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
     # Supprimer un joueur
     def ask_delete_player(self, player_number):
         try:
