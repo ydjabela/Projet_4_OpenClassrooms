@@ -93,6 +93,9 @@ class PlayerMenu:
             player.ask_change_sex(sex=sex, player_number=player_number)
         elif resultat_modif == 5:
             self.change_classement_player(player_number=player_number)
+        else:
+            error_enter.print_error_enter_int()
+            self.sub_menu_player()
 
     # -----------------------------------------------------------------------------------------------------------------#
 

@@ -77,6 +77,7 @@ class Player_view:
         print()
         classement = input("Nouveau classement: ")
         return classement
+
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def no_player(self):
