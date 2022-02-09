@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Sub_Choice:
+class Sub_Choice_Tournament:
 
     def sub_main_choice(self):
         print()
@@ -129,10 +129,33 @@ class Tournament_view:
         resultat = input('\033[91m'+"Numéro  de tournoi que vous souhaité modifier: " + "\x1b[0m")
         return resultat
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def adding_tournament(self):
+        nom = str(input('Nom du tournoi: '))
+        lieu = str(input('lieu: '))
+        date = str(input('date: '))
+        tour = input('tour: ')
+        Tournees = input('Tournees: ')
+        Joueurs = input('Joueurs: ')
+        controle_temps = input('controle_temps: ')
+        Description = str(input('Description: '))
+        serialized_player = {
+            'nom': nom,
+            'lieu': lieu,
+            'date': date,
+            'tour': tour,
+            'Tournees': Tournees,
+            'Joueurs': Joueurs,
+            'controle_temps': controle_temps,
+            'Description': Description
+     }
+        return serialized_player
+
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Error_enter:
+class Error_enter_Tournament:
 
     def print_error_enter_int(self):
         # indicates to the user that he must enter a number

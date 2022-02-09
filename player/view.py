@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Sub_Choice:
+class Sub_Choice_Player:
 
     def sub_main_choice(self):
         print()
@@ -96,7 +96,7 @@ class Player_view:
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_age(self):
-        error_enter = Error_enter()
+        error_enter = Error_enter_Player()
         try:
             age = int(input('age: '))
             if age <= 0 and age > 120:
@@ -110,7 +110,7 @@ class Player_view:
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_classement(self):
-        error_enter = Error_enter()
+        error_enter = Error_enter_Player()
         try:
             Classement = int(input('Classement: '))
         except:
@@ -164,7 +164,7 @@ class Player_view:
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Error_enter:
+class Error_enter_Player:
 
     def print_error_enter_int_age(self):
         # indicates to the user that he must enter a number

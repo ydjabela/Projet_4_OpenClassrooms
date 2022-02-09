@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query
 import settings
+from operator import itemgetter
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -69,7 +70,7 @@ class Player:
         players = table.all()
         tri_rank = sorted(players, key=lambda k: k["classement"], reverse=False)
         print(players)
-        tri_alphabet = sorted(players, key=lambda k: k["familly_name"], reverse=True)
+        tri_alphabet = sorted(players, key=itemgetter('familly_name'), reverse=False)
         print(tri_alphabet)
         player_tri_ranking = []
         player_tri_alphabet = []
