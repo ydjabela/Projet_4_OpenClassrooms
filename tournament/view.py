@@ -152,6 +152,16 @@ class Tournament_view:
      }
         return serialized_player
 
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Msg_Tournament:
+    def message_visit(self):
+        print('Merci pour  votre visite')
+
+    def message_retour(self):
+        print('Retour au menu principal')
 # ---------------------------------------------------------------------------------------------------------------------#
 
 

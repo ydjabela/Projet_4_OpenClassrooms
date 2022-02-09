@@ -1,7 +1,7 @@
-from player.model import Player
-from player.view import Sub_Choice_Player, Player_view, Error_enter_Player
+from player.model import Player, Player_Stat
+from player.view import Sub_Choice_Player, Player_view, Error_enter_Player, Msg_Player
 from tournament.model import Tournament
-from tournament.view import Sub_Choice_Tournament, Tournament_view, Error_enter_Tournament
+from tournament.view import Sub_Choice_Tournament, Tournament_view, Error_enter_Tournament, Msg_Tournament
 from view import Choice
 
 # ---------------------------------------------------------------------------------------------------------------------#
@@ -27,12 +27,11 @@ class MainMenu:
             tournament.sub_menu()
 
         elif resultat == 5:
-            print('Merci pour  votre visite')
+            choice.message_visit()
             exit()
 
         else:
             choice.print_error_enter_int()
-        print('-------------------------------------------------------------------------------------------------------')
         self.menu()
 
 # ---------------------------------------------------------------------------------------------------------------------#
@@ -45,6 +44,7 @@ class PlayerMenu:
         sub_choice = Sub_Choice_Player()
         player = Player()
         player_view = Player_view()
+        msg = Msg_Player()
 
         try:
             resultat = int(sub_choice.sub_main_choice())
@@ -67,27 +67,32 @@ class PlayerMenu:
         # Affichage des joueurs.
         elif int(resultat) == 4:
             players = player.search_player()
+            player_view.search_player_view(players=players)
             if len(players) == 0:
                 player_view.no_player()
         elif int(resultat) == 5:
-            player_tri_ranking, player_tri_alphabet = player.stat_classement()
+            player_stat = Player_Stat()
+            player_tri_ranking, player_tri_alphabet = player_stat.stat_classement()
+            player_view.view_statique_player(
+                player_tri_ranking=player_tri_ranking,
+                player_tri_alphabet=player_tri_alphabet
+            )
         # Supprimmer tous les joueurs.
         elif int(resultat) == 6:
             player.delete_all_player()
 
         # Retour au menu principal
         elif resultat == 7:
-            print('Retour au menu principal')
+            msg.message_retour()
             return
 
         # sortir du logiciel
         elif resultat == 8:
-            print('Merci pour  votre visite')
+            msg.message_visit()
             exit()
 
         else:
             error_enter.print_error_enter_int()
-        print('-------------------------------------------------------------------------------------------------------')
         self.sub_menu()
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -100,6 +105,7 @@ class PlayerMenu:
 
         try:
             players = player.search_player()
+            player_view.search_player_view(players=players)
             if len(players) == 0:
                 player_view.no_player()
                 self.sub_menu()
@@ -163,6 +169,7 @@ class PlayerMenu:
         player_view = Player_view()
         player = Player()
         players = player.search_player()
+        player_view.search_player_view(players=players)
         error_enter = Error_enter_Player()
         try:
             player_number = int(player_view.player_to_delete())-1
@@ -184,6 +191,7 @@ class TournamentMenu:
         sub_choice = Sub_Choice_Tournament()
         tournament = Tournament()
         tournament_view = Tournament_view()
+        msg = Msg_Tournament()
 
         try:
             resultat = int(sub_choice.sub_main_choice())
@@ -216,17 +224,16 @@ class TournamentMenu:
 
         # Retour au menu principal
         elif resultat == 7:
-            print('Retour au menu principal')
+            msg.message_retour()
             return
 
         # sortir du logiciel
         elif resultat == 8:
-            print('Merci pour  votre visite')
+            msg.message_visit()
             exit()
 
         else:
             error_enter.print_error_enter_int()
-        print('-------------------------------------------------------------------------------------------------------')
         self.sub_menu()
 
     # -----------------------------------------------------------------------------------------------------------------#

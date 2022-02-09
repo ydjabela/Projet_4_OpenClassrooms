@@ -149,22 +149,108 @@ class Player_view:
 
     def player_modification_save(self):
         print()
-        print('\033[92m' +" * * * Modification Terminé. * * *\n" + "\x1b[0m")
+        print('\033[92m' + " * * * Modification Terminé. * * *\n" + "\x1b[0m")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def search_player_view(self, players):
+        try:
+            if not len(players) == 0:
+                i = 1
+                print('les joueurs sont : ')
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                    )
+                )
+                for player in players:
+                    familly_name = player['familly_name']
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
+
+        except Exception as e:
+            print('Error', e)
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def player_modification(self):
         print()
-        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
+        print('\033[92m' + " * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         print()
 
         resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m")
         return resultat
 
+    def view_statique_player(self, player_tri_ranking, player_tri_alphabet):
+        try:
+            if not len(player_tri_ranking) == 0:
+                i = 1
+                print('Classement des  joueurs  par ordre de classement : ')
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                    )
+                )
+                for player in player_tri_ranking:
+                    familly_name = player['familly_name']
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
+                print()
+                print('Classement des  joueurs  par ordre alphabetique : ')
+                print(
+                    "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                        "N°", "Familly name", "First name", "Age", "Sex", "Classement"
+                    )
+                )
+                i = 0
+
+                for player in player_tri_alphabet:
+                    familly_name = player['familly_name']
+                    first_name = player['first_name']
+                    age = player['age']
+                    sex = player['sex']
+                    classement = player['classement']
+                    print(
+                        "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
+                            i, familly_name, first_name, age, sex, classement
+                        )
+                    )
+                    i += 1
+
+        except Exception as e:
+            print('Error', e)
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Msg_Player:
+    def message_visit(self):
+        print('Merci pour  votre visite')
+
+    def message_retour(self):
+        print('Retour au menu principal')
+
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
 class Error_enter_Player:
+
 
     def print_error_enter_int_age(self):
         # indicates to the user that he must enter a number
