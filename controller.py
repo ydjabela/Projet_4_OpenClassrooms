@@ -1,8 +1,8 @@
 from player.model import Player, Player_Stat
-from player.view import Sub_Choice_Player, Player_view, Error_enter_Player, Msg_Player
+from view.view_player import Sub_Choice_Player, Player_view, Error_enter_Player, Msg_Player
 from tournament.model import Tournament
-from tournament.view import Sub_Choice_Tournament, Tournament_view, Error_enter_Tournament, Msg_Tournament
-from view import Choice
+from view.view_tournament import Sub_Choice_Tournament, Tournament_view, Error_enter_Tournament, Msg_Tournament
+from view.principal_view import Choice
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
