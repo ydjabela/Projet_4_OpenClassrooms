@@ -1,195 +1,147 @@
 from player.model import Player, Player_Stat
-from view.view_player import Sub_Choice_Player, Player_view, Error_enter_Player, Msg_Player
+from view.view_player import Player_view
 from tournament.model import Tournament
 from view.view_tournament import Sub_Choice_Tournament, Tournament_view, Error_enter_Tournament, Msg_Tournament
 from view.principal_view import Choice
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
-
-class MainMenu:
-
-    def menu(self):
-        choice = Choice()
-        tournament = TournamentMenu()
-        player_menu = PlayerMenu()
-
-        try:
-            resultat = int(choice.main_choice())
-        except:
-            choice.print_error_enter_int()
-            self.menu()
-
-        if resultat == 1:
-            player_menu.sub_menu()
-
-        elif resultat == 2:
-            tournament.sub_menu()
-
-        elif resultat == 5:
-            choice.message_visit()
-            exit()
-
-        else:
-            choice.print_error_enter_int()
-        self.menu()
-
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class PlayerMenu:
+class PlayerMenu(Player, Player_view, Player_Stat):
 
-    def sub_menu(self):
-        error_enter =Error_enter_Player()
-        sub_choice = Sub_Choice_Player()
-        player = Player()
-        player_view = Player_view()
-        msg = Msg_Player()
+    def sub_menu_player_1(self):
 
         try:
-            resultat = int(sub_choice.sub_main_choice())
+            resultat = int(self.sub_main_choice())
         except:
-            error_enter.print_error_enter_int()
-            self.sub_menu()
+            self.print_error_enter_int()
+            self.sub_menu_player_1()
 
         # Ajouter un joueur.
         if resultat == 1:
-            serialized_player = player_view.adding_player()
-            player.save_player(serialized_player)
+            serialized_player = self.adding_player()
+            self.save_player(serialized_player)
 
         # modifier un joueur.
         elif resultat == 2:
-            self.sub_menu_player()
+            self.sub_menu_player_2()
         # Supprimmer un joueur.
         elif resultat == 3:
             self.delete_player()
 
         # Affichage des joueurs.
         elif int(resultat) == 4:
-            players = player.search_player()
-            player_view.search_player_view(players=players)
+            players = self.search_player()
+            self.search_player_view(players=players)
             if len(players) == 0:
-                player_view.no_player()
+                self.no_player()
 
         # classement des joueurs
         elif int(resultat) == 5:
-            player_stat = Player_Stat()
-            player_tri_ranking, player_tri_alphabet = player_stat.stat_classement()
-            player_view.view_statique_player(
+            player_tri_ranking, player_tri_alphabet = self.stat_classement()
+            self.view_statique_player(
                 player_tri_ranking=player_tri_ranking,
                 player_tri_alphabet=player_tri_alphabet
             )
 
         # Supprimmer tous les joueurs.
         elif int(resultat) == 6:
-            player.delete_all_player()
+            self.delete_all_player()
 
         # Retour au menu principal
         elif resultat == 7:
-            msg.message_retour()
+            self.message_retour()
             return
 
         # sortir du logiciel
         elif resultat == 8:
-            msg.message_visit()
+            self.message_visit()
             exit()
 
         else:
-            error_enter.print_error_enter_int()
-        self.sub_menu()
+            self.print_error_enter_int()
+        self.sub_menu_player_1()
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def sub_menu_player(self):
-        error_enter = Error_enter_Player()
-        sub_choice = Sub_Choice_Player()
-        player = Player()
-        player_view = Player_view()
+    def sub_menu_player_2(self):
 
         try:
-            players = player.search_player()
-            player_view.search_player_view(players=players)
+            players = self.search_player()
+            self.search_player_view(players=players)
             if len(players) == 0:
-                player_view.no_player()
-                self.sub_menu()
+                self.no_player()
+                self.sub_menu_player_1()
             elif len(players) == 1:
                 player_number = 0
             else:
-                player_number = int(player_view.player_modification()) - 1
+                player_number = int(self.player_modification()) - 1
 
-            resultat_modif = int(sub_choice.player_modification_spec())
+            resultat_modif = int(self.player_modification_spec())
         except:
-            error_enter.print_error_enter_int()
-            self.sub_menu_player()
+            self.print_error_enter_int()
+            self.sub_menu_player_2()
 
         if resultat_modif == 1:
-            name = player_view.player_name_modification()
-            player.ask_change_value(player_number=player_number, key='familly_name', value=name)
-            player_view.player_modification_save()
+            name = self.player_name_modification()
+            self.ask_change_value(player_number=player_number, key='familly_name', value=name)
+            self.player_modification_save()
         elif resultat_modif == 2:
-            prenom = player_view.player_first_name_modification()
-            player.ask_change_value(player_number=player_number, key='first_name', value=prenom)
+            prenom = self.player_first_name_modification()
+            self.ask_change_value(player_number=player_number, key='first_name', value=prenom)
         elif resultat_modif == 3:
             self.change_age_player(player_number=player_number)
         elif resultat_modif == 4:
-            sex = player_view.player_sex_modification()
-            player.ask_change_value(player_number=player_number, key='sex', value=sex)
+            sex = self.player_sex_modification()
+            self.ask_change_value(player_number=player_number, key='sex', value=sex)
         elif resultat_modif == 5:
             self.change_classement_player(player_number=player_number)
         else:
-            error_enter.print_error_enter_int()
-            self.sub_menu_player()
+            self.print_error_enter_int()
+            self.sub_menu_player_2()
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def change_age_player(self, player_number):
-        player = Player()
-        player_view = Player_view()
-        error_enter = Error_enter_Player()
         try:
-            age = int(player_view.player_age_modification())
-            player.ask_change_value(player_number=player_number, key='age', value=age)
+            age = int(self.player_age_modification())
+            self.ask_change_value(player_number=player_number, key='age', value=age)
         except:
-            error_enter.print_error_enter_int_age()
+            self.print_error_enter_int_age()
             self.change_age_player(player_number=player_number)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def change_classement_player(self, player_number):
-        player = Player()
-        player_view = Player_view()
-        error_enter = Error_enter_Player()
         try:
-            classement = int(player_view.player_classement_modification())
-            player.ask_change_value(player_number=player_number, key='classement', value=classement)
+            classement = int(self.player_classement_modification())
+            self.ask_change_value(player_number=player_number, key='classement', value=classement)
         except:
-            error_enter.print_error_enter_int_classement()
+            self.print_error_enter_int_classement()
             self.change_classement_player(player_number=player_number)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_player(self):
-        player_view = Player_view()
-        player = Player()
-        players = player.search_player()
-        player_view.search_player_view(players=players)
-        error_enter = Error_enter_Player()
+        players = self.search_player()
+        self.search_player_view(players=players)
         try:
-            player_number = int(player_view.player_to_delete())-1
-            player.ask_delete_player(player_number=player_number)
-            player_view.player_modification_save()
+            player_number = int(self.player_to_delete())-1
+            self.ask_delete_player(player_number=player_number)
+            self.player_modification_save()
         except:
-            error_enter.print_error_enter_int()
+            self.print_error_enter_int()
             self.delete_player()
 
     # ---------------------------------------------------------------------------------------------------------------------#
-
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
 class TournamentMenu:
 
-    def sub_menu(self):
+    def sub_menu_tournament_1(self):
         error_enter =Error_enter_Tournament()
         sub_choice = Sub_Choice_Tournament()
         tournament = Tournament()
@@ -200,7 +152,7 @@ class TournamentMenu:
             resultat = int(sub_choice.sub_main_choice())
         except:
             error_enter.print_error_enter_int()
-            self.sub_menu()
+            self.sub_menu_tournament_1()
 
         # Ajouter un tournament.
         if resultat == 1:
@@ -209,7 +161,7 @@ class TournamentMenu:
 
         # modifier un tournament.
         elif resultat == 2:
-            self.sub_menu_tournament()
+            self.sub_menu_tournament_2()
         # Supprimmer un tournament.
         elif resultat == 3:
             self.delete_tournament()
@@ -237,11 +189,11 @@ class TournamentMenu:
 
         else:
             error_enter.print_error_enter_int()
-        self.sub_menu()
+        self.sub_menu_tournament_1()
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def sub_menu_tournament(self):
+    def sub_menu_tournament_2(self):
         error_enter = Error_enter_Tournament()
         sub_choice = Sub_Choice_Tournament()
         tournament = Tournament()
@@ -251,7 +203,7 @@ class TournamentMenu:
             tournaments = tournament.search_tournament()
             if len(tournaments) == 0:
                 tournament_view.no_tournament()
-                self.sub_menu()
+                self.sub_menu_tournament_1()
             elif len(tournaments) == 1:
                 tournament_number = 0
             else:
@@ -260,7 +212,7 @@ class TournamentMenu:
             resultat_modif = int(sub_choice.tournament_modification_spec())
         except:
             error_enter.print_error_enter_int()
-            self.sub_menu_tournament()
+            self.sub_menu_tournament_2()
 
         if resultat_modif == 1:
             name = tournament_view.tournament_name_modification()
@@ -289,7 +241,7 @@ class TournamentMenu:
             tournament.ask_change_Description(Description=Description, tournament_number=tournament_number)
         else:
             error_enter.print_error_enter_int()
-            self.sub_menu_tournament()
+            self.sub_menu_tournament_2()
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_tournament(self):
@@ -304,5 +256,32 @@ class TournamentMenu:
         except:
             error_enter.print_error_enter_int()
             self.delete_tournament()
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+
+class MainMenu(Choice, TournamentMenu, PlayerMenu):
+
+    def menu(self):
+
+        try:
+            resultat = int(self.main_choice())
+        except:
+            self.print_error_enter_int()
+            self.menu()
+
+        if resultat == 1:
+            self.sub_menu_player_1()
+
+        elif resultat == 2:
+            self.sub_menu_tournament_1()
+
+        elif resultat == 5:
+            self.message_visit()
+            exit()
+
+        else:
+            self.print_error_enter_int()
+        self.menu()
 
 # ---------------------------------------------------------------------------------------------------------------------#

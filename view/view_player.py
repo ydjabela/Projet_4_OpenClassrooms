@@ -2,7 +2,31 @@
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Sub_Choice_Player:
+class Msg_Player:
+
+
+    def print_error_enter_int_age(self):
+        # indicates to the user that he must enter a number
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! ." + "\x1b[0m")
+
+    def print_error_enter_int_classement(self):
+        # indicates to the user that he must enter a number
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! ." + "\x1b[0m")
+
+    def print_error_enter_int(self):
+        # indicates to the user that he must enter a number
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix ." + "\x1b[0m")
+
+    def message_visit(self):
+        print('Merci pour  votre visite')
+
+    def message_retour(self):
+        print('Retour au menu principal')
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Player_view(Msg_Player):
 
     def sub_main_choice(self):
         print()
@@ -36,11 +60,6 @@ class Sub_Choice_Player:
 
         resultat = input('\033[91m' + "Numero de l'élement de la  modif: " + "\x1b[0m")
         return resultat
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Player_view:
 
     def player_name_modification(self):
         print()
@@ -96,25 +115,23 @@ class Player_view:
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_age(self):
-        error_enter = Error_enter_Player()
         try:
             age = int(input('age: '))
             if age <= 0 and age > 120:
-                error_enter.print_error_enter_int_age()
+                self.print_error_enter_int_age()
                 age = self.add_age()
         except:
-            error_enter.print_error_enter_int_age()
+            self.print_error_enter_int_age()
             age = self.add_age()
         return age
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def add_classement(self):
-        error_enter = Error_enter_Player()
         try:
             Classement = int(input('Classement: '))
         except:
-            error_enter.print_error_enter_int_classement()
+            self.print_error_enter_int_classement()
             Classement = self.add_classement()
         return Classement
 
@@ -236,33 +253,4 @@ class Player_view:
         except Exception as e:
             print('Error', e)
 
-# ---------------------------------------------------------------------------------------------------------------------#
 
-
-class Msg_Player:
-    def message_visit(self):
-        print('Merci pour  votre visite')
-
-    def message_retour(self):
-        print('Retour au menu principal')
-
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Error_enter_Player:
-
-
-    def print_error_enter_int_age(self):
-        # indicates to the user that he must enter a number
-
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! ." + "\x1b[0m")
-
-    def print_error_enter_int_classement(self):
-        # indicates to the user that he must enter a number
-
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! ." + "\x1b[0m")
-
-    def print_error_enter_int(self):
-        # indicates to the user that he must enter a number
-
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix ." + "\x1b[0m")
