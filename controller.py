@@ -70,6 +70,8 @@ class PlayerMenu:
             player_view.search_player_view(players=players)
             if len(players) == 0:
                 player_view.no_player()
+
+        # classement des joueurs
         elif int(resultat) == 5:
             player_stat = Player_Stat()
             player_tri_ranking, player_tri_alphabet = player_stat.stat_classement()
@@ -77,6 +79,7 @@ class PlayerMenu:
                 player_tri_ranking=player_tri_ranking,
                 player_tri_alphabet=player_tri_alphabet
             )
+
         # Supprimmer tous les joueurs.
         elif int(resultat) == 6:
             player.delete_all_player()
@@ -121,16 +124,16 @@ class PlayerMenu:
 
         if resultat_modif == 1:
             name = player_view.player_name_modification()
-            player.ask_change_name(name=name, player_number=player_number)
+            player.ask_change_value(player_number=player_number, key='familly_name', value=name)
             player_view.player_modification_save()
         elif resultat_modif == 2:
             prenom = player_view.player_first_name_modification()
-            player.ask_change_first_name(prenom=prenom, player_number=player_number)
+            player.ask_change_value(player_number=player_number, key='first_name', value=prenom)
         elif resultat_modif == 3:
             self.change_age_player(player_number=player_number)
         elif resultat_modif == 4:
             sex = player_view.player_sex_modification()
-            player.ask_change_sex(sex=sex, player_number=player_number)
+            player.ask_change_value(player_number=player_number, key='sex', value=sex)
         elif resultat_modif == 5:
             self.change_classement_player(player_number=player_number)
         else:
@@ -145,7 +148,7 @@ class PlayerMenu:
         error_enter = Error_enter_Player()
         try:
             age = int(player_view.player_age_modification())
-            player.ask_change_age(age=age, player_number=player_number)
+            player.ask_change_value(player_number=player_number, key='age', value=age)
         except:
             error_enter.print_error_enter_int_age()
             self.change_age_player(player_number=player_number)
@@ -158,7 +161,7 @@ class PlayerMenu:
         error_enter = Error_enter_Player()
         try:
             classement = int(player_view.player_classement_modification())
-            player.ask_change_classement(classement=classement, player_number=player_number)
+            player.ask_change_value(player_number=player_number, key='classement', value=classement)
         except:
             error_enter.print_error_enter_int_classement()
             self.change_classement_player(player_number=player_number)

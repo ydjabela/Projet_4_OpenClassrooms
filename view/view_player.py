@@ -218,7 +218,7 @@ class Player_view:
                         "N°", "Familly name", "First name", "Age", "Sex", "Classement"
                     )
                 )
-                i = 0
+                i = 1
 
                 for player in player_tri_alphabet:
                     familly_name = player['familly_name']
