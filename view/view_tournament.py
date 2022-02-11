@@ -19,7 +19,7 @@ class Msg_Tournament:
 
 class Tournament_view(Msg_Tournament):
 
-    def sub_main_choice(self):
+    def tournament_sub_main_choice(self):
         print()
         print('\033[92m' + " * * * Gestionnaire des Tournois. * * *\n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")

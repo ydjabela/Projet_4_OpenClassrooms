@@ -36,7 +36,7 @@ class DatabaseTournaments:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def update_player_data_base(
+    def update_tournament_data_base(
             self,
             tournament_number,
             key,
@@ -93,7 +93,7 @@ class Tournament(DatabaseTournaments):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_tournament_value(self, tournament_number, key, value):
-        self.update_player_data_base(tournament_number=tournament_number, key=key, value=value)
+        self.update_tournament_data_base(tournament_number=tournament_number, key=key, value=value)
 
     # ---------------------------------------------------------------------------------------------------------------------#
 

@@ -12,17 +12,20 @@ class Databaseplayers:
             self,
             serialized_player=None,
             player_number=None,
+            delete_player=False,
             delete_all=False
 
     ):
         db = TinyDB('db.json')
         table = db.table('players')
         players = table.all()
+
         #ajout d'un  joueur
         if serialized_player:
             table.insert(serialized_player)
+
         # suprimer  un  joueur
-        elif player_number:
+        elif delete_player:
             player = Query()
             table.remove(
                 player.familly_name == players[player_number]['familly_name']
@@ -70,7 +73,7 @@ class Player(Databaseplayers):
 
     # Supprimer un joueur
     def ask_delete_player(self, player_number):
-        self.database_players(player_number=player_number)
+        self.database_players(player_number=player_number, delete_player=True,)
 
     # -----------------------------------------------------------------------------------------------------------------#
 

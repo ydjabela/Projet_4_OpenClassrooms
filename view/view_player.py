@@ -28,7 +28,7 @@ class Msg_Player:
 
 class Player_view(Msg_Player):
 
-    def sub_main_choice(self):
+    def player_sub_main_choice(self):
         print()
         print('\033[92m' + " * * * Gestionnaire des joueurs. * * *\n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")

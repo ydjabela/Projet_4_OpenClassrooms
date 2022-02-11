@@ -12,7 +12,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     def sub_menu_player_1(self):
         resultat = 0
         try:
-            resultat = int(self.sub_main_choice())
+            resultat = int(self.player_sub_main_choice())
         except:
             self.print_error_enter_int()
             self.sub_menu_player_1()
@@ -25,6 +25,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         # modifier un joueur.
         elif resultat == 2:
             self.sub_menu_player_2()
+
         # Supprimmer un joueur.
         elif resultat == 3:
             self.delete_player()
@@ -142,8 +143,9 @@ class TournamentMenu(Tournament, Tournament_view):
 
     def sub_menu_tournament_1(self):
 
+        resultat = 0
         try:
-            resultat = int(self.sub_main_choice())
+            resultat = int(self.tournament_sub_main_choice())
         except:
             self.print_error_enter_int()
             self.sub_menu_tournament_1()
