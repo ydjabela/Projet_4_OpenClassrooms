@@ -3,14 +3,14 @@ from view.view_player import Player_view
 from tournament.model import Tournament
 from view.view_tournament import Tournament_view
 from view.principal_view import Choice
-
+import settings
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
 class PlayerMenu(Player, Player_view, Player_Stat):
 
     def sub_menu_player_1(self):
-
+        resultat = 0
         try:
             resultat = int(self.sub_main_choice())
         except:
@@ -65,7 +65,8 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_player_2(self):
-
+        resultat_modif = 0
+        player_number = 0
         try:
             players = self.search_player()
             self.search_player_view(players=players)
@@ -187,6 +188,8 @@ class TournamentMenu(Tournament, Tournament_view):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_tournament_2(self):
+        tournament_number = 0
+        resultat_modif = 0
         try:
             tournaments = self.search_tournament()
             if len(tournaments) == 0:
@@ -204,42 +207,50 @@ class TournamentMenu(Tournament, Tournament_view):
 
         if resultat_modif == 1:
             name = self.tournament_name_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='nom', value=name)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='nom', value=name)
             self.tournament_modification_save()
         elif resultat_modif == 2:
             lieu = self.tournament_lieu_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='lieu', value=lieu)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='lieu', value=lieu)
         elif resultat_modif == 3:
             date = self.tournament_date_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='date', value=date)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='date', value=date)
         elif resultat_modif == 4:
             tour = self.tournament_tour_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='tour', value=tour)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='tour', value=tour)
         elif resultat_modif == 5:
             Tournees = self.tournament_Tournees_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='Tournees', value=Tournees)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=Tournees)
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='Joueurs', value=Joueurs)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=Joueurs)
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
         elif resultat_modif == 8:
             controle_temps = self.tournament_Description_modification()
-            self.ask_change_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
         else:
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_tournament(self):
-        try:
-            tournament_number = int(self.tournament_to_delete())-1
+        tournaments = self.search_tournament()
+        self.search_tournament_view(tournaments=tournaments)
+        tournament_number = 0
+        if len(tournaments) == 0:
+            self.no_tournament()
+        elif len(tournaments) == 1:
+                tournament_number = 0
+        else:
+            try:
+                tournament_number = int(self.tournament_to_delete())-1
+            except:
+                self.print_error_enter_int()
+                self.delete_tournament()
             self.ask_delete_tournament(tournament_number=tournament_number)
             self.tournament_modification_save()
-        except:
-            self.print_error_enter_int()
-            self.delete_tournament()
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -247,7 +258,7 @@ class TournamentMenu(Tournament, Tournament_view):
 class MainMenu(Choice, TournamentMenu, PlayerMenu):
 
     def menu(self):
-
+        resultat = 0
         try:
             resultat = int(self.main_choice())
         except:

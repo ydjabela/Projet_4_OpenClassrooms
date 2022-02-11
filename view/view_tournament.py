@@ -27,9 +27,9 @@ class Tournament_view(Msg_Tournament):
         print('\033[93m'+" 2 : modifier un tournoi." + "\x1b[0m")
         print('\033[93m'+" 3 : Supprimmer un tournoi." + "\x1b[0m")
         print('\033[93m'+" 4 : Afficher les tournois." + "\x1b[0m")
-        print('\033[93m'+" 6 : Supprimmer tous les tournois." + "\x1b[0m")
-        print('\033[93m'+" 7 : Retour au menu principal." + "\x1b[0m")
-        print('\033[93m'+" 8 : sortir du logiciel." + "\x1b[0m")
+        print('\033[93m'+" 5 : Supprimmer tous les tournois." + "\x1b[0m")
+        print('\033[93m'+" 6 : Retour au menu principal." + "\x1b[0m")
+        print('\033[93m'+" 7 : sortir du logiciel." + "\x1b[0m")
         print()
         resultat = input('\033[91m'+"Quelle est votre choix : "+ "\x1b[0m")
         print('-------------------------------------------------------------------------------------------------------')
@@ -162,6 +162,25 @@ class Tournament_view(Msg_Tournament):
      }
         return serialized_player
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def search_tournament_view(self, tournaments):
+        if not len(tournaments) == 0:
+            i =1
+            print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("N°", "Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))
+            for tournament in tournaments:
+                nom = tournament['nom']
+                lieu = tournament['lieu']
+                date = tournament['date']
+                tour = tournament['tour']
+                Tournees = tournament['Tournees']
+                Joueurs = tournament['Joueurs']
+                controle_temps = tournament['controle_temps']
+                Description = tournament['Description']
+
+                print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(
+                    i, nom, lieu, date, tour, str(Tournees), str(Joueurs), controle_temps, Description))
+                i += 1
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
