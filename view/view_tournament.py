@@ -2,7 +2,22 @@
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Sub_Choice_Tournament:
+class Msg_Tournament:
+    def message_visit(self):
+        print('Merci pour  votre visite')
+
+    def message_retour(self):
+        print('Retour au menu principal')
+
+    def print_error_enter_int(self):
+        # indicates to the user that he must enter a number
+
+        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix." + "\x1b[0m")
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Tournament_view(Msg_Tournament):
 
     def sub_main_choice(self):
         print()
@@ -38,11 +53,6 @@ class Sub_Choice_Tournament:
 
         resultat = input('\033[91m'+"Numero de l'élement de la  modif: "+ "\x1b[0m")
         return resultat
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Tournament_view:
 
     def tournament_name_modification(self):
         print()
@@ -156,18 +166,3 @@ class Tournament_view:
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Msg_Tournament:
-    def message_visit(self):
-        print('Merci pour  votre visite')
-
-    def message_retour(self):
-        print('Retour au menu principal')
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Error_enter_Tournament:
-
-    def print_error_enter_int(self):
-        # indicates to the user that he must enter a number
-
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix." + "\x1b[0m")
