@@ -25,6 +25,12 @@ class Msg_Player:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def message_player_max(self):
+        print()
+        print('\033[91m'+'Le nombre maximum des joueurs est atteint' + "\x1b[0m")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
 
 class Player_view(Msg_Player):
 
@@ -78,6 +84,9 @@ class Player_view(Msg_Player):
     def player_age_modification(self):
         print()
         age = input("Nouveau age: ")
+        if age <= 0 or age > 120:
+            self.print_error_enter_int_age()
+            age = self.player_age_modification()
         return age
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -86,7 +95,7 @@ class Player_view(Msg_Player):
         print()
         genre = input("Nouveau genre: ")
         if genre not in ['m', 'M', 'f', 'F']:
-            print('\033[91m'+ 'Veuillez saisir M/m ou F/f' + "\x1b[0m")
+            print('\033[91m' + 'Veuillez saisir M/m ou F/f' + "\x1b[0m")
             genre = self.player_sex_modification()
         return genre
 
@@ -95,6 +104,9 @@ class Player_view(Msg_Player):
     def player_classement_modification(self):
         print()
         classement = input("Nouveau classement: ")
+        if classement <= 0:
+                self.print_error_enter_int_age()
+                classement = self.player_classement_modification()
         return classement
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -117,7 +129,7 @@ class Player_view(Msg_Player):
     def add_age(self):
         try:
             age = int(input('age: '))
-            if age <= 0 and age > 120:
+            if age <= 0 or age > 120:
                 self.print_error_enter_int_age()
                 age = self.add_age()
         except:
@@ -130,6 +142,9 @@ class Player_view(Msg_Player):
     def add_classement(self):
         try:
             Classement = int(input('Classement: '))
+            if Classement <= 0:
+                self.print_error_enter_int_age()
+                Classement = self.add_classement()
         except:
             self.print_error_enter_int_classement()
             Classement = self.add_classement()

@@ -19,8 +19,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
         # Ajouter un joueur.
         if resultat == 1:
-            serialized_player = self.adding_player()
-            self.save_player(serialized_player)
+            players = self.search_player()
+            if len(players) < settings.nbr_player_max:
+                print(len(players), settings.nbr_player_max)
+                serialized_player = self.adding_player()
+                self.save_player(serialized_player)
+            else:
+                self.message_player_max()
 
         # modifier un joueur.
         elif resultat == 2:
