@@ -10,6 +10,7 @@ class Choice:
         print(" /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Gestion des joueurs." + "\x1b[0m")
         print('\033[93m'+" 2 : Gestion des tournois." + "\x1b[0m")
+        print('\033[93m'+" 3 : Demmarer un tournoi." + "\x1b[0m")
         print('\033[93m'+" 5 : sortir du logiciel." + "\x1b[0m")
 
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")

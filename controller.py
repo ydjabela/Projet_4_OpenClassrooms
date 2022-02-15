@@ -240,6 +240,7 @@ class TournamentMenu(Tournament, Tournament_view):
         else:
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
+
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_tournament(self):
@@ -248,6 +249,7 @@ class TournamentMenu(Tournament, Tournament_view):
         tournament_number = 0
         if len(tournaments) == 0:
             self.no_tournament()
+            return
         elif len(tournaments) == 1:
                 tournament_number = 0
         else:
@@ -256,8 +258,33 @@ class TournamentMenu(Tournament, Tournament_view):
             except:
                 self.print_error_enter_int()
                 self.delete_tournament()
-            self.ask_delete_tournament(tournament_number=tournament_number)
-            self.tournament_modification_save()
+        self.ask_delete_tournament(tournament_number=tournament_number)
+        self.tournament_modification_save()
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def start_playing_tournament(self):
+
+        tournaments = self.search_tournament()
+
+        tournament_number = 0
+        if len(tournaments) == 0:
+            self.no_tournament()
+            # add tournament if len(tournaments) = 0
+            serialized_tournament = self.adding_tournament()
+            self.save_tournament(serialized_tournament=serialized_tournament)
+            tournament_number = 0
+        elif len(tournaments) == 1:
+                tournament_number = 0
+        else:
+            try:
+                self.search_tournament_view(tournaments=tournaments)
+                tournament_number = int(self.tournament_to_play())-1
+            except:
+                self.print_error_enter_int()
+                self.start_playing_tournament()
+        self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
+        return tournament_number, tournaments
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -278,6 +305,10 @@ class MainMenu(Choice, TournamentMenu, PlayerMenu):
         elif resultat == 2:
             self.sub_menu_tournament_1()
 
+        elif resultat == 3:
+            tournament_number, tournaments = self.start_playing_tournament()
+
+
         elif resultat == 5:
             self.message_visit()
             exit()
@@ -286,4 +317,5 @@ class MainMenu(Choice, TournamentMenu, PlayerMenu):
             self.print_error_enter_int()
         self.menu()
 
-# ---------------------------------------------------------------------------------------------------------------------#
+#   -------------------------------------------------------------------------------------------------------------------#
+

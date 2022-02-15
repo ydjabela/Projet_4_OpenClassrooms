@@ -125,6 +125,23 @@ class Tournament_view(Msg_Tournament):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def tournament_to_play(self):
+        print()
+        print('\033[92m' + " * * * Modification des tournois. * * *\n" + "\x1b[0m")
+        print()
+
+        resultat = input('\033[91m'+"Numéro  de tournoi que vous souhaité commencé a jouer: " + "\x1b[0m")
+        return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def tournament_chosed_view(self, tournament_number, tournaments):
+
+        print('\033[92m' + "Le Tournoi qui à été choisi est :" + "\x1b[0m")
+        self.search_tournament_view(tournaments=tournaments[tournament_number])
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def tournament_modification_save(self):
         print()
         print('\033[92m' + " * * * Modification Terminé. * * *\n" + "\x1b[0m")

@@ -11,6 +11,7 @@ class DatabaseTournaments:
             self,
             serialized_tournament=None,
             tournament_number=None,
+            delete_tournament=False,
             delete_all=False
 
     ):
@@ -21,7 +22,7 @@ class DatabaseTournaments:
         if serialized_tournament:
             table.insert(serialized_tournament)
         # suprimmer  un  tournoi
-        elif tournament_number:
+        elif delete_tournament:
             tournament = Query()
             table.remove(
                 tournament.nom == tournaments[tournament_number]['nom']
@@ -82,7 +83,7 @@ class Tournament(DatabaseTournaments):
 
     # Supprimer un tournoi
     def ask_delete_tournament(self, tournament_number):
-        self.database_tournament(tournament_number=tournament_number)
+        self.database_tournament(tournament_number=tournament_number, delete_tournament=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
