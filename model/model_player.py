@@ -1,54 +1,6 @@
-from tinydb import TinyDB, Query
-import settings
+from model.database import Databaseplayers
 from operator import itemgetter
 
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Databaseplayers:
-
-    # base de données  joueurs
-    def database_players(
-            self,
-            serialized_player=None,
-            player_number=None,
-            delete_player=False,
-            delete_all=False
-
-    ):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
-
-        #ajout d'un  joueur
-        if serialized_player:
-            table.insert(serialized_player)
-
-        # suprimer  un  joueur
-        elif delete_player:
-            player = Query()
-            table.remove(
-                player.familly_name == players[player_number]['familly_name']
-                and
-                player.first_name == players[player_number]['first_name']
-            )
-        # suprimer tous  les  joueurs
-        elif delete_all:
-            table.truncate()
-
-        return players, table
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
-    def update_player_data_base(
-            self,
-            player_number,
-            key,
-            value
-    ):
-        players, table = self.database_players(player_number=player_number)
-        player = Query()
-        table.update({key: value}, player.familly_name == players[player_number]['familly_name'])
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -66,7 +18,6 @@ class Player(Databaseplayers):
 
     # Sauvegarder le joueur
     def save_player(self, serialized_player):
-        nbr_player_max = settings.nbr_player_max
         self.database_players(serialized_player=serialized_player)
 
     # -----------------------------------------------------------------------------------------------------------------#
