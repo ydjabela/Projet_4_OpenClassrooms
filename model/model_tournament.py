@@ -1,9 +1,9 @@
-from model.database import DatabaseTournaments
+from model.database import Database
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Tournament(DatabaseTournaments):
+class Tournament(Database):
 
     def __init__(
             self,
@@ -29,19 +29,19 @@ class Tournament(DatabaseTournaments):
 
     # Sauvegarder le tournois
     def save_tournament(self, serialized_tournament):
-        self.database_tournament(serialized_tournament=serialized_tournament)
+        self.database_game(select_table='tournois', serialized=serialized_tournament)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer un tournoi
     def ask_delete_tournament(self, tournament_number):
-        self.database_tournament(tournament_number=tournament_number, delete_tournament=True)
+        self.database_game(select_table='tournois', tournament_number=tournament_number, delete_tournament=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer tous les tournois
     def delete_all_tournament(self):
-        self.database_tournament(delete_all=True)
+        self.database_game(select_table='tournois', delete_all=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -51,7 +51,7 @@ class Tournament(DatabaseTournaments):
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def search_tournament(self):
-        tournaments, table = self.database_tournament()
+        tournaments, table = self.database_game(select_table='tournois')
         return tournaments
 
     # ---------------------------------------------------------------------------------------------------------------------#

@@ -127,9 +127,6 @@ class Tournament_view(Msg_Tournament):
 
     def tournament_to_play(self):
         print()
-        print('\033[92m' + " * * * Modification des tournois. * * *\n" + "\x1b[0m")
-        print()
-
         resultat = input('\033[91m'+"Numéro  de tournoi que vous souhaité commencé a jouer: " + "\x1b[0m")
         return resultat
 
@@ -138,7 +135,19 @@ class Tournament_view(Msg_Tournament):
     def tournament_chosed_view(self, tournament_number, tournaments):
 
         print('\033[92m' + "Le Tournoi qui à été choisi est :" + "\x1b[0m")
-        self.search_tournament_view(tournaments=tournaments[tournament_number])
+        print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))
+        tournament = tournaments[tournament_number]
+        nom = tournament['nom']
+        lieu = tournament['lieu']
+        date = tournament['date']
+        tour = tournament['tour']
+        Tournees = tournament['Tournees']
+        Joueurs = tournament['Joueurs']
+        controle_temps = tournament['controle_temps']
+        Description = tournament['Description']
+
+        print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(
+            nom, lieu, date, tour, str(Tournees), Joueurs, controle_temps, Description))
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -182,6 +191,9 @@ class Tournament_view(Msg_Tournament):
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def search_tournament_view(self, tournaments):
+
+        print('\033[92m' + " Tournois:\n" + "\x1b[0m")
+
         if not len(tournaments) == 0:
             i =1
             print("{:<5} {:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("N°", "Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))

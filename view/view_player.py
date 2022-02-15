@@ -84,9 +84,6 @@ class Player_view(Msg_Player):
     def player_age_modification(self):
         print()
         age = input("Nouveau age: ")
-        if age <= 0 or age > 120:
-            self.print_error_enter_int_age()
-            age = self.player_age_modification()
         return age
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -104,15 +101,18 @@ class Player_view(Msg_Player):
     def player_classement_modification(self):
         print()
         classement = input("Nouveau classement: ")
-        if classement <= 0:
-                self.print_error_enter_int_age()
-                classement = self.player_classement_modification()
+
         return classement
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def no_player(self):
         print('\033[92m' +'la liste des joueurs est vide' + "\x1b[0m")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def need_add_players(self):
+        print('\033[92m' + 'Il faut ajouter 8 joueurs pour commencer la partie' + "\x1b[0m")
 
     # ---------------------------------------------------------------------------------------------------------------------#
 

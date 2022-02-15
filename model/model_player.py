@@ -1,11 +1,11 @@
-from model.database import Databaseplayers
+from model.database import Database
 from operator import itemgetter
 
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Player(Databaseplayers):
+class Player(Database):
 
     def __init__(self, familly_name=None, first_name=None, age=None, sex=None, classement=None):
         self.familly_name = familly_name
@@ -18,19 +18,19 @@ class Player(Databaseplayers):
 
     # Sauvegarder le joueur
     def save_player(self, serialized_player):
-        self.database_players(serialized_player=serialized_player)
+        self.database_game(select_table='players', serialized=serialized_player)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer un joueur
     def ask_delete_player(self, player_number):
-        self.database_players(player_number=player_number, delete_player=True,)
+        self.database_game(select_table='players', player_number=player_number, delete_player=True,)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer tous les joueurs
     def delete_all_player(self):
-        self.database_players(delete_all=True)
+        self.database_game(select_table='players', delete_all=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -41,19 +41,19 @@ class Player(Databaseplayers):
 
     # Affichage des joueurs
     def search_player(self):
-        players, table = self.database_players()
+        players, table = self.database_game(select_table='players')
         return players
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Player_Stat(Databaseplayers):
+class Player_Stat(Database):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def stat_classement(self):
         """returns a classification by rank or alphabetical"""
 
-        players, table = self.database_players()
+        players, table = self.database_game(select_table='players')
         tri_rank = sorted(players, key=lambda k: k["classement"], reverse=False)
         tri_alphabet = sorted(players, key=itemgetter('familly_name'), reverse=False)
 

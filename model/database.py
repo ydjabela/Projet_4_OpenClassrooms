@@ -1,39 +1,50 @@
 from tinydb import TinyDB, Query
 
-
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class DatabaseTournaments:
-
-    # base de données  joueurs
-    def database_tournament(
+class Database:
+    def database_game(
             self,
-            serialized_tournament=None,
+            select_table,
             tournament_number=None,
+            player_number=None,
             delete_tournament=False,
-            delete_all=False
-
+            delete_player=False,
+            delete_all=False,
+            serialized=None
     ):
         db = TinyDB('db.json')
-        table = db.table('tournois')
-        tournaments = table.all()
-        #ajout d'un  tournoi
-        if serialized_tournament:
-            table.insert(serialized_tournament)
-        # suprimmer  un  tournoi
+        table = db.table(select_table)
+        select_table = table.all()
+
+        # ajout d'un  tournoi ou de joueur
+        if serialized:
+            table.insert(serialized)
+
+        # suprimer tout la table
+        if delete_all:
+            table.truncate()
+
+        # suprimmer un tournois
         elif delete_tournament:
             tournament = Query()
             table.remove(
-                tournament.nom == tournaments[tournament_number]['nom']
+                tournament.nom == select_table[tournament_number]['nom']
                 and
-                tournament.lieu == tournaments[tournament_number]['lieu']
+                tournament.lieu == select_table[tournament_number]['lieu']
             )
-        # suprimer tous  les  tournois
-        elif delete_all:
-            table.truncate()
 
-        return tournaments, table
+        # suprimer un joueur
+        elif delete_player:
+            player = Query()
+            table.remove(
+                player.familly_name == select_table[player_number]['familly_name']
+                and
+                player.first_name == select_table[player_number]['first_name']
+            )
+
+        return select_table, table
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -43,45 +54,9 @@ class DatabaseTournaments:
             key,
             value
     ):
-        tournaments, table = self.database_tournament(tournament_number=tournament_number)
+        tournaments, table = self.database_game(select_table='tournois', tournament_number=tournament_number)
         tournament = Query()
         table.update({key: value}, tournament.nom == tournaments[tournament_number]['nom'])
-
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Databaseplayers:
-
-    # base de données  joueurs
-    def database_players(
-            self,
-            serialized_player=None,
-            player_number=None,
-            delete_player=False,
-            delete_all=False
-
-    ):
-        db = TinyDB('db.json')
-        table = db.table('players')
-        players = table.all()
-
-        #ajout d'un  joueur
-        if serialized_player:
-            table.insert(serialized_player)
-
-        # suprimer  un  joueur
-        elif delete_player:
-            player = Query()
-            table.remove(
-                player.familly_name == players[player_number]['familly_name']
-                and
-                player.first_name == players[player_number]['first_name']
-            )
-        # suprimer tous  les  joueurs
-        elif delete_all:
-            table.truncate()
-
-        return players, table
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -91,6 +66,8 @@ class Databaseplayers:
             key,
             value
     ):
-        players, table = self.database_players(player_number=player_number)
+        players, table = self.database_game(select_table='players', player_number=player_number)
         player = Query()
         table.update({key: value}, player.familly_name == players[player_number]['familly_name'])
+
+# ---------------------------------------------------------------------------------------------------------------------#

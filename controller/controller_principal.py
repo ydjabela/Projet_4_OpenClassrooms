@@ -22,8 +22,8 @@ class MainMenu(Choice, TournamentMenu, PlayerMenu):
             self.sub_menu_tournament_1()
 
         elif resultat == 3:
-            tournament_number, tournaments = self.start_playing_tournament()
-
+            players = self.select_and_add_players()
+            tournament_number, tournaments = self.start_playing_tournament(players=players)
 
         elif resultat == 5:
             self.message_visit()

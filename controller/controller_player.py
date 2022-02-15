@@ -2,6 +2,7 @@ from model.model_player import Player, Player_Stat
 from view.view_player import Player_view
 import settings
 
+
 class PlayerMenu(Player, Player_view, Player_Stat):
 
     def sub_menu_player_1(self):
@@ -16,7 +17,6 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         if resultat == 1:
             players = self.search_player()
             if len(players) < settings.nbr_player_max:
-                print(len(players), settings.nbr_player_max)
                 serialized_player = self.adding_player()
                 self.save_player(serialized_player)
             else:
@@ -107,20 +107,28 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     def change_age_player(self, player_number):
         try:
             age = int(self.player_age_modification())
+            if age <= 0 or age > 120:
+                self.print_error_enter_int_age()
+                age = self.change_age_player(player_number=player_number)
             self.ask_change_value(player_number=player_number, key='age', value=age)
         except:
             self.print_error_enter_int_age()
-            self.change_age_player(player_number=player_number)
+            age = self.change_age_player(player_number=player_number)
+        return age
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def change_classement_player(self, player_number):
         try:
             classement = int(self.player_classement_modification())
+            if classement <= 0:
+                self.print_error_enter_int_age()
+                classement = self.change_classement_player(player_number=player_number)
             self.ask_change_value(player_number=player_number, key='classement', value=classement)
         except:
             self.print_error_enter_int_classement()
-            self.change_classement_player(player_number=player_number)
+            classement = self.change_classement_player(player_number=player_number)
+        return classement
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -136,4 +144,17 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             self.delete_player()
 
     # ---------------------------------------------------------------------------------------------------------------------#
+
+    def select_and_add_players(self):
+        players = self.search_player()
+        self.search_player_view(players=players)
+        if len(players) == 0:
+            self.no_player()
+        while len(players) < settings.nbr_player_max:
+            self.need_add_players()
+            serialized_player = self.adding_player()
+            self.save_player(serialized_player)
+            players = self.search_player()
+
+        return players
 # ---------------------------------------------------------------------------------------------------------------------#

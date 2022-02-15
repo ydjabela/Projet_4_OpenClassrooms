@@ -30,10 +30,10 @@ class TournamentMenu(Tournament, Tournament_view):
         # Affichage des tournaments.
         elif int(resultat) == 4:
             tournaments = self.search_tournament()
-
             self.search_tournament_view(tournaments=tournaments)
             if len(tournaments) == 0:
                 self.no_tournament()
+
         # Supprimmer tous les tournaments.
         elif int(resultat) == 5:
             self.delete_all_tournament()
@@ -123,7 +123,7 @@ class TournamentMenu(Tournament, Tournament_view):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def start_playing_tournament(self):
+    def start_playing_tournament(self, players):
 
         tournaments = self.search_tournament()
 
@@ -144,4 +144,9 @@ class TournamentMenu(Tournament, Tournament_view):
                 self.print_error_enter_int()
                 self.start_playing_tournament()
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
+        value = list()
+        for player in players:
+            value.append(player['familly_name'])
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=str(value))
+
         return tournament_number, tournaments
