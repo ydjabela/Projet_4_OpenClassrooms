@@ -145,16 +145,37 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def select_player(self, players):
+        self.search_player_view(players=players)
+        first_list = players
+        try:
+            player_number = int(self.player_to_select())-1
+            selected_players = first_list[player_number]
+        except:
+            self.print_error_enter_int()
+            self.delete_player()
+
+        return selected_players
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def select_and_add_players(self):
         players = self.search_player()
         self.search_player_view(players=players)
         if len(players) == 0:
             self.no_player()
-        while len(players) < settings.nbr_player_max:
-            self.need_add_players()
-            serialized_player = self.adding_player()
-            self.save_player(serialized_player)
-            players = self.search_player()
+        selected_players = list()
+        while len(selected_players) < settings.nbr_player_max:
+            if len(players) < settings.nbr_player_max:
+                self.need_add_players()
+                serialized_player = self.adding_player()
+                self.save_player(serialized_player)
+                selected_players = self.search_player()
+            elif len(players) > settings.nbr_player_max:
+                players = self.search_player()
+                selected_players = self.select_player(players=players)
+            else:
+                self.message_selection_complete()
 
-        return players
+        return selected_players
 # ---------------------------------------------------------------------------------------------------------------------#

@@ -31,6 +31,11 @@ class Msg_Player:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def message_selection_complete(self):
+        print()
+        print('\033[91m'+'La selection des  joueur est complete' + "\x1b[0m")
+    # ---------------------------------------------------------------------------------------------------------------------#
+
 
 class Player_view(Msg_Player):
 
@@ -122,6 +127,13 @@ class Player_view(Msg_Player):
         print()
 
         resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité supprimer: " + "\x1b[0m")
+        return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def player_to_select(self):
+
+        resultat = input('\033[91m' + "Numéro  de joueur que vous souhaité selectionné: " + "\x1b[0m")
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -220,6 +232,8 @@ class Player_view(Msg_Player):
 
         resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m")
         return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     def view_statique_player(self, player_tri_ranking, player_tri_alphabet):
         try:
