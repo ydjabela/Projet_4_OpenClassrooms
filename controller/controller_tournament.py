@@ -123,7 +123,7 @@ class TournamentMenu(Tournament, Tournament_view):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def start_playing_tournament(self, players_name):
+    def start_playing_tournament(self, players_names):
 
         tournaments = self.search_tournament()
 
@@ -142,8 +142,8 @@ class TournamentMenu(Tournament, Tournament_view):
                 tournament_number = int(self.tournament_to_play())-1
             except:
                 self.print_error_enter_int()
-                self.start_playing_tournament()
+                self.start_playing_tournament(players_names=players_names)
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=str(players_name))
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(players_names))
 
         return tournament_number, tournaments

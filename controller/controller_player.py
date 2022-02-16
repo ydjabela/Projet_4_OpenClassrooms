@@ -143,16 +143,20 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def select_player(self, players):
-        self.search_player_view(players=players)
-
         try:
+            print('les  joueurs a selectinné sont: ')
+            i = 1
+            for player in players:
+                print(i, player)
+                i += 1
             player_number = int(self.player_to_select())-1
-            selected_players = players[player_number]
+            selected_player = players[player_number]
+
         except:
             self.print_error_enter_int()
-            selected_players = self.select_player(players)
+            selected_player = self.select_player(players=players)
 
-        return selected_players
+        return selected_player
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -162,7 +166,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         if len(players) == 0:
             self.no_player()
         selected_players = list()
-        first_list = players
+
+        # construire une liste avec les nom dee tous les joueurs
+        first_list = list()
+        for player in players:
+            first_list.append(player['familly_name'])
+
+        # selectionne la list des joeurs qui vont jouer la partie
         while len(selected_players) < settings.nbr_player_max:
 
             if len(players) < settings.nbr_player_max:
@@ -172,17 +182,14 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 self.save_player(serialized_player)
                 selected_players = self.search_player()
             elif len(players) > settings.nbr_player_max:
-                selected_players = self.select_player(players=first_list)
-                del first_list[selected_players]
+                selected_player = self.select_player(players=first_list)
+                selected_players.append(selected_player)
+                del first_list[first_list.index(selected_player)]
 
             else:
                 self.search_player_view(players=players)
                 selected_players = self.search_player()
                 self.message_selection_complete()
-
-            value = list()
-            for player in players:
-                value.append(selected_players['familly_name'])
 
         return selected_players
 # ---------------------------------------------------------------------------------------------------------------------#
