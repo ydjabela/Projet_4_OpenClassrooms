@@ -34,4 +34,6 @@ class MainMenu(Choice, TournamentMenu, PlayerMenu):
 
 #   -------------------------------------------------------------------------------------------------------------------#
 
-class 
+class Match:
+    def Premier_round(self):
+        pass

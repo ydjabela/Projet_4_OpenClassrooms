@@ -1,4 +1,4 @@
-
+import settings
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
@@ -169,7 +169,7 @@ class Tournament_view(Msg_Tournament):
         nom = str(input('Nom du tournoi: '))
         lieu = str(input('lieu: '))
         date = str(input('date: '))
-        tour = input('tour: ')
+        tour = settings.TURNS
         Tournees = input('Tournees: ')
         Joueurs = ''
         if not without_player:
