@@ -166,13 +166,15 @@ class Tournament_view(Msg_Tournament):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def adding_tournament(self):
+    def adding_tournament(self, without_player=False):
         nom = str(input('Nom du tournoi: '))
         lieu = str(input('lieu: '))
         date = str(input('date: '))
         tour = input('tour: ')
         Tournees = input('Tournees: ')
-        Joueurs = list(input('Joueurs: '))
+        Joueurs = ''
+        if not without_player:
+            Joueurs = list(input('Joueurs: '))
         controle_temps = input('controle_temps: ')
         Description = str(input('Description: '))
         serialized_player = {

@@ -131,7 +131,7 @@ class TournamentMenu(Tournament, Tournament_view):
         if len(tournaments) == 0:
             self.no_tournament()
             # add tournament if len(tournaments) = 0
-            serialized_tournament = self.adding_tournament()
+            serialized_tournament = self.adding_tournament(without_player=True)
             self.save_tournament(serialized_tournament=serialized_tournament)
             tournaments = self.search_tournament()
             tournament_number = 0
@@ -144,7 +144,8 @@ class TournamentMenu(Tournament, Tournament_view):
             except:
                 self.print_error_enter_int()
                 self.start_playing_tournament(players_names=players_names)
-        self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
         self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=players_names)
+        tournaments = self.search_tournament()
+        self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
 
         return tournament_number, tournaments

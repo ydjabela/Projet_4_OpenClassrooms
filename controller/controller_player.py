@@ -147,7 +147,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             print('les  joueurs a selectionner sont: ')
             i = 1
             for player in players:
-                print(i, player)
+                print(i, ':', player)
                 i += 1
             player_number = int(self.player_to_select())-1
             selected_player = players[player_number]
@@ -180,7 +180,9 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 self.need_add_players()
                 serialized_player = self.adding_player()
                 self.save_player(serialized_player)
-                selected_players = self.search_player()
+                players = self.search_player()
+                for player in players:
+                    selected_players.append(player['familly_name'])
             elif len(players) > settings.nbr_player_max:
                 selected_player = self.select_player(players=first_list)
                 selected_players.append(selected_player)
@@ -188,7 +190,8 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
             else:
                 self.search_player_view(players=players)
-                selected_players = self.search_player()
+                players = self.search_player()
+                selected_players = first_list
                 self.message_selection_complete()
 
         return selected_players
