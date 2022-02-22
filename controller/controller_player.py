@@ -144,7 +144,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     def select_player(self, players):
         try:
-            print('les  joueurs a selectinné sont: ')
+            print('les  joueurs a selectionner sont: ')
             i = 1
             for player in players:
                 print(i, player)
@@ -192,4 +192,5 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 self.message_selection_complete()
 
         return selected_players
+
 # ---------------------------------------------------------------------------------------------------------------------#

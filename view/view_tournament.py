@@ -145,9 +145,8 @@ class Tournament_view(Msg_Tournament):
         Joueurs = tournament['Joueurs']
         controle_temps = tournament['controle_temps']
         Description = tournament['Description']
-
         print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(
-            nom, lieu, date, tour, str(Tournees), Joueurs, controle_temps, Description))
+            nom, lieu, date, tour, Tournees, str(Joueurs), controle_temps, Description))
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -173,7 +172,7 @@ class Tournament_view(Msg_Tournament):
         date = str(input('date: '))
         tour = input('tour: ')
         Tournees = input('Tournees: ')
-        Joueurs = input('Joueurs: ')
+        Joueurs = list(input('Joueurs: '))
         controle_temps = input('controle_temps: ')
         Description = str(input('Description: '))
         serialized_player = {

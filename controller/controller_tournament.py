@@ -90,7 +90,7 @@ class TournamentMenu(Tournament, Tournament_view):
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=Tournees)
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=Joueurs)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
@@ -133,6 +133,7 @@ class TournamentMenu(Tournament, Tournament_view):
             # add tournament if len(tournaments) = 0
             serialized_tournament = self.adding_tournament()
             self.save_tournament(serialized_tournament=serialized_tournament)
+            tournaments = self.search_tournament()
             tournament_number = 0
         elif len(tournaments) == 1:
                 tournament_number = 0
@@ -144,6 +145,6 @@ class TournamentMenu(Tournament, Tournament_view):
                 self.print_error_enter_int()
                 self.start_playing_tournament(players_names=players_names)
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(players_names))
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=players_names)
 
         return tournament_number, tournaments
