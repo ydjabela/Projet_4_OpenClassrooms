@@ -135,7 +135,6 @@ class Tournament_view(Msg_Tournament):
     def tournament_chosed_view(self, tournament_number, tournaments):
 
         print('\033[92m' + "Le Tournoi qui à été choisi est :" + "\x1b[0m")
-        print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format("Nom", "Lieu", "Date", "Tour", "Tournees", "Joueurs", "Controle temps", "Description"))
         tournament = tournaments[tournament_number]
         nom = tournament['nom']
         lieu = tournament['lieu']
@@ -145,8 +144,8 @@ class Tournament_view(Msg_Tournament):
         Joueurs = tournament['Joueurs']
         controle_temps = tournament['controle_temps']
         Description = tournament['Description']
-        print("{:<15} {:<15} {:<15} {:<15} {:<15} {:<15} {:<20} {:<15}".format(
-            nom, lieu, date, tour, Tournees, str(Joueurs), controle_temps, Description))
+        print("Nom: {} \nLieu: {} \nDate: {} \nTour: {} \nTournees: {}\nJoueurs: {} \nControle temps: {} \nDescription: {}".format(
+            nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description))
 
     # ---------------------------------------------------------------------------------------------------------------------#
 

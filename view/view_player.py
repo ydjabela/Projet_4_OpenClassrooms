@@ -200,7 +200,7 @@ class Player_view(Msg_Player):
     def search_player_view(self, players):
         try:
             if not len(players) == 0:
-                i = 1
+                i = 0
                 print('les joueurs sont : ')
                 print(
                     "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(

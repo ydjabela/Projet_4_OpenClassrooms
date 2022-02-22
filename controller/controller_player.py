@@ -1,5 +1,6 @@
 from model.model_player import Player, Player_Stat
 from view.view_player import Player_view
+import numpy as np
 import settings
 
 
@@ -141,7 +142,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             self.delete_player()
 
     # ---------------------------------------------------------------------------------------------------------------------#
-
+    '''
     def select_player(self, players):
         try:
             print('les  joueurs a selectionner sont: ')
@@ -193,7 +194,68 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 players = self.search_player()
                 selected_players = first_list
                 self.message_selection_complete()
+            for selected_player in selected_players:
+                player_number = selected_players[selected_players.index(selected_player)]
 
         return selected_players
+    '''
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def select_player(self, players):
+        try:
+            print('les  joueurs a selectionner sont: ')
+            i = 1
+            for player in players:
+                print(i, ':', player)
+                i += 1
+            player_number = int(self.player_to_select())-1
+            selected_player = players[player_number]
+
+        except:
+            self.print_error_enter_int()
+            selected_player = self.select_player(players=players)
+
+        return selected_player
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def select_and_add_players(self):
+        players = self.search_player()
+
+        if len(players) == 0:
+            self.no_player()
+        selected_players = list()
+
+        # construire une liste avec les nom dee tous les joueurs
+        first_list = list()
+        for player in players:
+            first_list.append(player['familly_name'])
+        second_list = list()
+        for player in players:
+            second_list.append(player['familly_name'])
+
+        # selectionne la list des joeurs qui vont jouer la partie
+        while len(selected_players) < settings.nbr_player_max:
+            if len(players) < settings.nbr_player_max:
+                self.search_player_view(players=players)
+                self.need_add_players()
+                serialized_player = self.adding_player()
+                self.save_player(serialized_player)
+                players = self.search_player()
+                selected_players = [i for i in range(len(players))]
+
+            elif len(players) > settings.nbr_player_max:
+                selected_player = self.select_player(players=first_list)
+                pos = list(np.where(np.array(second_list) == selected_player)[0])
+                selected_players.append(int(pos[0]))
+                del first_list[first_list.index(selected_player)]
+
+            else:
+                self.search_player_view(players=players)
+                players = self.search_player()
+                selected_players = [i for i in range(len(players))]
+                self.message_selection_complete()
+        return selected_players
+
 
 # ---------------------------------------------------------------------------------------------------------------------#
