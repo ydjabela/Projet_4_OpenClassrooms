@@ -48,7 +48,6 @@ class Player(Database):
 
 
 class Player_Stat(Database):
-    # -----------------------------------------------------------------------------------------------------------------#
 
     def stat_classement(self):
         """returns a classification by rank or alphabetical"""
@@ -58,3 +57,15 @@ class Player_Stat(Database):
         tri_alphabet = sorted(players, key=itemgetter('familly_name'), reverse=False)
 
         return tri_rank, tri_alphabet
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def tri_rank_selected_player(self, players, selected_players):
+        selected_players_list = list()
+        for selected_player in selected_players:
+            selected_players_list.append(players[selected_player])
+
+        players_tried = sorted(selected_players_list, key=lambda k: k["classement"], reverse=False)
+        return players_tried
+
+    # -----------------------------------------------------------------------------------------------------------------#

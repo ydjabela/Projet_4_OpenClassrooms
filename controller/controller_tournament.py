@@ -1,6 +1,7 @@
 from model.model_tournament import Tournament
 from view.view_tournament import Tournament_view
 
+
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
@@ -93,10 +94,12 @@ class TournamentMenu(Tournament, Tournament_view):
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps',
+                                             value=controle_temps)
         elif resultat_modif == 8:
             controle_temps = self.tournament_Description_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps', value=controle_temps)
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps',
+                                             value=controle_temps)
         else:
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
@@ -111,10 +114,10 @@ class TournamentMenu(Tournament, Tournament_view):
             self.no_tournament()
             return
         elif len(tournaments) == 1:
-                tournament_number = 0
+            tournament_number = 0
         else:
             try:
-                tournament_number = int(self.tournament_to_delete())-1
+                tournament_number = int(self.tournament_to_delete()) - 1
             except:
                 self.print_error_enter_int()
                 self.delete_tournament()
@@ -123,29 +126,35 @@ class TournamentMenu(Tournament, Tournament_view):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def start_playing_tournament(self, selected_players):
-
+    def choose_tournament(self, selected_players):
         tournaments = self.search_tournament()
 
         tournament_number = 0
+        # Si y'a  pas de tournois
         if len(tournaments) == 0:
             self.no_tournament()
             # add tournament if len(tournaments) = 0
             serialized_tournament = self.adding_tournament(without_player=True)
+            # Sauvegarder le tournoi
             self.save_tournament(serialized_tournament=serialized_tournament)
             tournaments = self.search_tournament()
             tournament_number = 0
+        # Si y'a un seul tournoi
         elif len(tournaments) == 1:
-                tournament_number = 0
+            tournament_number = 0
+        # Si y'a un plusieurs tournois
         else:
             try:
                 self.search_tournament_view(tournaments=tournaments)
-                tournament_number = int(self.tournament_to_play())-1
+                tournament_number = int(self.tournament_to_play()) - 1
             except:
                 self.print_error_enter_int()
-                self.start_playing_tournament(selected_players=selected_players)
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(selected_players))
+                tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs',
+                                         value=list(selected_players))
         tournaments = self.search_tournament()
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
 
         return tournament_number, tournaments
+
+

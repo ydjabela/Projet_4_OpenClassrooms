@@ -142,64 +142,6 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             self.delete_player()
 
     # ---------------------------------------------------------------------------------------------------------------------#
-    '''
-    def select_player(self, players):
-        try:
-            print('les  joueurs a selectionner sont: ')
-            i = 1
-            for player in players:
-                print(i, ':', player)
-                i += 1
-            player_number = int(self.player_to_select())-1
-            selected_player = players[player_number]
-
-        except:
-            self.print_error_enter_int()
-            selected_player = self.select_player(players=players)
-
-        return selected_player
-
-    # ---------------------------------------------------------------------------------------------------------------------#
-
-    def select_and_add_players(self):
-        players = self.search_player()
-
-        if len(players) == 0:
-            self.no_player()
-        selected_players = list()
-
-        # construire une liste avec les nom dee tous les joueurs
-        first_list = list()
-        for player in players:
-            first_list.append(player['familly_name'])
-
-        # selectionne la list des joeurs qui vont jouer la partie
-        while len(selected_players) < settings.nbr_player_max:
-
-            if len(players) < settings.nbr_player_max:
-                self.search_player_view(players=players)
-                self.need_add_players()
-                serialized_player = self.adding_player()
-                self.save_player(serialized_player)
-                players = self.search_player()
-                for player in players:
-                    selected_players.append(player['familly_name'])
-            elif len(players) > settings.nbr_player_max:
-                selected_player = self.select_player(players=first_list)
-                selected_players.append(selected_player)
-                del first_list[first_list.index(selected_player)]
-
-            else:
-                self.search_player_view(players=players)
-                players = self.search_player()
-                selected_players = first_list
-                self.message_selection_complete()
-            for selected_player in selected_players:
-                player_number = selected_players[selected_players.index(selected_player)]
-
-        return selected_players
-    '''
-    # ---------------------------------------------------------------------------------------------------------------------#
 
     def select_player(self, players):
         try:
@@ -257,5 +199,11 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 self.message_selection_complete()
         return selected_players
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def tri_player_by_rang(self, selected_players):
+        players = self.search_player()
+        players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
+        return players_tried
 
 # ---------------------------------------------------------------------------------------------------------------------#
