@@ -1,4 +1,4 @@
-from controller.controller_principal import MainMenu
+from controller.controller import MainMenu
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
