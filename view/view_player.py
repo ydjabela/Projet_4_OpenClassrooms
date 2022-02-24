@@ -201,7 +201,7 @@ class Player_view(Msg_Player):
         try:
             if not len(players) == 0:
                 i = 0
-                print('les joueurs sont : ')
+                print('\nles joueurs sont : ')
                 print(
                     "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
                         "N°", "Familly name", "First name", "Age", "Sex", "Classement"
@@ -219,6 +219,7 @@ class Player_view(Msg_Player):
                         )
                     )
                     i += 1
+            print()
 
         except Exception as e:
             print('Error', e)
@@ -282,4 +283,4 @@ class Player_view(Msg_Player):
         except Exception as e:
             print('Error', e)
 
-
+    # ---------------------------------------------------------------------------------------------------------------------#

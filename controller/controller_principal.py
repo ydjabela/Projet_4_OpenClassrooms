@@ -11,8 +11,10 @@ class Match(TournamentMenu, PlayerMenu):
             self,
             ref_joueur_1,
             ref_joueur_2,
+            match_number,
             score_joueur_1=None,
             score_joueur_2=None
+
     ):
 
         if score_joueur_1 == None:
@@ -24,7 +26,20 @@ class Match(TournamentMenu, PlayerMenu):
         joueur_1 = [ref_joueur_1, score_joueur_1]
         joueur_2 = [ref_joueur_2, score_joueur_2]
 
+        self.match_view(
+            joueur_1=ref_joueur_1,
+            joueur_2=ref_joueur_2,
+            match_number=match_number,
+            score_joueur_1=score_joueur_1,
+            score_joueur_2=score_joueur_2
+        )
+
         return joueur_1, joueur_2
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def tour(self, Round, match_player):
+        return Round, match_player
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -32,6 +47,9 @@ class Match(TournamentMenu, PlayerMenu):
 
         # selectionner un tournoi à jouer
         tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
+        # 1 er tour
+        Round  = 'Round 1'
+        self.round_view(Round=Round)
 
         # trier les selected_players  par classement
         players_tried = self.tri_player_by_rang(selected_players=selected_players)
@@ -49,16 +67,13 @@ class Match(TournamentMenu, PlayerMenu):
             player_list_inf.append(instance_players_tried[j])
 
         # jumelé Le meilleur joueur de la moitié supérieure avec le meilleur joueur de la moitié inférieure
-        # 1 er tour
         # definir les paires de joueurs
-        tour = list()
+        tour_list = [Round]
         for k in range(0, div_length):
             ref_joueur_1 = player_list_sup[k]
             ref_joueur_2 = player_list_inf[k]
-            match_player = self.match(ref_joueur_1=ref_joueur_1, ref_joueur_2=ref_joueur_2)
-            tour.append(match_player)
-
-        print('==========>1', tour)
+            match_player = self.match(ref_joueur_1=ref_joueur_1, ref_joueur_2=ref_joueur_2, match_number=k+1)
+            tour_list.append(match_player)
 
 
         # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;

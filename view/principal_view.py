@@ -23,6 +23,28 @@ class Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def match_view(
+            self,
+            joueur_1,
+            joueur_2,
+            match_number,
+            score_joueur_1=None,
+            score_joueur_2=None
+    ):
+        print(
+            'Match N°{}:'.format(match_number),
+            ',\033[92m' +
+            " joueur N°{}  VS joueur N°{} | Score : ({}-{})".format(joueur_1, joueur_2, score_joueur_1, score_joueur_2) +
+            "\x1b[0m"
+        )
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def round_view(self, Round):
+        print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def print_error_enter_int(self):
         # indicates to the user that he must enter a number
 
