@@ -213,6 +213,12 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
         return players_tried
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def tri_player_by_ponits(self, selected_players):
+        players = self.search_player()
+        players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
+        return players_tried
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
@@ -539,78 +545,105 @@ class Match(TournamentMenu, PlayerMenu):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
+    def players_points(self, ref_joueur, points):
+        points =
+
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
     def start_playing_tournament(self, selected_players):
 
         # selectionner un tournoi à jouer
         tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
-        # 1 er tour
-        Round  = 'Round 1'
-        self.round_view(Round=Round)
+        matchs_round = list()
+        player_points_1 = 0
+        player_points_2 = 0
+        player_points_3 = 0
+        player_points_4 = 0
+        player_points_5 = 0
+        player_points_6 = 0
+        player_points_7 = 0
+        player_points_8 = 0
 
-        # trier les selected_players  par classement
-        players_tried = self.tri_player_by_rang(selected_players=selected_players)
-        self.search_player_view(players=players_tried)
-        instance_players_tried = [i for i in range(len(players_tried))]
+        for round in range(1, settings.TURNS+1):
 
-        # divisez les joueurs classés en deux moitiés
-        player_list_sup = list()
-        player_list_inf = list()
-        length = len(instance_players_tried)
-        div_length = int(length/2)
-        for i in range(0, div_length):
-            player_list_sup.append(instance_players_tried[i])
-        for j in range(div_length, length):
-            player_list_inf.append(instance_players_tried[j])
+            # 1 er tour
+            Round = 'Round {}'.format(round)
+            self.round_view(Round=Round)
 
-        # jumelé Le meilleur joueur de la moitié supérieure avec le meilleur joueur de la moitié inférieure
-        # definir les paires de joueurs
-        tour_list = [Round]
-        for k in range(0, div_length):
-            ref_joueur_1 = player_list_sup[k]
-            ref_joueur_2 = player_list_inf[k]
+            if Round == 1:
+                # trier les selected_players  par classement
+                players_tried = self.tri_player_by_rang(selected_players=selected_players)
+                self.search_player_view(players=players_tried)
+                instance_players_tried = [i for i in range(len(players_tried))]
+            else:
+                # trier par  le nombre de  points gagner
+                # triez tous les joueurs en fonction de leur nombre total de points.
+                # TODO
+                players_tried = self.tri_player_by_points(selected_players=selected_players)
+                self.search_player_view(players=players_tried)
+                instance_players_tried = [i for i in range(len(players_tried))]
 
-            # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
-            color_joueur_1, color_joueur_2 = self.player_color()
-            print('=====1',color_joueur_1, color_joueur_2)
 
-            match_player = self.match(
-                ref_joueur_1=ref_joueur_1,
-                ref_joueur_2=ref_joueur_2,
-                match_number=k+1,
-                color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_2
-            )
-            tour_list.append(match_player)
+                # trier les selected_players  par classement
+                players_tried = self.tri_player_by_rang(selected_players=selected_players)
+                self.search_player_view(players=players_tried)
+                instance_players_tried = [i for i in range(len(players_tried))]
 
-        matchs = self.sub_menu_start_end_round(tour_list=tour_list)
-        for i in range(1, len(matchs)):
-            match_players = matchs[i]
-            ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
-            ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
-            print('=====2',color_joueur_1, color_joueur_2)
-            start_match_time = match_players[2]
-            end_match_time = match_players[3]
-            match = self.match(
-                ref_joueur_1=ref_joueur_1,
-                ref_joueur_2=ref_joueur_2,
-                match_number=i,
-                score_joueur_1=score_joueur_1,
-                score_joueur_2=score_joueur_2,
-                color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_2,
-                start_match_time=start_match_time,
-                end_match_time=end_match_time
-            )
-        match_players = matchs[1]
-        ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
-        ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
-        print('=====3',color_joueur_1, color_joueur_2)
+            # divisez les joueurs classés en deux moitiés
+            player_list_sup = list()
+            player_list_inf = list()
+            length = len(instance_players_tried)
+            div_length = int(length/2)
+            for i in range(0, div_length):
+                player_list_sup.append(instance_players_tried[i])
+            for j in range(div_length, length):
+                player_list_inf.append(instance_players_tried[j])
+
+            # jumelé Le meilleur joueur de la moitié supérieure avec le meilleur joueur de la moitié inférieure
+            # definir les paires de joueurs
+            tour_list = [Round]
+            for k in range(0, div_length):
+                ref_joueur_1 = player_list_sup[k]
+                ref_joueur_2 = player_list_inf[k]
+
+                # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
+                color_joueur_1, color_joueur_2 = self.player_color()
+
+                match_player = self.match(
+                    ref_joueur_1=ref_joueur_1,
+                    ref_joueur_2=ref_joueur_2,
+                    match_number=k+1,
+                    color_joueur_1=color_joueur_1,
+                    color_joueur_2=color_joueur_2
+                )
+                tour_list.append(match_player)
+
+            matchs = self.sub_menu_start_end_round(tour_list=tour_list)
+            for i in range(1, len(matchs)):
+                match_players = matchs[i]
+                ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
+                ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
+                start_match_time = match_players[2]
+                end_match_time = match_players[3]
+                match = self.match(
+                    ref_joueur_1=ref_joueur_1,
+                    ref_joueur_2=ref_joueur_2,
+                    match_number=i,
+                    score_joueur_1=score_joueur_1,
+                    score_joueur_2=score_joueur_2,
+                    color_joueur_1=color_joueur_1,
+                    color_joueur_2=color_joueur_2,
+                    start_match_time=start_match_time,
+                    end_match_time=end_match_time
+                )
+            matchs_round.append(matchs)
         # Sauvegarder les résultats pour chaque paire
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs)
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs_round)
 
         # 2, 3 et 4e tour
         # Définir les paires de joueurs
-        # triez tous les joueurs en fonction de leur nombre total de points.
+
         # Si plusieurs joueurs ont le même nombre de points, triez-les en fonction de leur rang.
         # TODO
 
