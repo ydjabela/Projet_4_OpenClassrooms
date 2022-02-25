@@ -18,6 +18,8 @@ class Choice:
         print('-------------------------------------------------------------------------------------------------------')
         return resultat
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def message_visit(self):
         print('Merci pour  votre visite')
 
@@ -56,6 +58,99 @@ class Choice:
     def round_view(self, Round):
         print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def match_finished(self):
+        print('\033[91m'+"\n le match est deja fini." + "\x1b[0m")
+# ---------------------------------------------------------------------------------------------------------------------#
+
+    def start_end_match_view(
+            self,
+            match_finished_1,
+            match_finished_2,
+            match_finished_3,
+            match_finished_4,
+            match_alerady_started_1,
+            match_alerady_started_2,
+            match_alerady_started_3,
+            match_alerady_started_4
+    ):
+
+        print('\033[92m' + " Démarré ou mettre fin a un match \n" + "\x1b[0m")
+        print(" /// Selectionnez le menu souhaité. /// \n")
+        if not match_finished_1:
+            if match_alerady_started_1:
+                print('\033[93m'+" 1 : Arreter le match 1." + "\x1b[0m")
+            else:
+                print('\033[93m'+" 1 : Démarré le match 1." + "\x1b[0m")
+        else:
+            print('\033[93m'+" 1 : le Match 1 est terminé." + "\x1b[0m")
+        if not match_finished_2:
+            if match_alerady_started_2:
+                print('\033[93m'+" 2 : Arreter le match 2." + "\x1b[0m")
+            else:
+                print('\033[93m'+" 2 : Démarré le match 2." + "\x1b[0m")
+        else:
+            print('\033[93m'+" 2 : le Match 2 est terminé." + "\x1b[0m")
+        if not match_finished_3:
+            if match_alerady_started_3:
+                print('\033[93m'+" 3 : Arreter le match 3." + "\x1b[0m")
+            else:
+                print('\033[93m'+" 3 : Démarré le match 3." + "\x1b[0m")
+        else:
+            print('\033[93m'+" 3 : le Match 3 est terminé." + "\x1b[0m")
+        if not match_finished_4:
+            if match_alerady_started_4:
+                print('\033[93m'+" 4 : Arreter le match 4." + "\x1b[0m")
+            else:
+                print('\033[93m'+" 4 : Démarré le match 4." + "\x1b[0m")
+        else:
+            print('\033[93m'+" 4 : le Match 4 est terminé." + "\x1b[0m")
+
+        print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
+        try:
+
+            resultat = int(input())
+            if resultat > 4 or resultat <=0:
+
+                self.print_error_enter_int()
+                resultat = self.start_end_match_view(
+                    match_finished_1=match_finished_1,
+                    match_finished_2=match_finished_2,
+                    match_finished_3=match_finished_3,
+                    match_finished_4=match_finished_4,
+                    match_alerady_started_1=match_alerady_started_1,
+                    match_alerady_started_2=match_alerady_started_2,
+                    match_alerady_started_3=match_alerady_started_3,
+                    match_alerady_started_4=match_alerady_started_4
+                )
+        except:
+            self.print_error_enter_int()
+            resultat = self.start_end_match_view(
+                match_finished_1=match_finished_1,
+                match_finished_2=match_finished_2,
+                match_finished_3=match_finished_3,
+                match_finished_4=match_finished_4,
+                match_alerady_started_1=match_alerady_started_1,
+                match_alerady_started_2=match_alerady_started_2,
+                match_alerady_started_3=match_alerady_started_3,
+                match_alerady_started_4=match_alerady_started_4
+            )
+        print('-------------------------------------------------------------------------------------------------------')
+        return resultat
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    def enter_resultat_player(self, ref_joueur):
+        try:
+            resultat = int(input('\033[92m' + " resultat du joueur N°{}: ".format(ref_joueur) + "\x1b[0m"))
+            if resultat not in [0, 0.5, 1]:
+                self.print_error_enter_int()
+                resultat = self.enter_resultat_player(ref_joueur)
+        except:
+            resultat = self.enter_resultat_player(ref_joueur)
+            self.print_error_enter_int()
+        return resultat
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def print_error_enter_int(self):

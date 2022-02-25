@@ -6,6 +6,7 @@ from view.view_player import Player_view
 import settings
 import random
 import numpy as np
+from datetime import datetime
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -314,6 +315,112 @@ class TournamentMenu(Tournament, Tournament_view):
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
 
+# -----------------------------------------------------------------------------------------------------------------#
+
+    def start_end_match(
+            self,
+            match,
+            match_finished,
+            match_alerady_started
+    ):
+        print(match)
+        if not match_finished:
+            if not match_alerady_started:
+                match_alerady_started = True
+                start_match_time = datetime.now()
+                match =match, start_match_time
+            else:
+                ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
+                ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
+                score_joueur_1 = self.enter_resultat_player(ref_joueur=ref_joueur_1)
+                score_joueur_2 = 1-score_joueur_1
+                match = self.match(
+                    ref_joueur_1=ref_joueur_1,
+                    ref_joueur_2=ref_joueur_2,
+                    match_number=1,
+                    score_joueur_1=score_joueur_1,
+                    score_joueur_2=score_joueur_2,
+                    color_joueur_1=color_joueur_1,
+                    color_joueur_2=color_joueur_1
+                )
+                end_match_time = datetime.now()
+                match =match, end_match_time
+                match_finished = True
+                return match
+        else:
+            self.match_finished()
+
+        return match_alerady_started, match_finished
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def sub_menu_start_end_round(self, tour_list):
+        match_alerady_started_1 = False
+        match_alerady_started_2 = False
+        match_alerady_started_3 = False
+        match_alerady_started_4 = False
+        match_finished_1 = match_finished_2 = match_finished_3 = match_finished_4 = False
+        Round = tour_list[0]
+        match_1 = tour_list[1]
+        match_2 = tour_list[2]
+        match_3 = tour_list[3]
+        match_4 = tour_list[4]
+        resultat_enter = 0
+        match = [Round]
+
+        while True:
+            try:
+                if match_finished_1 and match_finished_2 and match_finished_3 and match_finished_4 == True:
+                    match.append(match_1)
+                    match.append(match_2)
+                    match.append(match_3)
+                    match.append(match_4)
+                    break
+
+                resultat_enter = self.start_end_match_view(
+                    match_finished_1=match_finished_1,
+                    match_finished_2=match_finished_2,
+                    match_finished_3=match_finished_3,
+                    match_finished_4=match_finished_4,
+                    match_alerady_started_1=match_alerady_started_1,
+                    match_alerady_started_2=match_alerady_started_2,
+                    match_alerady_started_3=match_alerady_started_3,
+                    match_alerady_started_4=match_alerady_started_4
+                )
+
+            except:
+                self.print_error_enter_int()
+                self.sub_menu_start_end_round(tour_list)
+
+            if resultat_enter == 1:
+                match_1, match_alerady_started_1, match_finished_1 = self.start_end_match(
+                    match=match_1,
+                    match_finished=match_finished_1,
+                    match_alerady_started=match_alerady_started_1
+                )
+            elif resultat_enter == 2:
+                match_2, match_alerady_started_2, match_finished_2 = self.start_end_match(
+                    match=match_2,
+                    match_finished=match_finished_2,
+                    match_alerady_started=match_alerady_started_2
+                )
+            elif resultat_enter == 3:
+                match_3, match_alerady_started_3, match_finished_3 = self.start_end_match(
+                    match=match_3,
+                    match_finished=match_finished_3,
+                    match_alerady_started=match_alerady_started_3
+                )
+            elif resultat_enter == 4:
+                match_4, match_alerady_started_4, match_finished_4 = self.start_end_match(
+                    match=match_4,
+                    match_finished=match_finished_4,
+                    match_alerady_started=match_alerady_started_4
+                )
+
+            else:
+                self.print_error_enter_int()
+                self.sub_menu_start_end_round(tour_list)
+
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_tournament(self):
@@ -390,8 +497,8 @@ class Match(TournamentMenu, PlayerMenu):
         if score_joueur_2 == None:
             score_joueur_2 = 0
 
-        joueur_1 = [ref_joueur_1, score_joueur_1]
-        joueur_2 = [ref_joueur_2, score_joueur_2]
+        joueur_1 = [ref_joueur_1, score_joueur_1, color_joueur_1]
+        joueur_2 = [ref_joueur_2, score_joueur_2, color_joueur_2]
 
         self.match_view(
             joueur_1=ref_joueur_1,
@@ -463,10 +570,11 @@ class Match(TournamentMenu, PlayerMenu):
             )
             tour_list.append(match_player)
 
+        self.sub_menu_start_end_round(tour_list=tour_list)
 
         # Sauvegarder les résultats pour chaque paire
         # TODO
-        
+
 
         # 2, 3 et 4e tour
         # Définir les paires de joueurs
