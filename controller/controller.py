@@ -6,7 +6,7 @@ from view.view_player import Player_view
 import settings
 import random
 import numpy as np
-from datetime import datetime
+import time
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -323,34 +323,36 @@ class TournamentMenu(Tournament, Tournament_view):
             match_finished,
             match_alerady_started
     ):
-        print(match)
+        ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
+        ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
+        start_match_time = match[2]
+        end_match_time = match[3]
         if not match_finished:
             if not match_alerady_started:
                 match_alerady_started = True
-                start_match_time = datetime.now()
-                match =match, start_match_time
+                start_match_time = time.time()
             else:
-                ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
-                ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
+                end_match_time = time.time()
                 score_joueur_1 = self.enter_resultat_player(ref_joueur=ref_joueur_1)
                 score_joueur_2 = 1-score_joueur_1
-                match = self.match(
-                    ref_joueur_1=ref_joueur_1,
-                    ref_joueur_2=ref_joueur_2,
-                    match_number=1,
-                    score_joueur_1=score_joueur_1,
-                    score_joueur_2=score_joueur_2,
-                    color_joueur_1=color_joueur_1,
-                    color_joueur_2=color_joueur_1
-                )
-                end_match_time = datetime.now()
-                match =match, end_match_time
                 match_finished = True
-                return match
+
         else:
             self.match_finished()
 
-        return match_alerady_started, match_finished
+        match = self.match(
+            ref_joueur_1=ref_joueur_1,
+            ref_joueur_2=ref_joueur_2,
+            match_number=1,
+            score_joueur_1=score_joueur_1,
+            score_joueur_2=score_joueur_2,
+            color_joueur_1=color_joueur_1,
+            color_joueur_2=color_joueur_2,
+            start_match_time=start_match_time,
+            end_match_time=end_match_time
+        )
+
+        return match, match_alerady_started, match_finished
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -375,6 +377,7 @@ class TournamentMenu(Tournament, Tournament_view):
                     match.append(match_2)
                     match.append(match_3)
                     match.append(match_4)
+                    return match
                     break
 
                 resultat_enter = self.start_end_match_view(
@@ -390,7 +393,7 @@ class TournamentMenu(Tournament, Tournament_view):
 
             except:
                 self.print_error_enter_int()
-                self.sub_menu_start_end_round(tour_list)
+                match = self.sub_menu_start_end_round(tour_list)
 
             if resultat_enter == 1:
                 match_1, match_alerady_started_1, match_finished_1 = self.start_end_match(
@@ -416,10 +419,9 @@ class TournamentMenu(Tournament, Tournament_view):
                     match_finished=match_finished_4,
                     match_alerady_started=match_alerady_started_4
                 )
-
             else:
                 self.print_error_enter_int()
-                self.sub_menu_start_end_round(tour_list)
+                match = self.sub_menu_start_end_round(tour_list)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -487,8 +489,9 @@ class Match(TournamentMenu, PlayerMenu):
             color_joueur_1,
             color_joueur_2,
             score_joueur_1=None,
-            score_joueur_2=None
-
+            score_joueur_2=None,
+            start_match_time=None,
+            end_match_time=None
     ):
 
         if score_joueur_1 == None:
@@ -496,6 +499,12 @@ class Match(TournamentMenu, PlayerMenu):
 
         if score_joueur_2 == None:
             score_joueur_2 = 0
+
+        if start_match_time == None:
+            start_match_time = 0
+
+        if score_joueur_2 == None:
+            end_match_time = 0
 
         joueur_1 = [ref_joueur_1, score_joueur_1, color_joueur_1]
         joueur_2 = [ref_joueur_2, score_joueur_2, color_joueur_2]
@@ -507,10 +516,12 @@ class Match(TournamentMenu, PlayerMenu):
             score_joueur_1=score_joueur_1,
             score_joueur_2=score_joueur_2,
             color_joueur_1=color_joueur_1,
-            color_joueur_2=color_joueur_1
+            color_joueur_2=color_joueur_1,
+            start_match_time=start_match_time,
+            end_match_time=end_match_time
         )
 
-        return joueur_1, joueur_2
+        return joueur_1, joueur_2, start_match_time, end_match_time
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -560,21 +571,42 @@ class Match(TournamentMenu, PlayerMenu):
 
             # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
             color_joueur_1, color_joueur_2 = self.player_color()
+            print('=====1',color_joueur_1, color_joueur_2)
 
             match_player = self.match(
                 ref_joueur_1=ref_joueur_1,
                 ref_joueur_2=ref_joueur_2,
                 match_number=k+1,
                 color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_1
+                color_joueur_2=color_joueur_2
             )
             tour_list.append(match_player)
 
-        self.sub_menu_start_end_round(tour_list=tour_list)
-
+        matchs = self.sub_menu_start_end_round(tour_list=tour_list)
+        for i in range(1, len(matchs)):
+            match_players = matchs[i]
+            ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
+            ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
+            print('=====2',color_joueur_1, color_joueur_2)
+            start_match_time = match_players[2]
+            end_match_time = match_players[3]
+            match = self.match(
+                ref_joueur_1=ref_joueur_1,
+                ref_joueur_2=ref_joueur_2,
+                match_number=i,
+                score_joueur_1=score_joueur_1,
+                score_joueur_2=score_joueur_2,
+                color_joueur_1=color_joueur_1,
+                color_joueur_2=color_joueur_2,
+                start_match_time=start_match_time,
+                end_match_time=end_match_time
+            )
+        match_players = matchs[1]
+        ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
+        ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
+        print('=====3',color_joueur_1, color_joueur_2)
         # Sauvegarder les résultats pour chaque paire
-        # TODO
-
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs)
 
         # 2, 3 et 4e tour
         # Définir les paires de joueurs

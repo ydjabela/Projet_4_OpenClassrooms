@@ -33,7 +33,9 @@ class Choice:
             color_joueur_1,
             color_joueur_2,
             score_joueur_1=None,
-            score_joueur_2=None
+            score_joueur_2=None,
+            start_match_time=None,
+            end_match_time=None
     ):
         if color_joueur_1 == 'Blanche':
             bullet_joueur_1 = u"\u2765"
@@ -41,6 +43,16 @@ class Choice:
         else:
             bullet_joueur_1 = '\033[90m' + u"\u2765" + "\x1b[0m"
             bullet_joueur_2 = u"\u2765"
+        if start_match_time != 0:
+            start_match = ' Demmarer à: {}'.format(start_match_time)
+            if end_match_time != 0:
+                end_match = ' Terminé à: {}'.format(end_match_time)
+            else:
+                end_match = "Le Match n'est pas encore Terminé"
+        else:
+            start_match = "le match n'a pas encore demmaré"
+            end_match = ''
+
         print(
             'Match N°{}:'.format(match_number),
             '\033[92m' +
@@ -50,7 +62,9 @@ class Choice:
             "VS " +
             "{} ".format(bullet_joueur_2) +
             '\033[92m' +
-            "joueur N°{} ".format(joueur_2)+"\x1b[0m" + "| Score : ({}-{})".format(score_joueur_1, score_joueur_2)
+            "joueur N°{} ".format(joueur_2)+"\x1b[0m" + "| Score : ({}-{})".format(score_joueur_1, score_joueur_2) +
+            start_match +
+            end_match
         )
 
     # ---------------------------------------------------------------------------------------------------------------------#
