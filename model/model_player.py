@@ -69,13 +69,3 @@ class Player_Stat(Database):
         return players_tried
 
     # -----------------------------------------------------------------------------------------------------------------#
-
-    def tri_points_selected_player(self, players, selected_players):
-        selected_players_list = list()
-        for selected_player in selected_players:
-            selected_players_list.append(players[selected_player])
-
-        players_tried = sorted(selected_players_list, key=lambda k: k["classement"], reverse=False)
-        return players_tried
-
-    # -----------------------------------------------------------------------------------------------------------------#

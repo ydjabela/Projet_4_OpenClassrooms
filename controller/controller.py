@@ -215,38 +215,22 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def tri_player_by_points(self, dict_points):
-        players_tried = list()
-        equal_list = list()
-        equal_tried_list = list()
+    def tri_player_by_points(self, selected_players, dict_points):
         players = self.search_player()
-        #players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
-        players_tried_dict = sorted(dict_points.items(), key=lambda t: t[1])
-        print('=============>1', players_tried_dict)
-        for k, val in players_tried_dict:
-            equal_list.append(k)
-            print('=============>2', equal_list)
-            for j, value in players_tried_dict:
-                print('=============>3', k, val, '======', j, value)
-                if j <= k:
-                    pass
-                elif j in equal_list:
-                    pass
-                else:
-                    if val == value:
-                        print('=============>3', k, val, '======', j, value)
-                        equal_list.append(j)
-                    else:
-                        players_tried = self.tri_rank_selected_player(players=players, selected_players=equal_list)
-                        print('=============>4', k, val, '======', j, value)
-                        for i in players_tried:
-                            equal_tried_list.append(i)
+        selected_players_list = list()
+        for selected_player in selected_players:
+            selected_players_list.append(players[selected_player])
+        instance_players_tried = list()
+        for i in range(len(selected_players_list)):
+            x = selected_players_list[i]
+            x1 = x["classement"]
+            x2 = dict_points[i]
+            x3 = i, x2, x1
+            instance_players_tried.append(x3)
+        players_tried_dict = sorted(instance_players_tried, key=lambda t: (t[1], -t[2]), reverse=True)
+        instance_players_tried = [i for i in range(len(players_tried_dict))]
 
-                        print('=============>5', players_tried)
-                print('=============>6', equal_list, players_tried)
-        print('=============>7', equal_list)
-        print('=============>8', players_tried)
-        return players_tried
+        return instance_players_tried
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -407,6 +391,7 @@ class TournamentMenu(Tournament, Tournament_view):
 
 
 class Match(TournamentMenu, PlayerMenu):
+
     def start_end_match(
             self,
             match,
@@ -603,14 +588,13 @@ class Match(TournamentMenu, PlayerMenu):
                 # trier par  le nombre de  points gagner
                 # triez tous les joueurs en fonction de leur nombre total de points.
                 # TODO
-                players_tried = self.tri_player_by_points(dict_points=dict_points)
+
+                players_tried = self.tri_player_by_points(selected_players=selected_players ,dict_points=dict_points)
                 self.search_player_view(players=players_tried)
                 instance_players_tried = [i for i in range(len(players_tried))]
 
                 # trier les selected_players  par classement
-                players_tried = self.tri_player_by_rang(selected_players=selected_players)
-                self.search_player_view(players=players_tried)
-                instance_players_tried = [i for i in range(len(players_tried))]
+
 
             # divisez les joueurs classés en deux moitiés
             player_list_sup = list()
