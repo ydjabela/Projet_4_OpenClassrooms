@@ -215,10 +215,39 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def tri_player_by_ponits(self, selected_players):
+    def tri_player_by_points(self, dict_points):
+        players_tried = list()
+        equal_list = list()
+        equal_tried_list = list()
         players = self.search_player()
-        players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
+        #players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
+        players_tried_dict = sorted(dict_points.items(), key=lambda t: t[1])
+        print('=============>1', players_tried_dict)
+        for k, val in players_tried_dict:
+            equal_list.append(k)
+            print('=============>2', equal_list)
+            for j, value in players_tried_dict:
+                print('=============>3', k, val, '======', j, value)
+                if j <= k:
+                    pass
+                elif j in equal_list:
+                    pass
+                else:
+                    if val == value:
+                        print('=============>3', k, val, '======', j, value)
+                        equal_list.append(j)
+                    else:
+                        players_tried = self.tri_rank_selected_player(players=players, selected_players=equal_list)
+                        print('=============>4', k, val, '======', j, value)
+                        for i in players_tried:
+                            equal_tried_list.append(i)
+
+                        print('=============>5', players_tried)
+                print('=============>6', equal_list, players_tried)
+        print('=============>7', equal_list)
+        print('=============>8', players_tried)
         return players_tried
+
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
@@ -321,8 +350,63 @@ class TournamentMenu(Tournament, Tournament_view):
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
 
-# -----------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
+    def delete_tournament(self):
+        tournaments = self.search_tournament()
+        self.search_tournament_view(tournaments=tournaments)
+        tournament_number = 0
+        if len(tournaments) == 0:
+            self.no_tournament()
+            return
+        elif len(tournaments) == 1:
+            tournament_number = 0
+        else:
+            try:
+                tournament_number = int(self.tournament_to_delete()) - 1
+            except:
+                self.print_error_enter_int()
+                self.delete_tournament()
+        self.ask_delete_tournament(tournament_number=tournament_number)
+        self.tournament_modification_save()
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def choose_tournament(self, selected_players):
+        tournaments = self.search_tournament()
+
+        tournament_number = 0
+        # Si y'a  pas de tournois
+        if len(tournaments) == 0:
+            self.no_tournament()
+            # add tournament if len(tournaments) = 0
+            serialized_tournament = self.adding_tournament(without_player=True)
+            # Sauvegarder le tournoi
+            self.save_tournament(serialized_tournament=serialized_tournament)
+            tournaments = self.search_tournament()
+            tournament_number = 0
+        # Si y'a un seul tournoi
+        elif len(tournaments) == 1:
+            tournament_number = 0
+        # Si y'a un plusieurs tournois
+        else:
+            try:
+                self.search_tournament_view(tournaments=tournaments)
+                tournament_number = int(self.tournament_to_play()) - 1
+            except:
+                self.print_error_enter_int()
+                tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
+        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs',
+                                         value=list(selected_players))
+        tournaments = self.search_tournament()
+        self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
+
+        return tournament_number, tournaments
+
+# ---------------------------------------------------------------------------------------------------------------------#
+
+
+class Match(TournamentMenu, PlayerMenu):
     def start_end_match(
             self,
             match,
@@ -431,62 +515,6 @@ class TournamentMenu(Tournament, Tournament_view):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def delete_tournament(self):
-        tournaments = self.search_tournament()
-        self.search_tournament_view(tournaments=tournaments)
-        tournament_number = 0
-        if len(tournaments) == 0:
-            self.no_tournament()
-            return
-        elif len(tournaments) == 1:
-            tournament_number = 0
-        else:
-            try:
-                tournament_number = int(self.tournament_to_delete()) - 1
-            except:
-                self.print_error_enter_int()
-                self.delete_tournament()
-        self.ask_delete_tournament(tournament_number=tournament_number)
-        self.tournament_modification_save()
-
-    # -----------------------------------------------------------------------------------------------------------------#
-
-    def choose_tournament(self, selected_players):
-        tournaments = self.search_tournament()
-
-        tournament_number = 0
-        # Si y'a  pas de tournois
-        if len(tournaments) == 0:
-            self.no_tournament()
-            # add tournament if len(tournaments) = 0
-            serialized_tournament = self.adding_tournament(without_player=True)
-            # Sauvegarder le tournoi
-            self.save_tournament(serialized_tournament=serialized_tournament)
-            tournaments = self.search_tournament()
-            tournament_number = 0
-        # Si y'a un seul tournoi
-        elif len(tournaments) == 1:
-            tournament_number = 0
-        # Si y'a un plusieurs tournois
-        else:
-            try:
-                self.search_tournament_view(tournaments=tournaments)
-                tournament_number = int(self.tournament_to_play()) - 1
-            except:
-                self.print_error_enter_int()
-                tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs',
-                                         value=list(selected_players))
-        tournaments = self.search_tournament()
-        self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
-
-        return tournament_number, tournaments
-
-# ---------------------------------------------------------------------------------------------------------------------#
-
-
-class Match(TournamentMenu, PlayerMenu):
-
     def match(
             self,
             ref_joueur_1,
@@ -545,9 +573,9 @@ class Match(TournamentMenu, PlayerMenu):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def players_points(self, ref_joueur, points):
-        points =
-
+    def players_points(self, ref_joueur, dict_points, points):
+        dict_points[ref_joueur] += points
+        return dict_points
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -556,14 +584,9 @@ class Match(TournamentMenu, PlayerMenu):
         # selectionner un tournoi à jouer
         tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
         matchs_round = list()
-        player_points_1 = 0
-        player_points_2 = 0
-        player_points_3 = 0
-        player_points_4 = 0
-        player_points_5 = 0
-        player_points_6 = 0
-        player_points_7 = 0
-        player_points_8 = 0
+        dict_points = dict()
+        for selected_player in selected_players:
+            dict_points[selected_player] = 0
 
         for round in range(1, settings.TURNS+1):
 
@@ -571,7 +594,7 @@ class Match(TournamentMenu, PlayerMenu):
             Round = 'Round {}'.format(round)
             self.round_view(Round=Round)
 
-            if Round == 1:
+            if round == 1:
                 # trier les selected_players  par classement
                 players_tried = self.tri_player_by_rang(selected_players=selected_players)
                 self.search_player_view(players=players_tried)
@@ -580,10 +603,9 @@ class Match(TournamentMenu, PlayerMenu):
                 # trier par  le nombre de  points gagner
                 # triez tous les joueurs en fonction de leur nombre total de points.
                 # TODO
-                players_tried = self.tri_player_by_points(selected_players=selected_players)
+                players_tried = self.tri_player_by_points(dict_points=dict_points)
                 self.search_player_view(players=players_tried)
                 instance_players_tried = [i for i in range(len(players_tried))]
-
 
                 # trier les selected_players  par classement
                 players_tried = self.tri_player_by_rang(selected_players=selected_players)
@@ -637,7 +659,12 @@ class Match(TournamentMenu, PlayerMenu):
                     start_match_time=start_match_time,
                     end_match_time=end_match_time
                 )
-            matchs_round.append(matchs)
+                print(score_joueur_1, score_joueur_2)
+                dict_points[ref_joueur_1] += score_joueur_1
+                dict_points[ref_joueur_2] += score_joueur_2
+
+            print(dict_points)
+
         # Sauvegarder les résultats pour chaque paire
         self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs_round)
 
