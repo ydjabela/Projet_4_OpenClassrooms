@@ -236,6 +236,24 @@ class Player_view(Msg_Player):
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    def select_player(self, players):
+        try:
+            print('les  joueurs a selectionner sont: ')
+            i = 1
+            for player in players:
+                print(i, ':', player)
+                i += 1
+            player_number = int(self.player_to_select())-1
+            selected_player = players[player_number]
+
+        except:
+            self.print_error_enter_int()
+            selected_player = self.select_player(players=players)
+
+        return selected_player
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     def view_statique_player(self, player_tri_ranking, player_tri_alphabet):
         try:
             if not len(player_tri_ranking) == 0:
@@ -282,5 +300,12 @@ class Player_view(Msg_Player):
 
         except Exception as e:
             print('Error', e)
+
+    def search_player_view_classement(self, players):
+        print('Classement des  joueurs  par ordre de classement : ')
+        print("{:<25} {:<25} {:<25}".format('Joueur', 'points', 'classement'))
+        for player in players:
+            Joueur, points, classement = player
+            print("{:<25} {:<25} {:<25}".format(Joueur, points, classement))
 
     # ---------------------------------------------------------------------------------------------------------------------#
