@@ -546,23 +546,21 @@ class Match(TournamentMenu, PlayerMenu):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def matchs_already_played_function(self, ref_joueur_1, matchs_already_played, instance_players_tried, k=1):
-        if len(instance_players_tried) == 2:
-            ref_joueur_2 = instance_players_tried[1]
-        else:
-            ref_joueur_2 = instance_players_tried[k]
+
+        ref_joueur_2 = instance_players_tried[k]
         match_to_play1 = ref_joueur_1, ref_joueur_2
         match_to_play2 = (ref_joueur_2, ref_joueur_1)
-        print('=============', match_to_play1, instance_players_tried)
-        if match_to_play1 and match_to_play2 in matchs_already_played:
-            print('========================================================================', match_to_play1, matchs_already_played)
-            k += 1
-            ref_joueur_2 = self.matchs_already_played_function(
-                ref_joueur_1=ref_joueur_1,
-                matchs_already_played=matchs_already_played,
-                instance_players_tried=instance_players_tried,
-                k=k
-            )
-
+        try:
+            if match_to_play1 and match_to_play2 in matchs_already_played:
+                k += 1
+                ref_joueur_2 = self.matchs_already_played_function(
+                    ref_joueur_1=ref_joueur_1,
+                    matchs_already_played=matchs_already_played,
+                    instance_players_tried=instance_players_tried,
+                    k=k
+                )
+        except:
+            ref_joueur_2 = instance_players_tried[1]
         return ref_joueur_2
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -573,7 +571,7 @@ class Match(TournamentMenu, PlayerMenu):
 
         # jumelé Le meilleur joueur de avec le deuxieme meilleur joueur
         tour_list = [Round]
-        for k in range(1, 4+1):
+        for k in range(1, settings.TURNS+1):
             ref_joueur_1 = instance_players_tried[0]
             ref_joueur_2 = self.matchs_already_played_function(
                 ref_joueur_1=ref_joueur_1,

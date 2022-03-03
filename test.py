@@ -53,7 +53,7 @@ def rounds_matchs(Round, matchs_already_played, instance_players_tried):
 
 matchs_already_played = [(0, 4), (4, 0), (1, 5), (5, 1), (2, 6), (6, 2), (3, 7), (7, 3)]
 
-for round in range(2, 4):
+for round in range(2, 4+1):
     instance_players_tried = [0, 6, 1, 7, 2, 3, 4, 5]
     rounds_matchs(
         Round=round,
