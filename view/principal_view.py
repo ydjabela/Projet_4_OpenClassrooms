@@ -32,8 +32,8 @@ class Choice:
             match_number,
             color_joueur_1,
             color_joueur_2,
-            score_joueur_1=None,
-            score_joueur_2=None,
+            score_joueur_1=0,
+            score_joueur_2=0,
             start_match_time=None,
             end_match_time=None
     ):
