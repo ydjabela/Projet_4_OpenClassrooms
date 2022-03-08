@@ -271,6 +271,7 @@ class TournamentMenu(Tournament, Tournament_view):
         resultat_modif = 0
         try:
             tournaments = self.search_tournament()
+            self.search_tournament_view(tournaments=tournaments)
             if len(tournaments) == 0:
                 self.no_tournament()
                 self.sub_menu_tournament_1()
@@ -298,8 +299,7 @@ class TournamentMenu(Tournament, Tournament_view):
             tour = self.tournament_tour_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='tour', value=tour)
         elif resultat_modif == 5:
-            Tournees = self.tournament_Tournees_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=Tournees)
+            self.tournament_Tournees_modification()
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
@@ -406,7 +406,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             self.match_view(
                 joueur_1=ref_joueur_1,
                 joueur_2=ref_joueur_2,
-                match_number=k + 1,
+                match_number=k,
                 color_joueur_1=color_joueur_1,
                 color_joueur_2=color_joueur_1
             )
@@ -519,6 +519,9 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                 dict_points[ref_joueur_1] += score_joueur_1
                 dict_points[ref_joueur_2] += score_joueur_2
                 matchs_round.append(match)
+
+        players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
+        self.search_player_view_classement(players=players_tried)
 
         # Sauvegarder les résultats pour chaque paire
         self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs_round)

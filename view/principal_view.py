@@ -123,7 +123,6 @@ class Choice:
 
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         try:
-
             resultat = int(input())
             if resultat > 4 or resultat <=0:
 

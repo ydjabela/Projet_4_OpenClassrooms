@@ -48,7 +48,7 @@ class Tournament(Database):
     def ask_change_tournament_value(self, tournament_number, key, value):
         self.update_tournament_data_base(tournament_number=tournament_number, key=key, value=value)
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
     def search_tournament(self):
         tournaments, table = self.database_game(select_table='tournois')

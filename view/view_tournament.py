@@ -83,9 +83,7 @@ class Tournament_view(Msg_Tournament):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def tournament_Tournees_modification(self):
-        print()
-        Tournees = input("Nouvelle Tournees: ")
-        return Tournees
+        print('\033[91m'+"\nVous ne  pouvez pas  modifier cette  partie"+ "\x1b[0m")
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -136,16 +134,7 @@ class Tournament_view(Msg_Tournament):
 
         print('\033[92m' + "Le Tournoi qui à été choisi est :" + "\x1b[0m")
         tournament = tournaments[tournament_number]
-        nom = tournament['nom']
-        lieu = tournament['lieu']
-        date = tournament['date']
-        tour = tournament['tour']
-        Tournees = tournament['Tournees']
-        Joueurs = tournament['Joueurs']
-        controle_temps = tournament['controle_temps']
-        Description = tournament['Description']
-        print("Nom: {} \nLieu: {} \nDate: {} \nTour: {} \nTournees: {}\nJoueurs: {} \nControle temps: {} \nDescription: {}".format(
-            nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description))
+        self.search_tournament_view(tournaments=[tournament])
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -165,12 +154,12 @@ class Tournament_view(Msg_Tournament):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def adding_tournament(self, without_player=False):
+    def adding_tournament(self, without_player=True):
         nom = str(input('Nom du tournoi: '))
         lieu = str(input('lieu: '))
         date = str(input('date: '))
         tour = settings.TURNS
-        Tournees = input('Tournees: ')
+        Tournees = ''
         Joueurs = ''
         if not without_player:
             Joueurs = list(input('Joueurs: '))
@@ -191,17 +180,16 @@ class Tournament_view(Msg_Tournament):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def search_tournament_view(self, tournaments):
-
+        print()
         print('\033[92m' + " Tournois:\n" + "\x1b[0m")
 
         if not len(tournaments) == 0:
-            i =1
+            i = 1
             for tournament in tournaments:
                 nom = tournament['nom']
                 lieu = tournament['lieu']
                 date = tournament['date']
                 tour = tournament['tour']
-
                 Joueurs = tournament['Joueurs']
                 controle_temps = tournament['controle_temps']
                 Description = tournament['Description']
@@ -211,7 +199,7 @@ class Tournament_view(Msg_Tournament):
                         i, nom, lieu, date, tour, Joueurs, controle_temps, Description))
 
                 Tournees = tournament['Tournees']
-                if Tournees != '':
+                if Tournees != '' and len(Tournees) == 16:
                     try:
                         match_number = 1
                         for match in Tournees:
@@ -252,16 +240,18 @@ class Tournament_view(Msg_Tournament):
                                 "VS " +
                                 "{} ".format(bullet_joueur_2) +
                                 '\033[92m' +
-                                "joueur N°{} ".format(ref_joueur_2) + "\x1b[0m" + "| Score : ({}-{})".format(score_joueur_1,
-                                                                                                         score_joueur_2) +
+                                "joueur N°{} ".format(ref_joueur_2) + "\x1b[0m" +
+                                "| Score : ({}-{})".format(score_joueur_1, score_joueur_2) +
                                 start_match +
                                 end_match
                             )
                             match_number += 1
+
                     except:
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
 
-
+                else:
+                    print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
                 i += 1
                 print('-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o')
 
