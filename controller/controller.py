@@ -358,11 +358,15 @@ class TournamentMenu(Tournament, Tournament_view):
             try:
                 self.search_tournament_view(tournaments=tournaments)
                 tournament_number = int(self.tournament_to_play()) - 1
+                self.ask_change_tournament_value(
+                    tournament_number=tournament_number,
+                    key='Joueurs',
+                    value=list(selected_players)
+                )
             except:
                 self.print_error_enter_int()
                 tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
-        self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs',
-                                         value=list(selected_players))
+
         tournaments = self.search_tournament()
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
 
