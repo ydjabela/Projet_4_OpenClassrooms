@@ -29,19 +29,17 @@ class Database:
         # suprimmer un tournois
         elif delete_tournament:
             tournament = Query()
-            table.remove(
-                tournament.nom == select_table[tournament_number]['nom']
-                and
-                tournament.lieu == select_table[tournament_number]['lieu']
-            )
+            tournament_nom_selected = select_table[tournament_number]['nom']
+            tournament_lieu_selected = select_table[tournament_number]['lieu']
+            table.remove(tournament.nom == tournament_nom_selected and tournament.lieu == tournament_lieu_selected)
 
         # suprimer un joueur
         elif delete_player:
             player = Query()
+            player_name_selected = select_table[player_number]['familly_name']
+            player_first_name_selected = select_table[player_number]['first_name']
             table.remove(
-                player.familly_name == select_table[player_number]['familly_name']
-                and
-                player.first_name == select_table[player_number]['first_name']
+                player.familly_name == player_name_selected and player.first_name == player_first_name_selected
             )
 
         return select_table, table

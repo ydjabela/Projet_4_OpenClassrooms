@@ -1,12 +1,11 @@
 import random
-import settings
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
 class Match:
-
-    def player_color(self):
+    @staticmethod
+    def player_color():
         colors = ['Noir', 'Blanche']
         color_joueur_1 = random.choice(colors)
         color_joueur_2 = [color for color in colors if color != color_joueur_1][0]
@@ -14,8 +13,8 @@ class Match:
         return color_joueur_1, color_joueur_2
 
     # -----------------------------------------------------------------------------------------------------------------#
-
-    def players_points(self, ref_joueur, dict_points, points):
+    @staticmethod
+    def players_points(ref_joueur, dict_points, points):
         dict_points[ref_joueur] += points
         return dict_points
 
@@ -35,14 +34,13 @@ class Match:
                     instance_players_tried=instance_players_tried,
                     k=k
                 )
-        except:
+        except IndexError:
             ref_joueur_2 = instance_players_tried[1]
         return ref_joueur_2
 
     # -----------------------------------------------------------------------------------------------------------------#
-
+    @staticmethod
     def match(
-            self,
             ref_joueur_1,
             ref_joueur_2,
             color_joueur_1,
@@ -53,16 +51,16 @@ class Match:
             end_match_time=None
     ):
 
-        if score_joueur_1 == None:
+        if score_joueur_1 is None:
             score_joueur_1 = 0
 
-        if score_joueur_2 == None:
+        if score_joueur_2 is None:
             score_joueur_2 = 0
 
-        if start_match_time == None:
+        if start_match_time is None:
             start_match_time = 0
 
-        if score_joueur_2 == None:
+        if score_joueur_2 is None:
             end_match_time = 0
 
         joueur_1 = [ref_joueur_1, score_joueur_1, color_joueur_1]

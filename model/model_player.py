@@ -59,8 +59,8 @@ class Player_Stat(Database):
         return tri_rank, tri_alphabet
 
     # -----------------------------------------------------------------------------------------------------------------#
-
-    def tri_rank_selected_player(self, players, selected_players):
+    @staticmethod
+    def tri_rank_selected_player(players, selected_players):
         selected_players_list = list()
         for selected_player in selected_players:
             selected_players_list.append(players[selected_player])

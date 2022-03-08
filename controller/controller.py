@@ -8,6 +8,7 @@ import settings
 import time
 import numpy as np
 
+
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
@@ -17,7 +18,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         resultat = 0
         try:
             resultat = int(self.player_sub_main_choice())
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.sub_menu_player_1()
 
@@ -85,24 +86,39 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 player_number = int(self.player_modification()) - 1
 
             resultat_modif = int(self.player_modification_spec())
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.sub_menu_player_2()
-
         if resultat_modif == 1:
             name = self.player_name_modification()
-            self.ask_change_value(player_number=player_number, key='familly_name', value=name)
+            self.ask_change_value(
+                player_number=player_number,
+                key='familly_name',
+                value=name
+            )
             self.player_modification_save()
         elif resultat_modif == 2:
             prenom = self.player_first_name_modification()
-            self.ask_change_value(player_number=player_number, key='first_name', value=prenom)
+            self.ask_change_value(
+                player_number=player_number,
+                key='first_name',
+                value=prenom
+            )
         elif resultat_modif == 3:
-            self.change_age_player(player_number=player_number)
+            self.change_age_player(
+                player_number=player_number
+            )
         elif resultat_modif == 4:
             sex = self.player_sex_modification()
-            self.ask_change_value(player_number=player_number, key='sex', value=sex)
+            self.ask_change_value(
+                player_number=player_number,
+                key='sex',
+                value=sex
+            )
         elif resultat_modif == 5:
-            self.change_classement_player(player_number=player_number)
+            self.change_classement_player(
+                player_number=player_number
+            )
         else:
             self.print_error_enter_int()
             self.sub_menu_player_2()
@@ -115,8 +131,12 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             if age <= 0 or age > 120:
                 self.print_error_enter_int_age()
                 age = self.change_age_player(player_number=player_number)
-            self.ask_change_value(player_number=player_number, key='age', value=age)
-        except:
+            self.ask_change_value(
+                player_number=player_number,
+                key='age',
+                value=age
+            )
+        except ValueError:
             self.print_error_enter_int_age()
             age = self.change_age_player(player_number=player_number)
         return age
@@ -128,11 +148,19 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             classement = int(self.player_classement_modification())
             if classement <= 0:
                 self.print_error_enter_int_age()
-                classement = self.change_classement_player(player_number=player_number)
-            self.ask_change_value(player_number=player_number, key='classement', value=classement)
-        except:
+                classement = self.change_classement_player(
+                    player_number=player_number
+                )
+            self.ask_change_value(
+                player_number=player_number,
+                key='classement',
+                value=classement
+            )
+        except ValueError:
             self.print_error_enter_int_classement()
-            classement = self.change_classement_player(player_number=player_number)
+            classement = self.change_classement_player(
+                player_number=player_number
+            )
         return classement
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -141,10 +169,10 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         players = self.search_player()
         self.search_player_view(players=players)
         try:
-            player_number = int(self.player_to_delete())-1
+            player_number = int(self.player_to_delete()) - 1
             self.ask_delete_player(player_number=player_number)
             self.player_modification_save()
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.delete_player()
 
@@ -177,7 +205,9 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
             elif len(players) > settings.nbr_player_max:
                 selected_player = self.select_player(players=first_list)
-                pos = list(np.where(np.array(second_list) == selected_player)[0])
+                pos = list(
+                    np.where(np.array(second_list) == selected_player)[0]
+                )
                 selected_players.append(int(pos[0]))
                 del first_list[first_list.index(selected_player)]
 
@@ -192,7 +222,10 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     def tri_player_by_rang(self, selected_players):
         players = self.search_player()
-        players_tried = self.tri_rank_selected_player(players=players, selected_players=selected_players)
+        players_tried = self.tri_rank_selected_player(
+            players=players,
+            selected_players=selected_players
+        )
         return players_tried
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -209,9 +242,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             points_joueur = dict_points[i]
             x3 = i, points_joueur, classement
             instance_players.append(x3)
-        players_tried_dict = sorted(instance_players, key=lambda t: (t[1], -t[2]), reverse=True)
+        players_tried_dict = sorted(
+            instance_players,
+            key=lambda t: (t[1], -t[2]),
+            reverse=True)
 
         return players_tried_dict
+
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -223,7 +260,7 @@ class TournamentMenu(Tournament, Tournament_view):
         resultat = 0
         try:
             resultat = int(self.tournament_sub_main_choice())
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.sub_menu_tournament_1()
 
@@ -281,20 +318,29 @@ class TournamentMenu(Tournament, Tournament_view):
                 tournament_number = int(self.tournament_modification()) - 1
 
             resultat_modif = int(self.tournament_modification_spec())
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
 
         if resultat_modif == 1:
             name = self.tournament_name_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='nom', value=name)
+            self.ask_change_tournament_value(
+                tournament_number=tournament_number,
+                key='nom', value=name
+            )
             self.tournament_modification_save()
         elif resultat_modif == 2:
             lieu = self.tournament_lieu_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='lieu', value=lieu)
+            self.ask_change_tournament_value(
+                tournament_number=tournament_number,
+                key='lieu', value=lieu
+            )
         elif resultat_modif == 3:
             date = self.tournament_date_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='date', value=date)
+            self.ask_change_tournament_value(
+                tournament_number=tournament_number,
+                key='date', value=date
+            )
         elif resultat_modif == 4:
             tour = self.tournament_tour_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='tour', value=tour)
@@ -329,7 +375,7 @@ class TournamentMenu(Tournament, Tournament_view):
         else:
             try:
                 tournament_number = int(self.tournament_to_delete()) - 1
-            except:
+            except ValueError:
                 self.print_error_enter_int()
                 self.delete_tournament()
         self.ask_delete_tournament(tournament_number=tournament_number)
@@ -363,7 +409,7 @@ class TournamentMenu(Tournament, Tournament_view):
                     key='Joueurs',
                     value=list(selected_players)
                 )
-            except:
+            except ValueError:
                 self.print_error_enter_int()
                 tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
 
@@ -371,6 +417,7 @@ class TournamentMenu(Tournament, Tournament_view):
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
 
         return tournament_number, tournaments
+
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -484,7 +531,8 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     # triez tous les joueurs en fonction de leur nombre total de points.
                     # et si ils ont les meme points les classé par ordre de classment
                     instance_players_tried = list()
-                    players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
+                    players_tried = self.tri_player_by_points(selected_players=selected_players,
+                                                              dict_points=dict_points)
                     self.search_player_view_classement(players=players_tried)
                     for i in range(len(players_tried)):
                         ref_joueur, points, classement = players_tried[i]
@@ -531,9 +579,10 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 
             # Sauvegarder les résultats pour chaque paire
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs_round)
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.start_playing_tournament(selected_players=selected_players)
+
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_start_end_round(self, tour_list):
@@ -552,7 +601,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 
         while True:
             try:
-                if match_finished_1 and match_finished_2 and match_finished_3 and match_finished_4 == True:
+                if match_finished_1 and match_finished_2 and match_finished_3 and match_finished_4 is True:
                     match.append(match_1)
                     match.append(match_2)
                     match.append(match_3)
@@ -571,7 +620,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     match_alerady_started_4=match_alerady_started_4
                 )
 
-            except:
+            except ValueError:
                 self.print_error_enter_int()
                 match = self.sub_menu_start_end_round(tour_list)
 
@@ -661,7 +710,7 @@ class MainMenu(Choice, Match_Menu):
         resultat = 0
         try:
             resultat = int(self.main_choice())
-        except:
+        except ValueError:
             self.print_error_enter_int()
             self.menu()
 
@@ -683,5 +732,3 @@ class MainMenu(Choice, Match_Menu):
         self.menu()
 
 #   -------------------------------------------------------------------------------------------------------------------#
-
-
