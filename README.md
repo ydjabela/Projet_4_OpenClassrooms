@@ -62,6 +62,7 @@ Cette option vous permez de gerer les tournois.
 - Supprimer tous les tournois.
 - Revenir au menu principal.
 - Quitter le script.
+
 3) Lancer une partie:
 - Le programme vous permet de gérer des tournois d'échecs. Lors de la première utilisation, 
 - Si aucun joueur n'est sont présent dans la base de donnée, vous serez invité à en créer. (8)
@@ -70,6 +71,27 @@ Cette option vous permez de gerer les tournois.
 - Si aucun tournois n'est sont présent dans la base de donnée, vous serez invité à en créer.
 - Si il existe plusieurs tournois il vous permettera de selectionner 1 tournoi.
 - Lors d'un tournoi, vous serez invité à rentrer les résultats après chaque match. A la fin d'un tournoi, un classement sera généré.
+
+5) Quiter le programme.
+
+### Mise en forme du code :
+Le code est mis en forme selon de modèle MVC.
+
+#### Controller:
+controller.py
+
+#### Model (one per class) :
+- model_tournament.py
+- model_player.py
+- model_match.py
+- database.py
+
+#### View:
+- view_tournament.py
+- view_player.py
+- principal_view.py
+#### settings
+#### base de donnée json
 
 #### Cette commande sera obligatoire à chaque fois que vous voudrez travailler avec le cours. Dans le même terminal, tapez maintenant
 ```
