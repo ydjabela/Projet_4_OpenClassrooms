@@ -4,7 +4,8 @@
 
 class Choice:
 
-    def main_choice(self):
+    @staticmethod
+    def main_choice():
         print()
         print('\033[92m' + " * * * Bienvenue sur le gestionnaire de jeu d'échec. * * * \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
@@ -20,13 +21,14 @@ class Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def message_visit(self):
+    @staticmethod
+    def message_visit():
         print('Merci pour  votre visite')
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
+    @staticmethod
     def match_view(
-            self,
             joueur_1,
             joueur_2,
             match_number,
@@ -69,12 +71,14 @@ class Choice:
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def round_view(self, Round):
+    @staticmethod
+    def round_view(Round):
         print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def match_finished(self):
+    @staticmethod
+    def match_finished():
         print('\033[91m'+"\n le match est deja fini." + "\x1b[0m")
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -166,7 +170,8 @@ class Choice:
         return resultat
     # ---------------------------------------------------------------------------------------------------------------------#
 
-    def print_error_enter_int(self):
+    @staticmethod
+    def print_error_enter_int():
         # indicates to the user that he must enter a number
 
         print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix ." + "\x1b[0m")
