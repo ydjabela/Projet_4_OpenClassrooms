@@ -15,7 +15,7 @@ class Choice:
 
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         resultat = input()
-        print('-------------------------------------------------------------------------------------------------------')
+        print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -127,7 +127,7 @@ class Choice:
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         try:
             resultat = int(input())
-            if resultat > 4 or resultat <=0:
+            if resultat > 4 or resultat <= 0:
 
                 self.print_error_enter_int()
                 resultat = self.start_end_match_view(
@@ -140,7 +140,7 @@ class Choice:
                     match_alerady_started_3=match_alerady_started_3,
                     match_alerady_started_4=match_alerady_started_4
                 )
-        except:
+        except ValueError:
             self.print_error_enter_int()
             resultat = self.start_end_match_view(
                 match_finished_1=match_finished_1,
@@ -152,7 +152,7 @@ class Choice:
                 match_alerady_started_3=match_alerady_started_3,
                 match_alerady_started_4=match_alerady_started_4
             )
-        print('-------------------------------------------------------------------------------------------------------')
+        print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -163,7 +163,7 @@ class Choice:
             if resultat not in [0, 0.5, 1]:
                 self.print_error_enter_int()
                 resultat = self.enter_resultat_player(ref_joueur)
-        except:
+        except ValueError:
             resultat = self.enter_resultat_player(ref_joueur)
             self.print_error_enter_int()
         return resultat

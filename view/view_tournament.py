@@ -21,7 +21,10 @@ class Msg_Tournament:
     @staticmethod
     def print_error_enter_int():
         # indicates to the user that he must enter a number
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix." + "\x1b[0m")
+        print('\033[91m' +
+              "\n ERREUR : vous devez entrer un chiffre correspondant à votre choix." +
+              "\x1b[0m"
+              )
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -30,7 +33,10 @@ class Tournament_view(Msg_Tournament):
 
     @staticmethod
     def tournament_sub_main_choice():
-        print('\033[92m' + "\n * * * Gestionnaire des Tournois. * * *\n" + "\x1b[0m")
+        print('\033[92m' +
+              "\n * * * Gestionnaire des Tournois. * * *\n" +
+              "\x1b[0m"
+              )
         print(" /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Ajouter un tournoi." + "\x1b[0m")
         print('\033[93m'+" 2 : modifier un tournoi." + "\x1b[0m")
@@ -39,26 +45,33 @@ class Tournament_view(Msg_Tournament):
         print('\033[93m'+" 5 : Supprimmer tous les tournois." + "\x1b[0m")
         print('\033[93m'+" 6 : Retour au menu principal." + "\x1b[0m")
         print('\033[93m'+" 7 : sortir du logiciel." + "\x1b[0m")
-        resultat = input('\033[91m'+"\nQuelle est votre choix : "+ "\x1b[0m")
-        print('-------------------------------------------------------------------------------------------------------')
+        resultat = input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
+        print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def tournament_modification_spec():
-        print('\033[92m' + " \n* * * Modification des tournois. * * *\n"+ "\x1b[0m")
+        print('\033[92m' +
+              " \n* * * Modification des tournois. * * *\n" +
+              "\x1b[0m"
+              )
         print(" /// Selectionnez le menu souhaité. /// \n")
-        print('\033[93m'+" 1 : Modifier le Nom."+ "\x1b[0m")
-        print('\033[93m'+" 2 : Modifier le Lieu."+ "\x1b[0m")
-        print('\033[93m'+" 3 : Modifier la Date."+ "\x1b[0m")
-        print('\033[93m'+" 4 : Modifier le Tour."+ "\x1b[0m")
-        print('\033[93m'+" 5 : Modifier la Tournees."+ "\x1b[0m")
-        print('\033[93m'+" 6 : Modifier le Joueurs."+ "\x1b[0m")
-        print('\033[93m'+" 7 : Modifier le controle_temps."+ "\x1b[0m")
-        print('\033[93m'+" 8 : Modifier le Description."+ "\x1b[0m")
+        print('\033[93m'+" 1 : Modifier le Nom." + "\x1b[0m")
+        print('\033[93m'+" 2 : Modifier le Lieu." + "\x1b[0m")
+        print('\033[93m'+" 3 : Modifier la Date." + "\x1b[0m")
+        print('\033[93m'+" 4 : Modifier le Tour." + "\x1b[0m")
+        print('\033[93m'+" 5 : Modifier la Tournees." + "\x1b[0m")
+        print('\033[93m'+" 6 : Modifier le Joueurs." + "\x1b[0m")
+        print('\033[93m'+" 7 : Modifier le controle_temps." + "\x1b[0m")
+        print('\033[93m'+" 8 : Modifier le Description." + "\x1b[0m")
 
-        resultat = input('\033[91m'+"Numero de l'élement de la  modif: "+ "\x1b[0m")
+        resultat = input(
+            '\033[91m' +
+            "Numero de l'élement de la  modif: " +
+            "\x1b[0m"
+        )
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -93,14 +106,18 @@ class Tournament_view(Msg_Tournament):
 
     @staticmethod
     def tournament_tournees_modification():
-        print('\033[91m'+"\nVous ne  pouvez pas  modifier cette  partie" + "\x1b[0m")
+        print(
+            '\033[91m' +
+            "\nVous ne  pouvez pas  modifier cette  partie" +
+            "\x1b[0m"
+        )
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def tournament_Joueurs_modification():
-        Joueurs = input("\nNouveaux Joueurs: ")
-        return Joueurs
+        Joueur = input("\nNouveau Joueur: ")
+        return Joueur
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -120,28 +137,48 @@ class Tournament_view(Msg_Tournament):
 
     @staticmethod
     def no_tournament():
-        print('\033[92m' + 'la liste des tournois est vide' + "\x1b[0m")
+        print(
+            '\033[92m' +
+            'la liste des tournois est vide' +
+            "\x1b[0m"
+        )
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def one_tournament_existed():
-        print('\033[92m' + 'il existe  un seul tournois' + "\x1b[0m")
+        print(
+            '\033[92m' +
+            'il existe  un seul tournois' +
+            "\x1b[0m"
+        )
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def tournament_to_delete():
-        print('\n\033[92m' + " * * * Modification des tournois. * * *\n" + "\x1b[0m")
+        print(
+            '\n\033[92m' +
+            " * * * Modification des tournois. * * *\n" +
+            "\x1b[0m"
+        )
 
-        resultat = input('\033[91m'+"Numéro  de tournoi que vous souhaité supprimer: " + "\x1b[0m")
+        resultat = input(
+            '\033[91m' +
+            "Numéro  de tournoi que vous souhaité supprimer: " +
+            "\x1b[0m"
+        )
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def tournament_to_play():
-        resultat = input('\033[91m'+"\nNuméro  de tournoi que vous souhaité commencé a jouer: " + "\x1b[0m")
+        resultat = input(
+            '\033[91m' +
+            "\nNuméro  de tournoi que vous souhaité commencé a jouer: " +
+            "\x1b[0m"
+        )
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -162,9 +199,16 @@ class Tournament_view(Msg_Tournament):
 
     @staticmethod
     def tournament_modification():
-        print('\033[92m' + "\n * * * Modification des tournois. * * *\n" + "\x1b[0m")
-
-        resultat = input('\033[91m'+"Numéro  de tournoi que vous souhaité modifier: " + "\x1b[0m")
+        print(
+            '\033[92m' +
+            "\n * * * Modification des tournois. * * *\n" +
+            "\x1b[0m"
+        )
+        resultat = input(
+            '\033[91m' +
+            "Numéro  de tournoi que vous souhaité modifier: " +
+            "\x1b[0m"
+        )
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -261,14 +305,12 @@ class Tournament_view(Msg_Tournament):
                             )
                             match_number += 1
 
-                    except:
+                    except ValueError and IndexError:
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
 
                 else:
                     print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
                 i += 1
-                print('-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-')
+                print('-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-')
 
 # ---------------------------------------------------------------------------------------------------------------------#
-
-

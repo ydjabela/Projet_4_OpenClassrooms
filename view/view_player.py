@@ -12,7 +12,11 @@ class Msg_Player:
     @staticmethod
     def print_error_enter_int_classement():
         # indicates to the user that he must enter a number
-        print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! ." + "\x1b[0m")
+        print(
+            '\033[91m' +
+            "\n ERREUR : vous devez entrer un chiffre correspondant au classement du joueur! ." +
+            "\x1b[0m"
+        )
 
     @staticmethod
     def print_error_enter_int():
@@ -56,7 +60,7 @@ class Player_view(Msg_Player):
         print('\033[93m'+" 7 : Retour au menu principal." + "\x1b[0m")
         print('\033[93m'+" 8 : sortir du logiciel." + "\x1b[0m")
         resultat = input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
-        print('-------------------------------------------------------------------------------------------------------')
+        print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -114,7 +118,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def no_player():
-        print('\033[92m' +'la liste des joueurs est vide' + "\x1b[0m")
+        print('\033[92m' + 'la liste des joueurs est vide' + "\x1b[0m")
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -145,7 +149,7 @@ class Player_view(Msg_Player):
             if age <= 0 or age > 120:
                 self.print_error_enter_int_age()
                 age = self.add_age()
-        except:
+        except ValueError:
             self.print_error_enter_int_age()
             age = self.add_age()
         return age
@@ -158,7 +162,7 @@ class Player_view(Msg_Player):
             if Classement <= 0:
                 self.print_error_enter_int_age()
                 Classement = self.add_classement()
-        except:
+        except ValueError:
             self.print_error_enter_int_classement()
             Classement = self.add_classement()
         return Classement
@@ -239,7 +243,7 @@ class Player_view(Msg_Player):
             player_number = int(self.player_to_select())-1
             selected_player = players[player_number]
 
-        except:
+        except ValueError:
             self.print_error_enter_int()
             selected_player = self.select_player(players=players)
 
