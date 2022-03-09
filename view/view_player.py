@@ -31,15 +31,13 @@ class Msg_Player:
 
     @staticmethod
     def message_player_max():
-        print()
-        print('\033[91m'+'Le nombre maximum des joueurs est atteint' + "\x1b[0m")
+        print('\033[91m'+'\nLe nombre maximum des joueurs est atteint' + "\x1b[0m")
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def message_selection_complete():
-        print()
-        print('\033[91m'+'La selection des  joueur est complete' + "\x1b[0m")
+        print('\033[91m'+'\nLa selection des  joueur est complete' + "\x1b[0m")
     # -----------------------------------------------------------------------------------------------------------------#
 
 
@@ -47,8 +45,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_sub_main_choice():
-        print()
-        print('\033[92m' + " * * * Gestionnaire des joueurs. * * *\n" + "\x1b[0m")
+        print('\033[92m' + "\n * * * Gestionnaire des joueurs. * * *\n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Ajouter un joueur." + "\x1b[0m")
         print('\033[93m'+" 2 : modifier un joueur." + "\x1b[0m")
@@ -58,8 +55,7 @@ class Player_view(Msg_Player):
         print('\033[93m'+" 6 : Supprimmer tous les joueurs." + "\x1b[0m")
         print('\033[93m'+" 7 : Retour au menu principal." + "\x1b[0m")
         print('\033[93m'+" 8 : sortir du logiciel." + "\x1b[0m")
-        print()
-        resultat = input('\033[91m'+"Quelle est votre choix : " + "\x1b[0m")
+        resultat = input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         print('-------------------------------------------------------------------------------------------------------')
         return resultat
 
@@ -67,10 +63,8 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_modification_spec():
-        print()
-        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
-        print()
-        print(" /// Selectionnez le menu souhaité. /// \n")
+        print('\033[92m' + "\n * * * Modification des joueurs. * * *\n" + "\x1b[0m")
+        print("\n /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Modifier le  Nom." + "\x1b[0m")
         print('\033[93m'+" 2 : Modifier le  Prenom." + "\x1b[0m")
         print('\033[93m'+" 3 : Modifier le  l'age." + "\x1b[0m")
@@ -82,31 +76,27 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_name_modification():
-        print()
-        name = input("Nouveau Nom: ")
+        name = input("\nNouveau Nom: ")
         return name
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def player_first_name_modification():
-        print()
-        prenom = input("Nouveau prénom: ")
+        prenom = input("\nNouveau prénom: ")
         return prenom
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def player_age_modification():
-        print()
-        age = input("Nouveau age: ")
+        age = input("\nNouveau age: ")
         return age
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def player_sex_modification(self):
-        print()
-        genre = input("Nouveau genre: ")
+        genre = input("\nNouveau genre: ")
         if genre not in ['m', 'M', 'f', 'F']:
             print('\033[91m' + 'Veuillez saisir M/m ou F/f' + "\x1b[0m")
             genre = self.player_sex_modification()
@@ -116,8 +106,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_classement_modification():
-        print()
-        classement = input("Nouveau classement: ")
+        classement = input("\nNouveau classement: ")
 
         return classement
 
@@ -137,10 +126,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_to_delete():
-        print()
-        print('\033[92m' +" * * * Modification des joueurs. * * *\n" + "\x1b[0m")
-        print()
-
+        print('\033[92m' + "\n * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité supprimer: " + "\x1b[0m")
         return resultat
 
@@ -148,7 +134,6 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_to_select():
-
         resultat = input('\033[91m' + "Numéro  de joueur que vous souhaité selectionné: " + "\x1b[0m")
         return resultat
 
@@ -203,8 +188,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_modification_save():
-        print()
-        print('\033[92m' + " * * * Modification Terminé. * * *\n" + "\x1b[0m")
+        print('\033[92m' + "\n * * * Modification Terminé. * * *\n" + "\x1b[0m")
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -231,7 +215,6 @@ class Player_view(Msg_Player):
                         )
                     )
                     i += 1
-            print()
 
         except Exception as e:
             print('Error', e)
@@ -240,10 +223,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def player_modification():
-        print()
-        print('\033[92m' + " * * * Modification des joueurs. * * *\n" + "\x1b[0m")
-        print()
-
+        print('\033[92m' + "\n * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m")
         return resultat
 
@@ -290,8 +270,8 @@ class Player_view(Msg_Player):
                         )
                     )
                     i += 1
-                print()
-                print('Classement des  joueurs  par ordre alphabetique : ')
+
+                print('\nClassement des  joueurs  par ordre alphabetique : ')
                 print(
                     "{:<5} {:<25} {:<25} {:<15} {:<15} {:<15}".format(
                         "N°", "Familly name", "First name", "Age", "Sex", "Classement"
@@ -319,7 +299,7 @@ class Player_view(Msg_Player):
 
     @staticmethod
     def search_player_view_classement(players):
-        print('Classement des  joueurs  par ordre de classement : ')
+        print('\nClassement des  joueurs  par ordre de classement : ')
         print("{:<25} {:<25} {:<25}".format('Joueur', 'points', 'classement'))
         for player in players:
             Joueur, points, classement = player
