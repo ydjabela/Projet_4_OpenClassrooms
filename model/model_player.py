@@ -17,14 +17,21 @@ class Player(Database):
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Sauvegarder le joueur
-    def save_player(self, serialized_player):
+    def save_player(self):
+        serialized_player = {
+            'familly_name': self.familly_name,
+            'first_name': self.first_name,
+            'age': self.age,
+            'sex': self.sex,
+            'classement': self.classement
+        }
         self.database_game(select_table='players', serialized=serialized_player)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Supprimer un joueur
     def ask_delete_player(self, player_number):
-        self.database_game(select_table='players', player_number=player_number, delete_player=True,)
+        self.database_game(select_table='players', player_number=player_number, delete_player=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 

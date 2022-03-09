@@ -28,7 +28,17 @@ class Tournament(Database):
     # -----------------------------------------------------------------------------------------------------------------#
 
     # Sauvegarder le tournois
-    def save_tournament(self, serialized_tournament):
+    def save_tournament(self):
+        serialized_tournament = {
+            'nom': self.nom,
+            'lieu': self.lieu,
+            'date': self.date,
+            'tour': self.tour,
+            'Tournees': self.Tournees,
+            'Joueurs': self.Joueurs,
+            'controle_temps': self.controle_temps,
+            'Description': self.Description
+        }
         self.database_game(select_table='tournois', serialized=serialized_tournament)
 
     # -----------------------------------------------------------------------------------------------------------------#

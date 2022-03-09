@@ -24,9 +24,15 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
         # Ajouter un joueur.
         if resultat == 1:
-            players = self.search_player()
-            serialized_player = self.adding_player()
-            self.save_player(serialized_player)
+            familly_name, first_name, age, sex, classement = self.adding_player()
+            player = Player(
+                familly_name=familly_name,
+                first_name=first_name,
+                age=age,
+                sex=sex,
+                classement=classement
+            )
+            player.save_player()
 
         # modifier un joueur.
         elif resultat == 2:
@@ -198,8 +204,15 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             if len(players) < settings.nbr_player_max:
                 self.search_player_view(players=players)
                 self.need_add_players()
-                serialized_player = self.adding_player()
-                self.save_player(serialized_player)
+                familly_name, first_name, age, sex, classement = self.adding_player()
+                player = Player(
+                    familly_name=familly_name,
+                    first_name=first_name,
+                    age=age,
+                    sex=sex,
+                    classement=classement
+                )
+                player.save_player()
                 players = self.search_player()
                 selected_players = [i for i in range(len(players))]
 
@@ -266,8 +279,18 @@ class TournamentMenu(Tournament, Tournament_view):
 
         # Ajouter un tournament.
         if resultat == 1:
-            serialized_tournament = self.adding_tournament()
-            self.save_tournament(serialized_tournament=serialized_tournament)
+            nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description = self.adding_tournament()
+            tournament = Tournament(
+                nom=nom,
+                lieu=lieu,
+                date=date,
+                tour=tour,
+                Tournees=Tournees,
+                Joueurs=Joueurs,
+                controle_temps=controle_temps,
+                Description=Description
+            )
+            tournament.save_tournament()
 
         # modifier un tournament.
         elif resultat == 2:
@@ -345,7 +368,7 @@ class TournamentMenu(Tournament, Tournament_view):
             tour = self.tournament_tour_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='tour', value=tour)
         elif resultat_modif == 5:
-            self.tournament_Tournees_modification()
+            self.tournament_tournees_modification()
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
@@ -391,14 +414,25 @@ class TournamentMenu(Tournament, Tournament_view):
         if len(tournaments) == 0:
             self.no_tournament()
             # add tournament if len(tournaments) = 0
-            serialized_tournament = self.adding_tournament(without_player=True)
+            nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description = self.adding_tournament(
+                without_player=True
+            )
+            # creation object tournament
+            tournament = Tournament(
+                nom=nom,
+                lieu=lieu,
+                date=date,
+                tour=tour,
+                Tournees=Tournees,
+                Joueurs=Joueurs,
+                controle_temps=controle_temps,
+                Description=Description
+            )
             # Sauvegarder le tournoi
-            self.save_tournament(serialized_tournament=serialized_tournament)
-            tournaments = self.search_tournament()
-            tournament_number = 0
+            tournament.save_tournament()
         # Si y'a un seul tournoi
         elif len(tournaments) == 1:
-            tournament_number = 0
+            self.one_tournament_existed()
         # Si y'a un plusieurs tournois
         else:
             try:
@@ -409,7 +443,7 @@ class TournamentMenu(Tournament, Tournament_view):
                     key='Joueurs',
                     value=list(selected_players)
                 )
-            except ValueError:
+            except ValueError and IndexError:
                 self.print_error_enter_int()
                 tournament_number, tournaments = self.choose_tournament(selected_players=selected_players)
 
