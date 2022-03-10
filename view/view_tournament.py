@@ -233,7 +233,7 @@ class Tournament_view(Msg_Tournament):
     @staticmethod
     def search_tournament_view(tournaments):
         print('\033[92m' + " \nTournois:\n" + "\x1b[0m")
-
+        dict_points = dict()
         if not len(tournaments) == 0:
             i = 1
             for tournament in tournaments:
@@ -255,6 +255,8 @@ class Tournament_view(Msg_Tournament):
                     "Controle temps: {} \n"
                     "Description: {}".format(
                         i, nom, lieu, date, tour, Joueurs, controle_temps, Description))
+                for joueur in Joueurs:
+                    dict_points[joueur] = 0
 
                 Tournees = tournament['Tournees']
                 if Tournees != '' and len(Tournees) == 16:
@@ -304,7 +306,16 @@ class Tournament_view(Msg_Tournament):
                                 end_match
                             )
                             match_number += 1
+                            dict_points[ref_joueur_1] += score_joueur_1
+                            dict_points[ref_joueur_2] += score_joueur_2
+                        sorted_points = sorted(dict_points.items(), key=lambda t: t[1], reverse=True)
+                        print('\033[92m' + " \nClassement des joueurs  par  nombre de  points:" + "\x1b[0m")
 
+                        print("{:<25} {:<25} {:<25}".format("Classement", "joueurs", "Points"))
+                        i = 1
+                        for key, value in sorted_points:
+                            print("{:<25} {:<25} {:<25}".format(i, key, value))
+                            i += 1
                     except ValueError and IndexError:
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
 
