@@ -259,7 +259,7 @@ class Tournament_view(Msg_Tournament):
                     dict_points[joueur] = 0
 
                 Tournees = tournament['Tournees']
-                if Tournees != '' and len(Tournees) == 16:
+                if Tournees != '':
                     try:
                         match_number = 1
                         for match in Tournees:

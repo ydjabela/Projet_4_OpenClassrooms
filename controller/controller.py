@@ -424,7 +424,7 @@ class TournamentMenu(Tournament, Tournament_view):
                 date=date,
                 tour=tour,
                 Tournees=Tournees,
-                Joueurs=Joueurs,
+                Joueurs=selected_players,
                 controle_temps=controle_temps,
                 Description=Description
             )
@@ -511,8 +511,40 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             matchs_already_played = list()
             for selected_player in selected_players:
                 dict_points[selected_player] = 0
+            tournament = tournaments[tournament_number]
+            Tournees = tournament['Tournees']
+            start_round = 1
+            if Tournees == '':
+                start_round = 1
+            else:
+                tournee_length = len(Tournees)
+                if tournee_length == 4:
+                    start_round = 2
+                elif tournee_length == 8:
+                    start_round = 3
+                elif tournee_length == 12:
+                    start_round = 4
+                else:
+                    # check if  he need to restart or quit
+                    resultat = 0
+                    try:
+                        resultat = int(self.restart_round_choice())
+                    except ValueError:
+                        self.print_error_enter_int()
+                        self.start_playing_tournament(selected_players=selected_players)
 
-            for round in range(1, settings.TURNS + 1):
+                    if resultat == 1:
+                        start_round = 1
+
+                    elif resultat == 2:
+                        self.message_retour()
+                        self.menu()
+                        return
+                    else:
+                        self.print_error_enter_int()
+                        self.start_playing_tournament(selected_players=selected_players)
+
+            for round in range(start_round, settings.TURNS + 1):
 
                 # 1 er tour
                 Round = 'Round {}'.format(round)
@@ -608,11 +640,16 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     dict_points[ref_joueur_2] += score_joueur_2
                     matchs_round.append(match)
 
+                # Sauvegarder les résultats pour chaque paire
+                self.ask_change_tournament_value(
+                    tournament_number=tournament_number,
+                    key='Tournees',
+                    value=matchs_round
+                )
+
             players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
             self.search_player_view_classement(players=players_tried)
 
-            # Sauvegarder les résultats pour chaque paire
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='Tournees', value=matchs_round)
         except ValueError:
             self.print_error_enter_int()
             self.start_playing_tournament(selected_players=selected_players)
@@ -682,6 +719,10 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     match_finished=match_finished_4,
                     match_alerady_started=match_alerady_started_4
                 )
+            elif resultat_enter == 5:
+                self.message_retour()
+                self.menu()
+                return
             else:
                 self.print_error_enter_int()
                 match = self.sub_menu_start_end_round(tour_list)

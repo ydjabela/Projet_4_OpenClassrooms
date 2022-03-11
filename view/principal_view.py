@@ -68,18 +68,29 @@ class Choice:
             end_match
         )
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def round_view(Round):
         print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
 
-    # ---------------------------------------------------------------------------------------------------------------------#
+    @staticmethod
+    def restart_round_choice():
+        print("\n /// Selectionnez le menu souhaité. /// \n")
+        print('\033[93m' + " 1 : Redemarrer le tournoi." + "\x1b[0m")
+        print('\033[93m' + " 2 : Sortir du tournoi." + "\x1b[0m")
+        print('\033[91m' + "\nQuelle est votre choix : " + "\x1b[0m")
+        resultat = input()
+        print('-----------------------------------------------------------------------------------------------------')
+        return resultat
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def match_finished():
         print('\033[91m'+"\n le match est deja fini." + "\x1b[0m")
-# ---------------------------------------------------------------------------------------------------------------------#
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
     def start_end_match_view(
             self,
@@ -123,11 +134,11 @@ class Choice:
                 print('\033[93m'+" 4 : Démarrer le match 4." + "\x1b[0m")
         else:
             print('\033[93m'+" 4 : le Match 4 est terminé." + "\x1b[0m")
-
+        print('\033[93m' + " 5 : Quitter le tournoi." + "\x1b[0m")
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         try:
             resultat = int(input())
-            if resultat > 4 or resultat <= 0:
+            if resultat > 5 or resultat <= 0:
 
                 self.print_error_enter_int()
                 resultat = self.start_end_match_view(
