@@ -35,8 +35,8 @@ class Choice:
             color_joueur_2,
             score_joueur_1=0,
             score_joueur_2=0,
-            start_match_time=None,
-            end_match_time=None
+            start_match_time=0,
+            end_match_time=0
     ):
         if color_joueur_1 == 'Blanche':
             bullet_joueur_1 = u"\u2765"
@@ -49,9 +49,9 @@ class Choice:
             if end_match_time != 0:
                 end_match = ' Terminé à: {}'.format(end_match_time)
             else:
-                end_match = "Le Match n'est pas encore Terminé"
+                end_match = " Le Match n'est pas encore Terminé"
         else:
-            start_match = "le match n'a pas encore demmaré"
+            start_match = " le match n'est pas encore commencé"
             end_match = ''
 
         print(
@@ -99,28 +99,28 @@ class Choice:
             if match_alerady_started_1:
                 print('\033[93m'+" 1 : Arreter le match 1." + "\x1b[0m")
             else:
-                print('\033[93m'+" 1 : Démarré le match 1." + "\x1b[0m")
+                print('\033[93m'+" 1 : Démarrer le match 1." + "\x1b[0m")
         else:
             print('\033[93m'+" 1 : le Match 1 est terminé." + "\x1b[0m")
         if not match_finished_2:
             if match_alerady_started_2:
                 print('\033[93m'+" 2 : Arreter le match 2." + "\x1b[0m")
             else:
-                print('\033[93m'+" 2 : Démarré le match 2." + "\x1b[0m")
+                print('\033[93m'+" 2 : Démarrer le match 2." + "\x1b[0m")
         else:
             print('\033[93m'+" 2 : le Match 2 est terminé." + "\x1b[0m")
         if not match_finished_3:
             if match_alerady_started_3:
                 print('\033[93m'+" 3 : Arreter le match 3." + "\x1b[0m")
             else:
-                print('\033[93m'+" 3 : Démarré le match 3." + "\x1b[0m")
+                print('\033[93m'+" 3 : Démarrer le match 3." + "\x1b[0m")
         else:
             print('\033[93m'+" 3 : le Match 3 est terminé." + "\x1b[0m")
         if not match_finished_4:
             if match_alerady_started_4:
                 print('\033[93m'+" 4 : Arreter le match 4." + "\x1b[0m")
             else:
-                print('\033[93m'+" 4 : Démarré le match 4." + "\x1b[0m")
+                print('\033[93m'+" 4 : Démarrer le match 4." + "\x1b[0m")
         else:
             print('\033[93m'+" 4 : le Match 4 est terminé." + "\x1b[0m")
 
@@ -159,8 +159,9 @@ class Choice:
 
     def enter_resultat_player(self, ref_joueur):
         try:
-            resultat = int(input('\033[92m' + " resultat du joueur N°{}: ".format(ref_joueur) + "\x1b[0m"))
+            resultat = float(input('\033[92m' + " resultat du joueur N°{}: ".format(ref_joueur) + "\x1b[0m"))
             if resultat not in [0, 0.5, 1]:
+                print('her')
                 self.print_error_enter_int()
                 resultat = self.enter_resultat_player(ref_joueur)
         except ValueError:
