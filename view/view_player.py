@@ -243,7 +243,7 @@ class Player_view(Msg_Player):
             player_number = int(self.player_to_select())-1
             selected_player = players[player_number]
 
-        except ValueError:
+        except ValueError and IndexError:
             self.print_error_enter_int()
             selected_player = self.select_player(players=players)
 

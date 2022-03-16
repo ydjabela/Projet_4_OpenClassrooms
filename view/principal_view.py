@@ -172,7 +172,6 @@ class Choice:
         try:
             resultat = float(input('\033[92m' + " resultat du joueur N°{}: ".format(ref_joueur) + "\x1b[0m"))
             if resultat not in [0, 0.5, 1]:
-                print('her')
                 self.print_error_enter_int()
                 resultat = self.enter_resultat_player(ref_joueur)
         except ValueError:

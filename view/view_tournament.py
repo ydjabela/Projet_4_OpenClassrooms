@@ -312,10 +312,10 @@ class Tournament_view(Msg_Tournament):
                         print('\033[92m' + " \nClassement des joueurs  par  nombre de  points:" + "\x1b[0m")
 
                         print("{:<25} {:<25} {:<25}".format("Classement", "joueurs", "Points"))
-                        i = 1
+                        k = 1
                         for key, value in sorted_points:
                             print("{:<25} {:<25} {:<25}".format(i, key, value))
-                            i += 1
+                            k += 1
                     except ValueError and IndexError:
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
 
