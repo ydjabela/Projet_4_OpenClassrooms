@@ -15,8 +15,10 @@ import numpy as np
 class PlayerMenu(Player, Player_view, Player_Stat):
 
     def sub_menu_player_1(self):
+        # init
         resultat = 0
         try:
+            # Demander et affichage du menu gestion des joueurs
             resultat = int(self.player_sub_main_choice())
         except ValueError:
             self.print_error_enter_int()
@@ -25,6 +27,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         # Ajouter un joueur.
         if resultat == 1:
             familly_name, first_name, age, sex, classement = self.adding_player()
+            # sauvegarde du joueur ajouter
             player = Player(
                 familly_name=familly_name,
                 first_name=first_name,
@@ -32,26 +35,34 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 sex=sex,
                 classement=classement
             )
+            # modification terminer
             player.save_player()
 
         # modifier un joueur.
         elif resultat == 2:
+            # menu modification du joueur
             self.sub_menu_player_2()
 
         # Supprimmer un joueur.
         elif resultat == 3:
+            # menu supprimer un joueur
             self.delete_player()
 
         # Affichage des joueurs.
         elif int(resultat) == 4:
+            # voir les joueurs existant
             players = self.search_player()
+            # Affichage des joueurs existant
             self.search_player_view(players=players)
+            # si aucun joueur n'existe
             if len(players) == 0:
                 self.no_player()
 
         # classement des joueurs
         elif int(resultat) == 5:
+            # triage des joueur par ordre de classement et par ordre alphabetique
             player_tri_ranking, player_tri_alphabet = self.stat_classement()
+            # Affichage des statistiques
             self.view_statique_player(
                 player_tri_ranking=player_tri_ranking,
                 player_tri_alphabet=player_tri_alphabet
@@ -78,23 +89,41 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_player_2(self):
+        # init
         resultat_modif = 0
         player_number = 0
+
         try:
+            # voir les joueurs existent dans la base de donnée
             players = self.search_player()
+            # affichage des joueurs
             self.search_player_view(players=players)
+            # si aucun joueur n'existe
             if len(players) == 0:
                 self.no_player()
                 self.sub_menu_player_1()
+            # s'il existe un seul joueur
             elif len(players) == 1:
                 player_number = 0
+            # Si y a plusieurs joueurs
             else:
-                player_number = int(self.player_modification()) - 1
-
+                try:
+                    # Demander le numéro de joueur à modifier
+                    player_number = int(self.player_modification()) - 1
+                    # En cas le  player number n'existe pas
+                    if player_number > len(players):
+                        self.print_error_enter_int()
+                        self.sub_menu_player_2()
+                except ValueError:
+                    self.print_error_enter_int()
+                    self.sub_menu_player_2()
+            # Demander quels parametre de joueur qu'il faut modifier
             resultat_modif = int(self.player_modification_spec())
-        except ValueError:
+        # en cas d'erreur
+        except ValueError and IndexError:
             self.print_error_enter_int()
             self.sub_menu_player_2()
+        # Modifier le nom
         if resultat_modif == 1:
             name = self.player_name_modification()
             self.ask_change_value(
@@ -103,6 +132,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 value=name
             )
             self.player_modification_save()
+        # Modifier le prenom
         elif resultat_modif == 2:
             prenom = self.player_first_name_modification()
             self.ask_change_value(
@@ -110,10 +140,12 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 key='first_name',
                 value=prenom
             )
+        # modifier l'age
         elif resultat_modif == 3:
             self.change_age_player(
                 player_number=player_number
             )
+        # modifier le sex
         elif resultat_modif == 4:
             sex = self.player_sex_modification()
             self.ask_change_value(
@@ -121,10 +153,12 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 key='sex',
                 value=sex
             )
+        # modifier le classement
         elif resultat_modif == 5:
             self.change_classement_player(
                 player_number=player_number
             )
+        # Index error
         else:
             self.print_error_enter_int()
             self.sub_menu_player_2()
@@ -133,10 +167,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     def change_age_player(self, player_number):
         try:
+            # Demander de changer l'age
             age = int(self.player_age_modification())
+            # en cas l'age n'est pas inclu dans l'interval
             if age <= 0 or age > 120:
                 self.print_error_enter_int_age()
                 age = self.change_age_player(player_number=player_number)
+            # save age
             self.ask_change_value(
                 player_number=player_number,
                 key='age',
@@ -151,12 +188,15 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     def change_classement_player(self, player_number):
         try:
+            # Demander de changer le classement
             classement = int(self.player_classement_modification())
+            # en cas  le classment est  inferior ou egal a zero
             if classement <= 0:
                 self.print_error_enter_int_age()
                 classement = self.change_classement_player(
                     player_number=player_number
                 )
+            # save classement
             self.ask_change_value(
                 player_number=player_number,
                 key='classement',
@@ -172,11 +212,16 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_player(self):
+        # voir les joueurs
         players = self.search_player()
+        # Affichage
         self.search_player_view(players=players)
         try:
+            # Demander le numéro de joueur à suprimmer
             player_number = int(self.player_to_delete())
+            # Suprimer  le joueur
             self.ask_delete_player(player_number=player_number)
+            # affichage de  fin de  modification
             self.player_modification_save()
         except ValueError:
             self.print_error_enter_int()
@@ -185,17 +230,20 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def select_and_add_players(self):
+        # init
+        selected_players = list()
+        first_list = list()
+        second_list = list()
+        # chercher les joueurs existent
         players = self.search_player()
-
+        # Si aucun joueur n'existe'
         if len(players) == 0:
             self.no_player()
-        selected_players = list()
 
         # construire une liste avec les nom dee tous les joueurs
-        first_list = list()
         for player in players:
             first_list.append(player['familly_name'])
-        second_list = list()
+
         for player in players:
             second_list.append(player['familly_name'])
 
@@ -823,25 +871,28 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 class MainMenu(Choice, Match_Menu):
 
     def menu(self):
+        # init
         resultat = 0
         try:
+            # Affichage du menu principal et demander quel menu souhaiter a acceder
             resultat = int(self.main_choice())
         except ValueError:
             self.print_error_enter_int()
             self.menu()
-
+        # Gestion des joueurs
         if resultat == 1:
             self.sub_menu_player_1()
-
+        # gestion des tournois
         elif resultat == 2:
             self.sub_menu_tournament_1()
-
+        # Demmarer un tournois
         elif resultat == 3:
             self.start_playing_tournament()
+        # Quitter le programme
         elif resultat == 5:
             self.message_visit()
             exit()
-
+        # en cas d'erreur
         else:
             self.print_error_enter_int()
         self.menu()
