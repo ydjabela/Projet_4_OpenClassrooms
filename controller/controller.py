@@ -234,7 +234,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         selected_players = list()
         first_list = list()
         second_list = list()
-        # chercher les joueurs existent
+        # Chercher les joueurs existent
         players = self.search_player()
         # Si aucun joueur n'existe'
         if len(players) == 0:
@@ -247,12 +247,17 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         for player in players:
             second_list.append(player['familly_name'])
 
-        # selectionner la list des joueurs qui vont jouer la partie
+        # Selectionner la list des joueurs qui vont jouer la partie
         while len(selected_players) < settings.nbr_player_max:
+            # S'il manque des  joueurs
             if len(players) < settings.nbr_player_max:
+                # Voir les  joueurs existent
                 self.search_player_view(players=players)
+                #  Affichage de  message qu'il faut ajouter des  joueurs
                 self.need_add_players()
+                # Ajouter  un  joueur
                 familly_name, first_name, age, sex, classement = self.adding_player()
+                # créer un object player
                 player = Player(
                     familly_name=familly_name,
                     first_name=first_name,
@@ -260,35 +265,50 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                     sex=sex,
                     classement=classement
                 )
+                # sauvegarder  le  joueurs
                 player.save_player()
+                # reactuliser  les  joueurs
                 players = self.search_player()
+                # actualiser  la selection des  joueurs
                 selected_players = [i for i in range(len(players))]
-
+            # S'il existe plus de  joueur qu'ona  besoin
             elif len(players) > settings.nbr_player_max:
+                # Selectionner et afficher les joueurs a selectionner de la premiere liste
                 selected_player = self.select_player(players=first_list)
+                # Voir  la  position du joueur selectionné dans la seconde  liste
                 pos = list(
                     np.where(np.array(second_list) == selected_player)[0]
                 )
+                # Ajouter la premier  position de joueur selectionner
                 selected_players.append(int(pos[0]))
+                # Supprimmer le joueur deja selectionner de  la  premiere liste
                 del first_list[first_list.index(selected_player)]
-
+            # S'il existe le  nombre exacte des joueurs  qu'il faut
             else:
+                # Affichage des joueurs existent
                 self.search_player_view(players=players)
+                # Actualiser la liste des joueurs
                 players = self.search_player()
+                # Selectionner  la refecrence des joueurs
                 selected_players = [i for i in range(len(players))]
+                # Affichage d'un essage que la selection est complete
                 self.message_selection_complete()
         return selected_players
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def tri_player_by_rang(self, selected_players):
-        players = self.search_player()
+        # init
         instance_players = list()
+        # Voir les joueurs existent
+        players = self.search_player()
+        # Créer une  nouvelle  liste avec la selection des  joueurs et le classement
         for ref_player in selected_players:
             selected_player = players[ref_player]
             classement = selected_player["classement"]
             x2 = ref_player, classement
             instance_players.append(x2)
+        # trier la  liste des  joueurs par classement
         players_tried = sorted(
             instance_players,
             key=lambda t: (t[1]),
@@ -298,21 +318,23 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def tri_player_by_points(self, selected_players, dict_points):
-        players = self.search_player()
+        # init
         instance_players = list()
+        # Voir les joueurs existent
+        players = self.search_player()
+        # Créer une  nouvelle  liste avec la selection des  joueurs, par  points et le classement
         for ref_player in selected_players:
             selected_player = players[ref_player]
             classement = selected_player["classement"]
             points_joueur = dict_points[ref_player]
             x3 = ref_player, points_joueur, classement
             instance_players.append(x3)
+        # trier la  liste des  joueurs par ponits  puis par classement
         players_tried_dict = sorted(
             instance_players,
             key=lambda t: (t[1], -t[2]),
             reverse=True)
-
         return players_tried_dict
-
 
 # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -746,6 +768,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_start_end_round(self, tour_list):
+        # init
         match_alerady_started_1 = False
         match_alerady_started_2 = False
         match_alerady_started_3 = False
