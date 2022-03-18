@@ -342,8 +342,9 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 class TournamentMenu(Tournament, Tournament_view):
 
     def sub_menu_tournament_1(self):
-
+        # init
         resultat = 0
+        #  Menu tournois
         try:
             resultat = int(self.tournament_sub_main_choice())
         except ValueError:
@@ -363,6 +364,7 @@ class TournamentMenu(Tournament, Tournament_view):
                 controle_temps=controle_temps,
                 Description=Description
             )
+            # SAuvegarder un Tournoi
             tournament.save_tournament()
 
         # modifier un tournament.
@@ -400,11 +402,15 @@ class TournamentMenu(Tournament, Tournament_view):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_tournament_2(self):
+        # Init
         tournament_number = 0
         resultat_modif = 0
+        #  menu modification d'un  tournoi
         try:
+            # voir le nombre de tournois
             tournaments = self.search_tournament()
             self.search_tournament_view(tournaments=tournaments)
+
             if len(tournaments) == 0:
                 self.no_tournament()
                 self.sub_menu_tournament_1()
@@ -417,7 +423,7 @@ class TournamentMenu(Tournament, Tournament_view):
         except ValueError:
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
-
+        # modifier  le  nom
         if resultat_modif == 1:
             name = self.tournament_name_modification()
             self.ask_change_tournament_value(
@@ -425,26 +431,32 @@ class TournamentMenu(Tournament, Tournament_view):
                 key='nom', value=name
             )
             self.tournament_modification_save()
+        # modifier le  lieu
         elif resultat_modif == 2:
             lieu = self.tournament_lieu_modification()
             self.ask_change_tournament_value(
                 tournament_number=tournament_number,
                 key='lieu', value=lieu
             )
+        # modifier la date
         elif resultat_modif == 3:
             date = self.tournament_date_modification()
             self.ask_change_tournament_value(
                 tournament_number=tournament_number,
                 key='date', value=date
             )
+        # modifier nombre de tour
         elif resultat_modif == 4:
             tour = self.tournament_tour_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='tour', value=tour)
+        # modifier la tournee
         elif resultat_modif == 5:
             self.tournament_tournees_modification()
+        # modifier les joueurs
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
+
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps',
@@ -460,20 +472,24 @@ class TournamentMenu(Tournament, Tournament_view):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def delete_tournament(self):
+        # Init
+        tournament_number = 0
+        # voir les tournois existent
         tournaments = self.search_tournament()
         self.search_tournament_view(tournaments=tournaments)
-        tournament_number = 0
         if len(tournaments) == 0:
             self.no_tournament()
             return
         elif len(tournaments) == 1:
             tournament_number = 0
         else:
+            # Selectionner  le joueur a supprimer
             try:
                 tournament_number = int(self.tournament_to_delete()) - 1
             except ValueError:
                 self.print_error_enter_int()
                 self.delete_tournament()
+        # Supprimer le joueur selctionner
         self.ask_delete_tournament(tournament_number=tournament_number)
         self.tournament_modification_save()
 
@@ -548,6 +564,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
             color_joueur_1, color_joueur_2 = self.player_color()
 
+            # instance match
             match_player = self.match(
                 ref_joueur_1=ref_joueur_1,
                 ref_joueur_2=ref_joueur_2,
@@ -567,6 +584,10 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def start_playing_tournament(self):
+        # Init
+        matchs_round = list()
+        dict_points = dict()
+        matchs_already_played = list()
         # selectionner un tournoi à jouer
         tournament_number, tournaments = self.choose_tournament()
         tournament = tournaments[tournament_number]
@@ -586,17 +607,18 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
         # Si les joueurs sont deja selectionnés
         else:
             selected_players = joueurs
+        #
         try:
-            matchs_round = list()
-            dict_points = dict()
-            matchs_already_played = list()
             for selected_player in selected_players:
                 dict_points[selected_player] = 0
+            # verifier la tournée
             Tournees = tournament['Tournees']
 
             start_round = 1
+            # si aucune tournee n'existe
             if Tournees == '':
                 start_round = 1
+            # S'il existe aumoins  une tournee voir  le  nombre de  match qui ont ete  jouer deja
             else:
                 for match in Tournees:
                     matchs_round.append(match)
@@ -641,7 +663,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     else:
                         self.print_error_enter_int()
                         self.start_playing_tournament()
-
+            # Demarrer  le  round
             for round in range(start_round, settings.TURNS + 1):
 
                 # 1 er tour
@@ -751,13 +773,13 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     dict_points[ref_joueur_2] += score_joueur_2
                     matchs_round.append(match)
 
-                # Sauvegarder les résultats pour chaque paire
+                # Sauvegarder les résultats pour chaque paire de joueur
                 self.ask_change_tournament_value(
                     tournament_number=tournament_number,
                     key='Tournees',
                     value=matchs_round
                 )
-
+            # triage final
             players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
             self.search_player_view_classement(players=players_tried)
 
@@ -781,7 +803,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
         match_4 = tour_list[4]
         resultat_enter = 0
         match = [Round]
-
+        # Demander de demarrer un match  ou de  le finir
         while True:
             try:
                 if match_finished_1 and match_finished_2 and match_finished_3 and match_finished_4 is True:
@@ -806,31 +828,35 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             except ValueError:
                 self.print_error_enter_int()
                 match = self.sub_menu_start_end_round(tour_list)
-
+            # Demmarrer ou finir  le match  n° 1
             if resultat_enter == 1:
                 match_1, match_alerady_started_1, match_finished_1 = self.start_end_match(
                     match=match_1,
                     match_finished=match_finished_1,
                     match_alerady_started=match_alerady_started_1
                 )
+            # Demmarrer ou finir  le match  n° 2
             elif resultat_enter == 2:
                 match_2, match_alerady_started_2, match_finished_2 = self.start_end_match(
                     match=match_2,
                     match_finished=match_finished_2,
                     match_alerady_started=match_alerady_started_2
                 )
+            # Demmarrer ou finir  le match  n° 3
             elif resultat_enter == 3:
                 match_3, match_alerady_started_3, match_finished_3 = self.start_end_match(
                     match=match_3,
                     match_finished=match_finished_3,
                     match_alerady_started=match_alerady_started_3
                 )
+            # Demmarrer ou finir  le match  n° 4
             elif resultat_enter == 4:
                 match_4, match_alerady_started_4, match_finished_4 = self.start_end_match(
                     match=match_4,
                     match_finished=match_finished_4,
                     match_alerady_started=match_alerady_started_4
                 )
+            # Arreter la tournee et le tournoi
             elif resultat_enter == 5:
                 self.message_retour()
                 self.menu()
@@ -847,23 +873,30 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             match_finished,
             match_alerady_started
     ):
+        # Init
         ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
         ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
         start_match_time = match[2]
         end_match_time = match[3]
+        # Si le match n'est pas fini
         if not match_finished:
+            # Si le  match n'a pas demarrer
             if not match_alerady_started:
                 match_alerady_started = True
+                # Date de debut de match
                 start_match_time = time.time()
             else:
+                # Date de fin de  match
                 end_match_time = time.time()
+                # demander le score du joueur
                 score_joueur_1 = self.enter_resultat_player(ref_joueur=ref_joueur_1)
+                # Conclur le resultat de 2 eme joueur
                 score_joueur_2 = 1 - score_joueur_1
                 match_finished = True
-
+        # Si le  match est fini
         else:
             self.match_finished()
-
+        # instance match
         match = self.match(
             ref_joueur_1=ref_joueur_1,
             ref_joueur_2=ref_joueur_2,
@@ -874,6 +907,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             start_match_time=start_match_time,
             end_match_time=end_match_time
         )
+        # Affichage du match
         self.match_view(
             joueur_1=ref_joueur_1,
             joueur_2=ref_joueur_2,
