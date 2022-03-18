@@ -6,7 +6,9 @@ import random
 class Match:
     @staticmethod
     def player_color():
+        # Choix de couleur
         colors = ['Noir', 'Blanche']
+        # Couleur du joueur 1
         color_joueur_1 = random.choice(colors)
         color_joueur_2 = [color for color in colors if color != color_joueur_1][0]
 
@@ -15,17 +17,20 @@ class Match:
     # -----------------------------------------------------------------------------------------------------------------#
     @staticmethod
     def players_points(ref_joueur, dict_points, points):
+        # Ajouter les points pour le  joueur
         dict_points[ref_joueur] += points
         return dict_points
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def matchs_already_played_function(self, ref_joueur_1, matchs_already_played, instance_players_tried, k=1):
-
+        # Init
         ref_joueur_2 = instance_players_tried[k]
         match_to_play1 = ref_joueur_1, ref_joueur_2
         match_to_play2 = (ref_joueur_2, ref_joueur_1)
+
         try:
+            # Voir si le  match a ete deja jouer
             if match_to_play1 and match_to_play2 in matchs_already_played:
                 k += 1
                 ref_joueur_2 = self.matchs_already_played_function(
@@ -50,7 +55,7 @@ class Match:
             start_match_time=None,
             end_match_time=None
     ):
-
+        # init
         if score_joueur_1 is None:
             score_joueur_1 = 0
 

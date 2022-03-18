@@ -4,8 +4,8 @@ from tinydb import TinyDB, Query
 
 
 class Database:
+    @staticmethod
     def database_game(
-            self,
             select_table,
             tournament_number=None,
             player_number=None,
@@ -14,6 +14,7 @@ class Database:
             delete_all=False,
             serialized=None
     ):
+        # Init
         db = TinyDB('db.json')
         table = db.table(select_table)
         select_table = table.all()
@@ -52,6 +53,7 @@ class Database:
             key,
             value
     ):
+        # Mise a jour de la table tournois
         tournaments, table = self.database_game(select_table='tournois', tournament_number=tournament_number)
         tournament = Query()
         table.update({key: value}, tournament.nom == tournaments[tournament_number]['nom'])
@@ -64,6 +66,7 @@ class Database:
             key,
             value
     ):
+        # Mise a jour de la table Player
         players, table = self.database_game(select_table='players', player_number=player_number)
         player = Query()
         table.update({key: value}, player.familly_name == players[player_number]['familly_name'])
