@@ -16,6 +16,7 @@ class Tournament(Database):
             controle_temps=None,
             Description=None
     ):
+        # Init
         self.nom = nom
         self.lieu = lieu
         self.date = date
@@ -29,6 +30,7 @@ class Tournament(Database):
 
     # Sauvegarder le tournois
     def save_tournament(self):
+        # serialisation d'un tournoi
         serialized_tournament = {
             'nom': self.nom,
             'lieu': self.lieu,
@@ -39,28 +41,31 @@ class Tournament(Database):
             'controle_temps': self.controle_temps,
             'Description': self.Description
         }
+        # Save tournoi
         self.database_game(select_table='tournois', serialized=serialized_tournament)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    # Supprimer un tournoi
     def ask_delete_tournament(self, tournament_number):
+        # Supprimer un tournoi
         self.database_game(select_table='tournois', tournament_number=tournament_number, delete_tournament=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    # Supprimer tous les tournois
     def delete_all_tournament(self):
+        # Supprimer tous les tournois
         self.database_game(select_table='tournois', delete_all=True)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def ask_change_tournament_value(self, tournament_number, key, value):
+        # Mettre a jour un tournoi
         self.update_tournament_data_base(tournament_number=tournament_number, key=key, value=value)
 
     # -----------------------------------------------------------------------------------------------------------------#
 
     def search_tournament(self):
+        # Chercher tous les tournois
         tournaments, table = self.database_game(select_table='tournois')
         return tournaments
 

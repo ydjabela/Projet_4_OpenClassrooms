@@ -4,8 +4,8 @@ from tinydb import TinyDB, Query
 
 
 class Database:
-    @staticmethod
     def database_game(
+            self,
             select_table,
             tournament_number=None,
             player_number=None,
@@ -14,27 +14,26 @@ class Database:
             delete_all=False,
             serialized=None
     ):
-        # Init
         db = TinyDB('db.json')
         table = db.table(select_table)
         select_table = table.all()
 
-        # ajout d'un  tournoi ou de joueur
+        # ajout d'un tournoi ou de joueur
         if serialized:
             table.insert(serialized)
 
-        # suprimer tout la table
+        # supprimer toute la table
         if delete_all:
             table.truncate()
 
-        # suprimmer un tournois
+        # supprimer un tournoi
         elif delete_tournament:
             tournament = Query()
             tournament_nom_selected = select_table[tournament_number]['nom']
             tournament_lieu_selected = select_table[tournament_number]['lieu']
             table.remove(tournament.nom == tournament_nom_selected and tournament.lieu == tournament_lieu_selected)
 
-        # suprimer un joueur
+        # supprimer un joueur
         elif delete_player:
             player = Query()
             player_name_selected = select_table[player_number]['familly_name']
@@ -53,7 +52,7 @@ class Database:
             key,
             value
     ):
-        # Mise a jour de la table tournois
+        # mettre a jour un element d'un tournoi
         tournaments, table = self.database_game(select_table='tournois', tournament_number=tournament_number)
         tournament = Query()
         table.update({key: value}, tournament.nom == tournaments[tournament_number]['nom'])
@@ -66,7 +65,7 @@ class Database:
             key,
             value
     ):
-        # Mise a jour de la table Player
+        # mettre a jour un element d'un joueur
         players, table = self.database_game(select_table='players', player_number=player_number)
         player = Query()
         table.update({key: value}, player.familly_name == players[player_number]['familly_name'])

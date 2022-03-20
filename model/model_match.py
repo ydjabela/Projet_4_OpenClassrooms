@@ -17,7 +17,7 @@ class Match:
     # -----------------------------------------------------------------------------------------------------------------#
     @staticmethod
     def players_points(ref_joueur, dict_points, points):
-        # Ajouter les points pour le  joueur
+        # Ajouter les points pour le joueur
         dict_points[ref_joueur] += points
         return dict_points
 
@@ -30,7 +30,7 @@ class Match:
         match_to_play2 = (ref_joueur_2, ref_joueur_1)
 
         try:
-            # Voir si le  match a ete deja jouer
+            # Voir si le match a ete deja jouer
             if match_to_play1 and match_to_play2 in matchs_already_played:
                 k += 1
                 ref_joueur_2 = self.matchs_already_played_function(
@@ -67,7 +67,7 @@ class Match:
 
         if score_joueur_2 is None:
             end_match_time = 0
-
+        # tuple joueur
         joueur_1 = [ref_joueur_1, score_joueur_1, color_joueur_1]
         joueur_2 = [ref_joueur_2, score_joueur_2, color_joueur_2]
 

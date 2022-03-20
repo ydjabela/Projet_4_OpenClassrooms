@@ -6,6 +6,7 @@ class Choice:
 
     @staticmethod
     def main_choice():
+        # Menu principal
         print('\033[92m' + "\n * * * Bienvenue sur le gestionnaire de jeu d'échec. * * * \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Gestion des joueurs." + "\x1b[0m")
@@ -22,6 +23,7 @@ class Choice:
 
     @staticmethod
     def message_visit():
+        # Message de quitter le menu
         print('Merci pour  votre visite')
 
     # ---------------------------------------------------------------------------------------------------------------------#
@@ -38,12 +40,14 @@ class Choice:
             start_match_time=0,
             end_match_time=0
     ):
+        # Init color
         if color_joueur_1 == 'Blanche':
             bullet_joueur_1 = u"\u2765"
             bullet_joueur_2 = '\033[90m' + u"\u2765" + "\x1b[0m"
         else:
             bullet_joueur_1 = '\033[90m' + u"\u2765" + "\x1b[0m"
             bullet_joueur_2 = u"\u2765"
+        # Init Temps des matchs
         if start_match_time != 0:
             start_match = ' Demmarer à: {}'.format(start_match_time)
             if end_match_time != 0:
@@ -53,7 +57,7 @@ class Choice:
         else:
             start_match = " le match n'est pas encore commencé"
             end_match = ''
-
+        # Affichage du match
         print(
             'Match N°{}:'.format(match_number),
             '\033[92m' +
@@ -72,10 +76,12 @@ class Choice:
 
     @staticmethod
     def round_view(Round):
+        # Affichage des rounds
         print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
 
     @staticmethod
     def restart_round_choice():
+        # Affichage de menu redemmarer un tournoi ou de quitter
         print("\n /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m' + " 1 : Redemarrer le tournoi." + "\x1b[0m")
         print('\033[93m' + " 2 : Sortir du tournoi." + "\x1b[0m")
@@ -88,6 +94,7 @@ class Choice:
 
     @staticmethod
     def match_finished():
+        # match finished
         print('\033[91m'+"\n le match est deja fini." + "\x1b[0m")
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -103,7 +110,7 @@ class Choice:
             match_alerady_started_3,
             match_alerady_started_4
     ):
-
+        # Affichage de menu jouer les matchs et d'inséré les resultats
         print('\033[92m' + " Démarré ou mettre fin a un match \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
         if not match_finished_1:
@@ -136,6 +143,7 @@ class Choice:
             print('\033[93m'+" 4 : le Match 4 est terminé." + "\x1b[0m")
         print('\033[93m' + " 5 : Quitter le tournoi." + "\x1b[0m")
         print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
+        # Inserer le resultat du match
         try:
             resultat = int(input())
             if resultat > 5 or resultat <= 0:
@@ -169,6 +177,7 @@ class Choice:
     # ---------------------------------------------------------------------------------------------------------------------#
 
     def enter_resultat_player(self, ref_joueur):
+        # Inserer un résultat
         try:
             resultat = float(input('\033[92m' + " resultat du joueur N°{}: ".format(ref_joueur) + "\x1b[0m"))
             if resultat not in [0, 0.5, 1]:
