@@ -65,8 +65,7 @@ class Player_view(Msg_Player):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def player_modification_spec():
+    def player_modification_spec(self):
         print('\033[92m' + "\n * * * Modification des joueurs. * * *\n" + "\x1b[0m")
         print("\n /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Modifier le  Nom." + "\x1b[0m")
@@ -75,8 +74,18 @@ class Player_view(Msg_Player):
         print('\033[93m'+" 4 : Modifier le  le sex." + "\x1b[0m")
         print('\033[93m'+" 5 : Modifier le  Classement." + "\x1b[0m")
 
-        resultat = input('\033[91m' + "Numero de l'élement de la  modif: " + "\x1b[0m")
+        try:
+            resultat = int(input('\033[91m' + "Numero de l'élement de la  modif: " + "\x1b[0m"))
+            # En cas le  player number n'existe pas
+            if resultat >= 6 or resultat < 0:
+                self.print_error_enter_int()
+                resultat = self.player_modification_spec()
+        except ValueError or IndexError:
+            self.print_error_enter_int()
+            resultat = self.player_modification_spec()
         return resultat
+
+    # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def player_name_modification():
@@ -225,10 +234,17 @@ class Player_view(Msg_Player):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def player_modification():
+    def player_modification(self, players):
         print('\033[92m' + "\n * * * Modification des joueurs. * * *\n" + "\x1b[0m")
-        resultat = input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m")
+        try:
+            resultat = int(input('\033[91m'+"Numéro  de joueur que vous souhaité modifier: " + "\x1b[0m"))
+            # En cas le  player number n'existe pas
+            if resultat >= len(players) or resultat < 0:
+                self.print_error_enter_int()
+                resultat = self.player_modification(players=players)
+        except ValueError or IndexError:
+            self.print_error_enter_int()
+            resultat = self.player_modification(players=players)
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -243,7 +259,7 @@ class Player_view(Msg_Player):
             player_number = int(self.player_to_select())-1
             selected_player = players[player_number]
 
-        except ValueError and IndexError:
+        except ValueError or IndexError:
             self.print_error_enter_int()
             selected_player = self.select_player(players=players)
 

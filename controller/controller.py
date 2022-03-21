@@ -107,20 +107,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 player_number = 0
             # Si y a plusieurs joueurs
             else:
-                try:
-                    # Demander le numéro de joueur à modifier
-                    player_number = int(self.player_modification()) - 1
-                    # En cas le  player number n'existe pas
-                    if player_number > len(players):
-                        self.print_error_enter_int()
-                        self.sub_menu_player_2()
-                except ValueError:
-                    self.print_error_enter_int()
-                    self.sub_menu_player_2()
+                # Demander le numéro de joueur à modifier
+                player_number = self.player_modification(players=players)
+
             # Demander quels parametre de joueur qu'il faut modifier
             resultat_modif = int(self.player_modification_spec())
         # en cas d'erreur
-        except ValueError and IndexError:
+        except ValueError or IndexError:
             self.print_error_enter_int()
             self.sub_menu_player_2()
         # Modifier le nom
@@ -526,7 +519,7 @@ class TournamentMenu(Tournament, Tournament_view):
             try:
                 self.search_tournament_view(tournaments=tournaments)
                 tournament_number = int(self.tournament_to_play()) - 1
-            except ValueError and IndexError:
+            except ValueError or IndexError:
                 self.print_error_enter_int()
                 tournament_number, tournaments = self.choose_tournament()
 

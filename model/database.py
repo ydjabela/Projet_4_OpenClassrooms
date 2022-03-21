@@ -55,7 +55,12 @@ class Database:
         # mettre a jour un element d'un tournoi
         tournaments, table = self.database_game(select_table='tournois', tournament_number=tournament_number)
         tournament = Query()
-        table.update({key: value}, tournament.nom == tournaments[tournament_number]['nom'])
+        tournament_nom_selected = tournaments[tournament_number]['nom']
+        tournament_lieu_selected = tournaments[tournament_number]['lieu']
+        table.update(
+            {key: value},
+            tournament.nom == tournament_nom_selected and tournament.lieu == tournament_lieu_selected
+        )
 
     # ---------------------------------------------------------------------------------------------------------------------#
 
@@ -68,6 +73,11 @@ class Database:
         # mettre a jour un element d'un joueur
         players, table = self.database_game(select_table='players', player_number=player_number)
         player = Query()
-        table.update({key: value}, player.familly_name == players[player_number]['familly_name'])
+        player_name_selected = players[player_number]['familly_name']
+        player_first_name_selected = players[player_number]['first_name']
+        table.update(
+            {key: value},
+            player.familly_name == player_name_selected and player.first_name == player_first_name_selected
+        )
 
 # ---------------------------------------------------------------------------------------------------------------------#
