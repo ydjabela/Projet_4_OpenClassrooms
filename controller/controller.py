@@ -227,13 +227,13 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         second_list = first_list.copy()
         # Selectionner la list des joueurs qui vont jouer la partie
         while len(selected_players) < settings.nbr_player_max:
-            # S'il manque des  joueurs
+            # S'il manque des joueurs
             if len(players) < settings.nbr_player_max:
-                # Voir les  joueurs existent
+                # Voir les joueurs existent
                 self.search_player_view(players=players)
-                #  Affichage de  message qu'il faut ajouter des  joueurs
+                #  Affichage de message qu'il faut ajouter des  joueurs
                 self.need_add_players()
-                # Ajouter  un  joueur
+                # Ajouter un joueur
                 familly_name, first_name, age, sex, classement = self.adding_player()
                 # créer un object player
                 player = Player(
@@ -243,17 +243,17 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                     sex=sex,
                     classement=classement
                 )
-                # sauvegarder  le  joueurs
+                # sauvegarder le joueur
                 player.save_player()
-                # reactuliser  les  joueurs
+                # reactualiser les joueurs
                 players = self.search_player()
-                # actualiser  la selection des  joueurs
+                # actualiser la selection des  joueurs
                 selected_players = [i for i in range(len(players))]
-            # S'il existe plus de  joueur qu'ona  besoin
+            # S'il existe plus de joueur qu'on a besoin
             elif len(players) > settings.nbr_player_max:
                 # Selectionner et afficher les joueurs a selectionner de la premiere liste
                 selected_player = self.select_player(players=first_list)
-                # Voir  la  position du joueur selectionné dans la seconde  liste
+                # Voir la position du joueur selectionné dans la seconde  liste
                 pos = list(
                     np.where(np.array(second_list) == selected_player)[0]
                 )
@@ -552,9 +552,8 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def round_1(self, selected_players, matchs_already_played):
+    def round_1(self, tour_list, selected_players, matchs_already_played):
         #init
-        matchs_players = list()
         # trier les selected_players  par classement
         players_tried = self.tri_player_by_rang(selected_players=selected_players)
         # self.search_player_view(players=players_tried)
@@ -608,8 +607,8 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                 color_joueur_1=color_joueur_1,
                 color_joueur_2=color_joueur_1,
             )
-            matchs_players.append(match_player)
-        return matchs_players
+            tour_list.append(match_player)
+        return tour_list, matchs_already_played
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -638,137 +637,132 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
         else:
             selected_players = joueurs
         #
-        try:
-            for selected_player in selected_players:
-                dict_points[selected_player] = 0
-            # verifier la tournée
-            Tournees = tournament['Tournees']
+        for selected_player in selected_players:
+            dict_points[selected_player] = 0
+        # verifier la tournée
+        Tournees = tournament['Tournees']
 
+        start_round = 1
+        # si aucune tournee n'existe
+        if Tournees == '':
             start_round = 1
-            # si aucune tournee n'existe
-            if Tournees == '':
-                start_round = 1
-            # S'il existe aumoins  une tournee voir  le  nombre de  match qui ont ete  jouer deja
+        # S'il existe aumoins  une tournee voir  le  nombre de  match qui ont ete  jouer deja
+        else:
+            for match in Tournees:
+                matchs_round.append(match)
+                joueur_1, joueur_2, start_match_time, end_match_time = match
+                ref_joueur_1, score_joueur_1, color_joueur_1 = joueur_1
+                ref_joueur_2, score_joueur_2, color_joueur_2 = joueur_2
+                match_to_play_1 = ref_joueur_1, ref_joueur_2
+                match_to_play_2 = ref_joueur_2, ref_joueur_1
+                matchs_already_played.append(match_to_play_1)
+                matchs_already_played.append(match_to_play_2)
+                dict_points[ref_joueur_1] += score_joueur_1
+                dict_points[ref_joueur_2] += score_joueur_2
+
+            tournee_length = len(Tournees)
+            if tournee_length == 4:
+                start_round = 2
+            elif tournee_length == 8:
+                start_round = 3
+            elif tournee_length == 12:
+                start_round = 4
             else:
-                for match in Tournees:
-                    matchs_round.append(match)
-                    joueur_1, joueur_2, start_match_time, end_match_time = match
-                    ref_joueur_1, score_joueur_1, color_joueur_1 = joueur_1
-                    ref_joueur_2, score_joueur_2, color_joueur_2 = joueur_2
-                    match_to_play_1 = ref_joueur_1, ref_joueur_2
-                    match_to_play_2 = ref_joueur_2, ref_joueur_1
-                    matchs_already_played.append(match_to_play_1)
-                    matchs_already_played.append(match_to_play_2)
-                    dict_points[ref_joueur_1] += score_joueur_1
-                    dict_points[ref_joueur_2] += score_joueur_2
+                # check if  he need to restart or quit
+                resultat = 0
+                try:
+                    resultat = int(self.restart_round_choice())
+                except (ValueError, IndexError):
+                    self.print_error_enter_int()
+                    self.start_playing_tournament()
 
-                tournee_length = len(Tournees)
-                if tournee_length == 4:
-                    start_round = 2
-                elif tournee_length == 8:
-                    start_round = 3
-                elif tournee_length == 12:
-                    start_round = 4
+                if resultat == 1:
+                    matchs_round = list()
+                    dict_points = dict()
+                    for selected_player in selected_players:
+                        dict_points[selected_player] = 0
+                    matchs_already_played = list()
+                    start_round = 1
+
+                elif resultat == 2:
+                    self.message_retour()
+                    self.menu()
+                    return
                 else:
-                    # check if  he need to restart or quit
-                    resultat = 0
-                    try:
-                        resultat = int(self.restart_round_choice())
-                    except (ValueError, IndexError):
-                        self.print_error_enter_int()
-                        self.start_playing_tournament()
+                    self.print_error_enter_int()
+                    self.start_playing_tournament()
+        # Demarrer  le  round
+        for round in range(start_round, settings.TURNS + 1):
 
-                    if resultat == 1:
-                        matchs_round = list()
-                        dict_points = dict()
-                        for selected_player in selected_players:
-                            dict_points[selected_player] = 0
-                        matchs_already_played = list()
-                        start_round = 1
+            # 1 er tour
+            Round = 'Round {}'.format(round)
+            self.round_view(Round=Round)
 
-                    elif resultat == 2:
-                        self.message_retour()
-                        self.menu()
-                        return
-                    else:
-                        self.print_error_enter_int()
-                        self.start_playing_tournament()
-            # Demarrer  le  round
-            for round in range(start_round, settings.TURNS + 1):
-
-                # 1 er tour
-                Round = 'Round {}'.format(round)
-                self.round_view(Round=Round)
-
-                if round == 1:
-                    tour_list = [Round]
-                    match_player = self.round_1(
-                        selected_players=selected_players,
-                        matchs_already_played=matchs_already_played
-                    )
-                    tour_list.append(match_player)
-                else:
-                    # Trier par le nombre de points gagner
-                    # triez tous les joueurs en fonction de leur nombre total de points.
-                    # Et s'ils ont les meme points les classés par ordre de classement
-                    instance_players_tried = list()
-                    players_tried = self.tri_player_by_points(selected_players=selected_players,
-                                                              dict_points=dict_points)
-                    self.search_player_view_classement(players=players_tried)
-                    for i in range(len(players_tried)):
-                        ref_joueur, points, classement = players_tried[i]
-                        instance_players_tried.append(ref_joueur)
-                    tour_list, matchs_already_played = self.rounds_matchs(
-                        Round=Round,
-                        matchs_already_played=matchs_already_played,
-                        instance_players_tried=instance_players_tried
-                    )
-                matchs = self.sub_menu_start_end_round(tour_list=tour_list)
-                for i in range(1, len(matchs)):
-                    match_players = matchs[i]
-                    ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
-                    ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
-                    start_match_time = match_players[2]
-                    end_match_time = match_players[3]
-                    match = self.match(
-                        ref_joueur_1=ref_joueur_1,
-                        ref_joueur_2=ref_joueur_2,
-                        score_joueur_1=score_joueur_1,
-                        score_joueur_2=score_joueur_2,
-                        color_joueur_1=color_joueur_1,
-                        color_joueur_2=color_joueur_2,
-                        start_match_time=start_match_time,
-                        end_match_time=end_match_time
-                    )
-                    self.match_view(
-                        joueur_1=ref_joueur_1,
-                        joueur_2=ref_joueur_2,
-                        match_number=i,
-                        score_joueur_1=score_joueur_1,
-                        score_joueur_2=score_joueur_2,
-                        color_joueur_1=color_joueur_1,
-                        color_joueur_2=color_joueur_1,
-                        start_match_time=start_match_time,
-                        end_match_time=end_match_time
-                    )
-                    dict_points[ref_joueur_1] += score_joueur_1
-                    dict_points[ref_joueur_2] += score_joueur_2
-                    matchs_round.append(match)
-
-                # Sauvegarder les résultats pour chaque paire de joueur
-                self.ask_change_tournament_value(
-                    tournament_number=tournament_number,
-                    key='Tournees',
-                    value=matchs_round
+            if round == 1:
+                tour_list = [Round]
+                match_player, matchs_already_played = self.round_1(
+                    tour_list=tour_list,
+                    selected_players=selected_players,
+                    matchs_already_played=matchs_already_played
                 )
-            # triage final
-            players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
-            self.search_player_view_classement(players=players_tried)
 
-        except (ValueError, IndexError):
-            self.print_error_enter_int()
-            self.start_playing_tournament()
+            else:
+                # Trier par le nombre de points gagner
+                # triez tous les joueurs en fonction de leur nombre total de points.
+                # Et s'ils ont les meme points les classés par ordre de classement
+                instance_players_tried = list()
+                players_tried = self.tri_player_by_points(selected_players=selected_players,
+                                                          dict_points=dict_points)
+                self.search_player_view_classement(players=players_tried)
+                for i in range(len(players_tried)):
+                    ref_joueur, points, classement = players_tried[i]
+                    instance_players_tried.append(ref_joueur)
+                tour_list, matchs_already_played = self.rounds_matchs(
+                    Round=Round,
+                    matchs_already_played=matchs_already_played,
+                    instance_players_tried=instance_players_tried
+                )
+            matchs = self.sub_menu_start_end_round(tour_list=tour_list)
+            for i in range(1, len(matchs)):
+                match_players = matchs[i]
+                ref_joueur_1, score_joueur_1, color_joueur_1 = match_players[0]
+                ref_joueur_2, score_joueur_2, color_joueur_2 = match_players[1]
+                start_match_time = match_players[2]
+                end_match_time = match_players[3]
+                match = self.match(
+                    ref_joueur_1=ref_joueur_1,
+                    ref_joueur_2=ref_joueur_2,
+                    score_joueur_1=score_joueur_1,
+                    score_joueur_2=score_joueur_2,
+                    color_joueur_1=color_joueur_1,
+                    color_joueur_2=color_joueur_2,
+                    start_match_time=start_match_time,
+                    end_match_time=end_match_time
+                )
+                self.match_view(
+                    joueur_1=ref_joueur_1,
+                    joueur_2=ref_joueur_2,
+                    match_number=i,
+                    score_joueur_1=score_joueur_1,
+                    score_joueur_2=score_joueur_2,
+                    color_joueur_1=color_joueur_1,
+                    color_joueur_2=color_joueur_1,
+                    start_match_time=start_match_time,
+                    end_match_time=end_match_time
+                )
+                dict_points[ref_joueur_1] += score_joueur_1
+                dict_points[ref_joueur_2] += score_joueur_2
+                matchs_round.append(match)
 
+            # Sauvegarder les résultats pour chaque paire de joueur
+            self.ask_change_tournament_value(
+                tournament_number=tournament_number,
+                key='Tournees',
+                value=matchs_round
+            )
+        # triage final
+        players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
+        self.search_player_view_classement(players=players_tried)
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_start_end_round(self, tour_list):
