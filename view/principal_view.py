@@ -101,41 +101,36 @@ class Choice:
 
     def start_end_match_view(
             self,
-            match_finished_1,
-            match_finished_2,
-            match_finished_3,
-            match_finished_4,
-            match_alerady_started_1,
-            match_alerady_started_2,
-            match_alerady_started_3,
-            match_alerady_started_4
+            match_situation
     ):
+        m_finished_1, m_finished_2, m_finished_3, m_finished_4, \
+        m_alerady_started_1, m_alerady_started_2, m_alerady_started_3, m_alerady_started_4 = match_situation
         # Affichage de menu jouer les matchs et d'inséré les resultats
         print('\033[92m' + " Démarré ou mettre fin a un match \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
-        if not match_finished_1:
-            if match_alerady_started_1:
+        if not m_finished_1:
+            if m_alerady_started_1:
                 print('\033[93m'+" 1 : Arreter le match 1." + "\x1b[0m")
             else:
                 print('\033[93m'+" 1 : Démarrer le match 1." + "\x1b[0m")
         else:
             print('\033[93m'+" 1 : le Match 1 est terminé." + "\x1b[0m")
-        if not match_finished_2:
-            if match_alerady_started_2:
+        if not m_finished_2:
+            if m_alerady_started_2:
                 print('\033[93m'+" 2 : Arreter le match 2." + "\x1b[0m")
             else:
                 print('\033[93m'+" 2 : Démarrer le match 2." + "\x1b[0m")
         else:
             print('\033[93m'+" 2 : le Match 2 est terminé." + "\x1b[0m")
-        if not match_finished_3:
-            if match_alerady_started_3:
+        if not m_finished_3:
+            if m_alerady_started_3:
                 print('\033[93m'+" 3 : Arreter le match 3." + "\x1b[0m")
             else:
                 print('\033[93m'+" 3 : Démarrer le match 3." + "\x1b[0m")
         else:
             print('\033[93m'+" 3 : le Match 3 est terminé." + "\x1b[0m")
-        if not match_finished_4:
-            if match_alerady_started_4:
+        if not m_finished_4:
+            if m_alerady_started_4:
                 print('\033[93m'+" 4 : Arreter le match 4." + "\x1b[0m")
             else:
                 print('\033[93m'+" 4 : Démarrer le match 4." + "\x1b[0m")
@@ -149,28 +144,10 @@ class Choice:
             if resultat > 5 or resultat <= 0:
 
                 self.print_error_enter_int()
-                resultat = self.start_end_match_view(
-                    match_finished_1=match_finished_1,
-                    match_finished_2=match_finished_2,
-                    match_finished_3=match_finished_3,
-                    match_finished_4=match_finished_4,
-                    match_alerady_started_1=match_alerady_started_1,
-                    match_alerady_started_2=match_alerady_started_2,
-                    match_alerady_started_3=match_alerady_started_3,
-                    match_alerady_started_4=match_alerady_started_4
-                )
-        except ValueError:
+                resultat = self.start_end_match_view(match_situation=match_situation)
+        except (ValueError, IndexError):
             self.print_error_enter_int()
-            resultat = self.start_end_match_view(
-                match_finished_1=match_finished_1,
-                match_finished_2=match_finished_2,
-                match_finished_3=match_finished_3,
-                match_finished_4=match_finished_4,
-                match_alerady_started_1=match_alerady_started_1,
-                match_alerady_started_2=match_alerady_started_2,
-                match_alerady_started_3=match_alerady_started_3,
-                match_alerady_started_4=match_alerady_started_4
-            )
+            resultat = self.start_end_match_view(match_situation=match_situation)
         print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
@@ -183,7 +160,7 @@ class Choice:
             if resultat not in [0, 0.5, 1]:
                 self.print_error_enter_int()
                 resultat = self.enter_resultat_player(ref_joueur)
-        except ValueError:
+        except (ValueError, IndexError):
             resultat = self.enter_resultat_player(ref_joueur)
             self.print_error_enter_int()
         return resultat

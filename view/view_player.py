@@ -80,7 +80,7 @@ class Player_view(Msg_Player):
             if resultat >= 6 or resultat < 0:
                 self.print_error_enter_int()
                 resultat = self.player_modification_spec()
-        except ValueError or IndexError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             resultat = self.player_modification_spec()
         return resultat
@@ -242,7 +242,7 @@ class Player_view(Msg_Player):
             if resultat >= len(players) or resultat < 0:
                 self.print_error_enter_int()
                 resultat = self.player_modification(players=players)
-        except ValueError or IndexError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             resultat = self.player_modification(players=players)
         return resultat
@@ -258,8 +258,7 @@ class Player_view(Msg_Player):
                 i += 1
             player_number = int(self.player_to_select())-1
             selected_player = players[player_number]
-
-        except ValueError or IndexError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             selected_player = self.select_player(players=players)
 

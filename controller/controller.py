@@ -20,7 +20,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         try:
             # Demander et affichage du menu gestion des joueurs
             resultat = int(self.player_sub_main_choice())
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.sub_menu_player_1()
 
@@ -37,17 +37,14 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             )
             # modification terminer
             player.save_player()
-
         # modifier un joueur.
         elif resultat == 2:
             # menu modification du joueur
             self.sub_menu_player_2()
-
         # Supprimmer un joueur.
         elif resultat == 3:
             # menu supprimer un joueur
             self.delete_player()
-
         # Affichage des joueurs.
         elif int(resultat) == 4:
             # voir les joueurs existant
@@ -57,7 +54,6 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             # si aucun joueur n'existe
             if len(players) == 0:
                 self.no_player()
-
         # classement des joueurs
         elif int(resultat) == 5:
             # triage des joueur par ordre de classement et par ordre alphabetique
@@ -67,21 +63,17 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 player_tri_ranking=player_tri_ranking,
                 player_tri_alphabet=player_tri_alphabet
             )
-
         # Supprimmer tous les joueurs.
         elif int(resultat) == 6:
             self.delete_all_player()
-
         # Retour au menu principal
         elif resultat == 7:
             self.message_retour()
             return
-
         # sortir du logiciel
         elif resultat == 8:
             self.message_visit()
             exit()
-
         else:
             self.print_error_enter_int()
         self.sub_menu_player_1()
@@ -92,7 +84,6 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         # init
         resultat_modif = 0
         player_number = 0
-
         try:
             # voir les joueurs existent dans la base de donnée
             players = self.search_player()
@@ -109,11 +100,10 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             else:
                 # Demander le numéro de joueur à modifier
                 player_number = self.player_modification(players=players)
-
             # Demander quels parametre de joueur qu'il faut modifier
             resultat_modif = int(self.player_modification_spec())
         # en cas d'erreur
-        except ValueError or IndexError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.sub_menu_player_2()
         # Modifier le nom
@@ -172,7 +162,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 key='age',
                 value=age
             )
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int_age()
             age = self.change_age_player(player_number=player_number)
         return age
@@ -195,7 +185,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 key='classement',
                 value=classement
             )
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int_classement()
             classement = self.change_classement_player(
                 player_number=player_number
@@ -216,7 +206,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             self.ask_delete_player(player_number=player_number)
             # affichage de  fin de  modification
             self.player_modification_save()
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.delete_player()
 
@@ -226,20 +216,15 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         # init
         selected_players = list()
         first_list = list()
-        second_list = list()
         # Chercher les joueurs existent
         players = self.search_player()
         # Si aucun joueur n'existe'
         if len(players) == 0:
             self.no_player()
-
         # construire une liste avec les nom dee tous les joueurs
         for player in players:
             first_list.append(player['familly_name'])
-
-        for player in players:
-            second_list.append(player['familly_name'])
-
+        second_list = first_list.copy()
         # Selectionner la list des joueurs qui vont jouer la partie
         while len(selected_players) < settings.nbr_player_max:
             # S'il manque des  joueurs
@@ -275,7 +260,8 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 # Ajouter la premier  position de joueur selectionner
                 selected_players.append(int(pos[0]))
                 # Supprimmer le joueur deja selectionner de  la  premiere liste
-                del first_list[first_list.index(selected_player)]
+                first_list.remove(selected_player)
+
             # S'il existe le  nombre exacte des joueurs  qu'il faut
             else:
                 # Affichage des joueurs existent
@@ -340,10 +326,9 @@ class TournamentMenu(Tournament, Tournament_view):
         #  Menu tournois
         try:
             resultat = int(self.tournament_sub_main_choice())
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.sub_menu_tournament_1()
-
         # Ajouter un tournament.
         if resultat == 1:
             nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description = self.adding_tournament()
@@ -359,35 +344,29 @@ class TournamentMenu(Tournament, Tournament_view):
             )
             # SAuvegarder un Tournoi
             tournament.save_tournament()
-
         # modifier un tournament.
         elif resultat == 2:
             self.sub_menu_tournament_2()
         # Supprimmer un tournament.
         elif resultat == 3:
             self.delete_tournament()
-
         # Affichage des tournaments.
         elif int(resultat) == 4:
             tournaments = self.search_tournament()
             self.search_tournament_view(tournaments=tournaments)
             if len(tournaments) == 0:
                 self.no_tournament()
-
         # Supprimmer tous les tournaments.
         elif int(resultat) == 5:
             self.delete_all_tournament()
-
         # Retour au menu principal
         elif resultat == 6:
             self.message_retour()
             return
-
         # sortir du logiciel
         elif resultat == 7:
             self.message_visit()
             exit()
-
         else:
             self.print_error_enter_int()
         self.sub_menu_tournament_1()
@@ -403,7 +382,6 @@ class TournamentMenu(Tournament, Tournament_view):
             # voir le nombre de tournois
             tournaments = self.search_tournament()
             self.search_tournament_view(tournaments=tournaments)
-
             if len(tournaments) == 0:
                 self.no_tournament()
                 self.sub_menu_tournament_1()
@@ -411,9 +389,8 @@ class TournamentMenu(Tournament, Tournament_view):
                 tournament_number = 0
             else:
                 tournament_number = int(self.tournament_modification()) - 1
-
             resultat_modif = int(self.tournament_modification_spec())
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.sub_menu_tournament_2()
         # modifier  le  nom
@@ -449,7 +426,6 @@ class TournamentMenu(Tournament, Tournament_view):
         elif resultat_modif == 6:
             Joueurs = self.tournament_Joueurs_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
-
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps',
@@ -479,7 +455,7 @@ class TournamentMenu(Tournament, Tournament_view):
             # Selectionner  le joueur a supprimer
             try:
                 tournament_number = int(self.tournament_to_delete()) - 1
-            except ValueError:
+            except (ValueError, IndexError):
                 self.print_error_enter_int()
                 self.delete_tournament()
         # Supprimer le joueur selctionner
@@ -519,7 +495,7 @@ class TournamentMenu(Tournament, Tournament_view):
             try:
                 self.search_tournament_view(tournaments=tournaments)
                 tournament_number = int(self.tournament_to_play()) - 1
-            except ValueError or IndexError:
+            except (ValueError, IndexError):
                 self.print_error_enter_int()
                 tournament_number, tournaments = self.choose_tournament()
 
@@ -573,6 +549,67 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             )
             tour_list.append(match_player)
         return tour_list, matchs_already_played
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def round_1(self, selected_players, matchs_already_played):
+        #init
+        matchs_players = list()
+        # trier les selected_players  par classement
+        players_tried = self.tri_player_by_rang(selected_players=selected_players)
+        # self.search_player_view(players=players_tried)
+        instance_players_tried = list()
+        for i in range(len(players_tried)):
+            ref_joueur, classement = players_tried[i]
+            instance_players_tried.append(ref_joueur)
+        # divisez les joueurs classés en deux moitiés
+        player_list_sup = list()
+        player_list_inf = list()
+        length = len(players_tried)
+        div_length = int(length / 2)
+        # liste des joueurs partie superieur
+        for i in range(0, div_length):
+            player_list_sup.append(instance_players_tried[i])
+        # liste des joueurs partie inférieur
+        for j in range(div_length, length):
+            player_list_inf.append(instance_players_tried[j])
+
+        # jumelé Le meilleur joueur de la moitié supérieure
+        # avec le meilleur joueur de la moitié inférieure
+        # Définir les paires de joueurs
+
+        for k in range(0, div_length):
+            # joueur de la partie superieur
+            ref_joueur_1 = player_list_sup[k]
+            # joueur de la partie inferieur
+            ref_joueur_2 = player_list_inf[k]
+            # match à jouer
+            match_to_play_1 = ref_joueur_1, ref_joueur_2
+            match_to_play_2 = ref_joueur_2, ref_joueur_1
+
+            # Enregistre les  match deja jouer sachant que
+            # match_to_play_1 et match_to_play_1 est le meme match
+            matchs_already_played.append(match_to_play_1)
+            matchs_already_played.append(match_to_play_2)
+
+            # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
+            color_joueur_1, color_joueur_2 = self.player_color()
+
+            match_player = self.match(
+                ref_joueur_1=ref_joueur_1,
+                ref_joueur_2=ref_joueur_2,
+                color_joueur_1=color_joueur_1,
+                color_joueur_2=color_joueur_2
+            )
+            self.match_view(
+                joueur_1=ref_joueur_1,
+                joueur_2=ref_joueur_2,
+                match_number=k + 1,
+                color_joueur_1=color_joueur_1,
+                color_joueur_2=color_joueur_1,
+            )
+            matchs_players.append(match_player)
+        return matchs_players
 
     # -----------------------------------------------------------------------------------------------------------------#
 
@@ -637,7 +674,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     resultat = 0
                     try:
                         resultat = int(self.restart_round_choice())
-                    except ValueError:
+                    except (ValueError, IndexError):
                         self.print_error_enter_int()
                         self.start_playing_tournament()
 
@@ -664,60 +701,12 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                 self.round_view(Round=Round)
 
                 if round == 1:
-                    # trier les selected_players  par classement
-                    players_tried = self.tri_player_by_rang(selected_players=selected_players)
-                    # self.search_player_view(players=players_tried)
-                    instance_players_tried = list()
-                    for i in range(len(players_tried)):
-                        ref_joueur, classement = players_tried[i]
-                        instance_players_tried.append(ref_joueur)
-                    # divisez les joueurs classés en deux moitiés
-                    player_list_sup = list()
-                    player_list_inf = list()
-                    length = len(players_tried)
-                    div_length = int(length / 2)
-                    # liste des joueurs partie superieur
-                    for i in range(0, div_length):
-                        player_list_sup.append(instance_players_tried[i])
-                    # liste des joueurs partie inférieur
-                    for j in range(div_length, length):
-                        player_list_inf.append(instance_players_tried[j])
-
-                    # jumelé Le meilleur joueur de la moitié supérieure
-                    # avec le meilleur joueur de la moitié inférieure
-                    # Définir les paires de joueurs
                     tour_list = [Round]
-                    for k in range(0, div_length):
-                        # joueur de la partie superieur
-                        ref_joueur_1 = player_list_sup[k]
-                        # joueur de la partie inferieur
-                        ref_joueur_2 = player_list_inf[k]
-                        # match à jouer
-                        match_to_play_1 = ref_joueur_1, ref_joueur_2
-                        match_to_play_2 = ref_joueur_2, ref_joueur_1
-
-                        # Enregistre les  match deja jouer sachant que
-                        # match_to_play_1 et match_to_play_1 est le meme match
-                        matchs_already_played.append(match_to_play_1)
-                        matchs_already_played.append(match_to_play_2)
-
-                        # Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ;
-                        color_joueur_1, color_joueur_2 = self.player_color()
-
-                        match_player = self.match(
-                            ref_joueur_1=ref_joueur_1,
-                            ref_joueur_2=ref_joueur_2,
-                            color_joueur_1=color_joueur_1,
-                            color_joueur_2=color_joueur_2
-                        )
-                        self.match_view(
-                            joueur_1=ref_joueur_1,
-                            joueur_2=ref_joueur_2,
-                            match_number=k + 1,
-                            color_joueur_1=color_joueur_1,
-                            color_joueur_2=color_joueur_1,
-                        )
-                        tour_list.append(match_player)
+                    match_player = self.round_1(
+                        selected_players=selected_players,
+                        matchs_already_played=matchs_already_played
+                    )
+                    tour_list.append(match_player)
                 else:
                     # Trier par le nombre de points gagner
                     # triez tous les joueurs en fonction de leur nombre total de points.
@@ -776,7 +765,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             players_tried = self.tri_player_by_points(selected_players=selected_players, dict_points=dict_points)
             self.search_player_view_classement(players=players_tried)
 
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.start_playing_tournament()
 
@@ -784,71 +773,51 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 
     def sub_menu_start_end_round(self, tour_list):
         # init
-        match_alerady_started_1 = False
-        match_alerady_started_2 = False
-        match_alerady_started_3 = False
-        match_alerady_started_4 = False
-        match_finished_1 = match_finished_2 = match_finished_3 = match_finished_4 = False
-        Round = tour_list[0]
+        m_alerady_started_1 = False
+        m_alerady_started_2 = False
+        m_alerady_started_3 = False
+        m_alerady_started_4 = False
+        m_finished_1 = m_finished_2 = m_finished_3 = m_finished_4 = False
+        match = [tour_list[0]]
         match_1 = tour_list[1]
         match_2 = tour_list[2]
         match_3 = tour_list[3]
         match_4 = tour_list[4]
         resultat_enter = 0
-        match = [Round]
+
         # Demander de demarrer un match  ou de  le finir
         while True:
             try:
-                if match_finished_1 and match_finished_2 and match_finished_3 and match_finished_4 is True:
-                    match.append(match_1)
-                    match.append(match_2)
-                    match.append(match_3)
-                    match.append(match_4)
+                if m_finished_1 and m_finished_2 and m_finished_3 and m_finished_4 is True:
+                    match.extend((match_1, match_2, match_3, match_4))
                     return match
                     break
-
-                resultat_enter = self.start_end_match_view(
-                    match_finished_1=match_finished_1,
-                    match_finished_2=match_finished_2,
-                    match_finished_3=match_finished_3,
-                    match_finished_4=match_finished_4,
-                    match_alerady_started_1=match_alerady_started_1,
-                    match_alerady_started_2=match_alerady_started_2,
-                    match_alerady_started_3=match_alerady_started_3,
-                    match_alerady_started_4=match_alerady_started_4
-                )
-
-            except ValueError:
+                match_situation = m_finished_1, m_finished_2, m_finished_3, m_finished_4,\
+                                  m_alerady_started_1, m_alerady_started_2, m_alerady_started_3, m_alerady_started_4
+                resultat_enter = self.start_end_match_view(match_situation=match_situation)
+            except (ValueError, IndexError):
                 self.print_error_enter_int()
                 match = self.sub_menu_start_end_round(tour_list)
             # Demmarrer ou finir  le match  n° 1
             if resultat_enter == 1:
-                match_1, match_alerady_started_1, match_finished_1 = self.start_end_match(
-                    match=match_1,
-                    match_finished=match_finished_1,
-                    match_alerady_started=match_alerady_started_1
-                )
-            # Demmarrer ou finir  le match  n° 2
+                m_1_tuple = match_1, m_alerady_started_1, m_finished_1
+                m_1_tuple = self.start_end_match(match_tuple=m_1_tuple)
+                match_1, m_alerady_started_1, m_finished_1 = m_1_tuple
+                # Demmarrer ou finir  le match  n° 2
             elif resultat_enter == 2:
-                match_2, match_alerady_started_2, match_finished_2 = self.start_end_match(
-                    match=match_2,
-                    match_finished=match_finished_2,
-                    match_alerady_started=match_alerady_started_2
-                )
+                m_2_tuple = match_2, m_alerady_started_2, m_finished_2
+                m_2_tuple = self.start_end_match(match_tuple=m_2_tuple)
+                match_2, m_alerady_started_2, m_finished_2 = m_2_tuple
             # Demmarrer ou finir  le match  n° 3
             elif resultat_enter == 3:
-                match_3, match_alerady_started_3, match_finished_3 = self.start_end_match(
-                    match=match_3,
-                    match_finished=match_finished_3,
-                    match_alerady_started=match_alerady_started_3
-                )
+                m_3_tuple = match_3, m_alerady_started_3, m_finished_3
+                m_3_tuple = self.start_end_match(match_tuple=m_3_tuple)
+                match_3, m_alerady_started_3, m_finished_3 = m_3_tuple
             # Demmarrer ou finir  le match  n° 4
             elif resultat_enter == 4:
-                match_4, match_alerady_started_4, match_finished_4 = self.start_end_match(
-                    match=match_4,
-                    match_finished=match_finished_4,
-                    match_alerady_started=match_alerady_started_4
-                )
+                m_4_tuple = match_4, m_alerady_started_4, m_finished_4
+                m_4_tuple = self.start_end_match(match_tuple=m_4_tuple)
+                match_4, m_alerady_started_4, m_finished_4 = m_4_tuple
             # Arreter la tournee et le tournoi
             elif resultat_enter == 5:
                 self.message_retour()
@@ -860,13 +829,9 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def start_end_match(
-            self,
-            match,
-            match_finished,
-            match_alerady_started
-    ):
+    def start_end_match(self, match_tuple):
         # Init
+        match, match_alerady_started, match_finished = match_tuple
         ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
         ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
         start_match_time = match[2]
@@ -912,7 +877,6 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
             start_match_time=start_match_time,
             end_match_time=end_match_time
         )
-
         return match, match_alerady_started, match_finished
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -926,7 +890,7 @@ class MainMenu(Choice, Match_Menu):
         try:
             # Affichage du menu principal et demander quel menu souhaiter a acceder
             resultat = int(self.main_choice())
-        except ValueError:
+        except (ValueError, IndexError):
             self.print_error_enter_int()
             self.menu()
         # Gestion des joueurs

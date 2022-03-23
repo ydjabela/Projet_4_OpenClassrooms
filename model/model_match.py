@@ -39,7 +39,7 @@ class Match:
                     instance_players_tried=instance_players_tried,
                     k=k
                 )
-        except IndexError:
+        except (ValueError, IndexError):
             ref_joueur_2 = instance_players_tried[1]
         return ref_joueur_2
 

@@ -316,7 +316,7 @@ class Tournament_view(Msg_Tournament):
                         for key, value in sorted_points:
                             print("{:<25} {:<25} {:<25}".format(i, key, value))
                             k += 1
-                    except ValueError or IndexError:
+                    except (ValueError, IndexError):
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
 
                 else:
