@@ -504,7 +504,6 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
                 joueur_2=ref_joueur_2,
                 match_number=k,
                 color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_1
             )
             tour_list.append(match_player)
         return tour_list, matchs_already_played
@@ -563,7 +562,6 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
                 joueur_2=ref_joueur_2,
                 match_number=k + 1,
                 color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_1,
             )
             tour_list.append(match_player)
         return tour_list, matchs_already_played
@@ -594,7 +592,6 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
                 score_joueur_1=score_joueur_1,
                 score_joueur_2=score_joueur_2,
                 color_joueur_1=color_joueur_1,
-                color_joueur_2=color_joueur_1,
                 start_match_time=start_match_time,
                 end_match_time=end_match_time
             )
@@ -839,7 +836,6 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
             score_joueur_1=score_joueur_1,
             score_joueur_2=score_joueur_2,
             color_joueur_1=color_joueur_1,
-            color_joueur_2=color_joueur_1,
             start_match_time=start_match_time,
             end_match_time=end_match_time
         )
