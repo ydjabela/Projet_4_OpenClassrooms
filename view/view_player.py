@@ -47,8 +47,7 @@ class Msg_Player:
 
 class Player_view(Msg_Player):
 
-    @staticmethod
-    def player_sub_main_choice():
+    def player_sub_main_choice(self):
         print('\033[92m' + "\n * * * Gestionnaire des joueurs. * * *\n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m'+" 1 : Ajouter un joueur." + "\x1b[0m")
@@ -59,7 +58,14 @@ class Player_view(Msg_Player):
         print('\033[93m'+" 6 : Supprimmer tous les joueurs." + "\x1b[0m")
         print('\033[93m'+" 7 : Retour au menu principal." + "\x1b[0m")
         print('\033[93m'+" 8 : sortir du logiciel." + "\x1b[0m")
-        resultat = input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
+        try:
+            resultat = int(input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m"))
+            if resultat > 8 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.player_sub_main_choice()
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.player_sub_main_choice()
         print('-----------------------------------------------------------------------------------------------------')
         return resultat
 

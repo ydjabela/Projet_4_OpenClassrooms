@@ -38,7 +38,7 @@ MacOS/Linux :
 source Projet_4/bin/activate
 ```
 
-### Installation  des  packages necessaire pour ce projet
+### Installation des packages necessaire pour ce projet
 ```
 pip install -r requirements.txt
 ```
@@ -75,10 +75,10 @@ Cette option vous permet de gérer les tournois.
 3) Lancer une partie :
 - Le programme vous permet de gérer des tournois d'échecs. Lors de la première utilisation,
 - Si aucun joueur n'est présent dans la base de données, vous serez invité à en créer. (8)
-- si y en moins de 8 joueurs il vous demandera d'ajouter jusqu'a a avoir 8 joueurs.
+- si y en moins de 8 joueurs il vous demandera d'ajouter jusqu'a avoir 8 joueurs.
 - S'il existe plus de 8 joueurs, il vous permettra de sélectionner 8 joueurs.
 - Si aucun tournoi n'est présent dans la base de donnée, vous serez invité à en créer.
-- S'il existe plusieurs tournois il vous permettra de sélectionner 1 tournoi.
+- S'il existe plusieurs tournois, il vous permettra de sélectionner 1 tournoi.
 - Lors d'un tournoi, vous serez invité à rentrer les résultats après chaque match. A la fin d'un tournoi, un classement sera généré.
 5) Quittez le programme.
 
