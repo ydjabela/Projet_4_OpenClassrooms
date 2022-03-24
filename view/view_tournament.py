@@ -162,30 +162,42 @@ class Tournament_view(Msg_Tournament):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def tournament_to_delete():
+    def tournament_to_delete(self, tournaments):
         print(
             '\n\033[92m' +
             " * * * Modification des tournois. * * *\n" +
             "\x1b[0m"
         )
+        try:
+            resultat = int(input(
+                '\033[91m' +
+                "Numéro  de tournoi que vous souhaité supprimer: " +
+                "\x1b[0m"
+            )) - 1
+            if resultat > len(tournaments) - 1 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.tournament_to_delete(tournaments=tournaments)
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.tournament_to_delete(tournaments=tournaments)
 
-        resultat = input(
-            '\033[91m' +
-            "Numéro  de tournoi que vous souhaité supprimer: " +
-            "\x1b[0m"
-        )
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def tournament_to_play():
-        resultat = input(
-            '\033[91m' +
-            "\nNuméro  de tournoi que vous souhaité commencé a jouer: " +
-            "\x1b[0m"
-        )
+    def tournament_to_play(self, tournaments):
+        try:
+            resultat = int(input(
+                '\033[91m' +
+                "\nNuméro  de tournoi que vous souhaité commencé a jouer: " +
+                "\x1b[0m"
+            )) - 1
+            if resultat > len(tournaments)-1 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.tournament_to_play(tournaments=tournaments)
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.tournament_to_play(tournaments=tournaments)
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -216,7 +228,7 @@ class Tournament_view(Msg_Tournament):
                 "Numéro  de tournoi que vous souhaité modifier: " +
                 "\x1b[0m"
             )) - 1
-            if resultat > len(tournaments):
+            if resultat > len(tournaments)-1 or resultat <= 0:
                 self.print_error_enter_int()
                 resultat = self.tournament_modification(tournaments=tournaments)
         except (ValueError, IndexError):

@@ -16,7 +16,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 
     def sub_menu_player_1(self):
         # Demander et affichage du menu gestion des joueurs
-        resultat = int(self.player_sub_main_choice())
+        resultat = self.player_sub_main_choice()
         # Ajouter un joueur.
         if resultat == 1:
             familly_name, first_name, age, sex, classement = self.adding_player()
@@ -39,7 +39,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             # menu supprimer un joueur
             self.delete_player()
         # Affichage des joueurs.
-        elif int(resultat) == 4:
+        elif resultat == 4:
             # voir les joueurs existent
             players = self.search_player()
             # Affichage des joueurs existant
@@ -48,7 +48,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
             if len(players) == 0:
                 self.no_player()
         # classement des joueurs
-        elif int(resultat) == 5:
+        elif resultat == 5:
             # triage des joueurs par ordre de classement et par ordre alphabétique
             player_tri_ranking, player_tri_alphabet = self.stat_classement()
             # Affichage des statistiques
@@ -57,7 +57,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 player_tri_alphabet=player_tri_alphabet
             )
         # Supprimmer tous les joueurs.
-        elif int(resultat) == 6:
+        elif resultat == 6:
             self.delete_all_player()
         # Retour au menu principal
         elif resultat == 7:
@@ -219,11 +219,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 familly_name, first_name, age, sex, classement = self.adding_player()
                 # créer un object player
                 player = Player(
-                    familly_name=familly_name,
-                    first_name=first_name,
-                    age=age,
-                    sex=sex,
-                    classement=classement
+                    familly_name=familly_name, first_name=first_name, age=age, sex=sex, classement=classement
                 )
                 # sauvegarder le joueur
                 player.save_player()
@@ -324,13 +320,13 @@ class TournamentMenu(Tournament, Tournament_view):
         elif resultat == 3:
             self.delete_tournament()
         # Affichage des tournaments.
-        elif int(resultat) == 4:
+        elif resultat == 4:
             tournaments = self.search_tournament()
             self.search_tournament_view(tournaments=tournaments)
             if len(tournaments) == 0:
                 self.no_tournament()
         # Supprimmer tous les tournaments.
-        elif int(resultat) == 5:
+        elif resultat == 5:
             self.delete_all_tournament()
         # Retour au menu principal
         elif resultat == 6:
@@ -402,7 +398,6 @@ class TournamentMenu(Tournament, Tournament_view):
 
     def delete_tournament(self):
         # Init
-        tournament_number = 0
         # voir les tournois existent
         tournaments = self.search_tournament()
         self.search_tournament_view(tournaments=tournaments)
@@ -412,12 +407,9 @@ class TournamentMenu(Tournament, Tournament_view):
         elif len(tournaments) == 1:
             tournament_number = 0
         else:
-            # Selectionner  le joueur a supprimer
-            try:
-                tournament_number = int(self.tournament_to_delete()) - 1
-            except (ValueError, IndexError):
-                self.print_error_enter_int()
-                self.delete_tournament()
+            # Selectionner  le tournoi a supprimer
+            tournament_number = self.tournament_to_delete(tournaments=tournaments)
+
         # Supprimer le joueur selctionner
         self.ask_delete_tournament(tournament_number=tournament_number)
         self.tournament_modification_save()
@@ -452,13 +444,8 @@ class TournamentMenu(Tournament, Tournament_view):
             self.one_tournament_existed()
         # Si y a un plusieurs tournois
         else:
-            try:
-                self.search_tournament_view(tournaments=tournaments)
-                tournament_number = int(self.tournament_to_play()) - 1
-            except (ValueError, IndexError):
-                self.print_error_enter_int()
-                tournament_number, tournaments = self.choose_tournament()
-
+            self.search_tournament_view(tournaments=tournaments)
+            tournament_number = self.tournament_to_play(tournaments=tournaments)
         tournaments = self.search_tournament()
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
         return tournament_number, tournaments
@@ -513,7 +500,7 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
     def round_1(self, tour_list, selected_players, matchs_already_played):
         # trier les selected_players  par classement
         players_tried = self.tri_player_by_rang(selected_players=selected_players)
-        # self.search_player_view(players=players_tried)
+        self.search_player_view_classement(players=players_tried)
         instance_players_tried = list()
         for i in range(len(players_tried)):
             ref_joueur, classement = players_tried[i]
@@ -693,8 +680,7 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
         # Demarrer  le  round
         for round_x in range(start_round, settings.TURNS + 1):
             # 1 er tour
-            round_x = 'Round {}'.format(round_x)
-            self.round_view(round_x=round_x)
+            self.round_view(round_x='Round {}'.format(round_x))
 
             if round_x == 1:
                 tour_list = [round_x]

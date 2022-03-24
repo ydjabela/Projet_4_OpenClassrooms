@@ -159,9 +159,16 @@ class Player_view(Msg_Player):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def player_to_select():
-        resultat = input('\033[91m' + "Numéro  de joueur que vous souhaité selectionné: " + "\x1b[0m")
+    def player_to_select(self, players):
+        try:
+            print(len(players))
+            resultat = int(input('\033[91m' + "Numéro  de joueur que vous souhaité selectionné: " + "\x1b[0m"))
+            if resultat > len(players) - 1 or resultat < 0:
+                self.print_error_enter_int()
+                resultat = self.player_to_select(players=players)
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.player_to_select(players=players)
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -264,17 +271,13 @@ class Player_view(Msg_Player):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def select_player(self, players):
-        try:
-            print('les  joueurs a selectionner sont: ')
-            i = 1
-            for player in players:
-                print(i, ':', player)
-                i += 1
-            player_number = int(self.player_to_select())-1
-            selected_player = players[player_number]
-        except (ValueError, IndexError):
-            self.print_error_enter_int()
-            selected_player = self.select_player(players=players)
+        print('les  joueurs a selectionner sont: ')
+        i = 0
+        for player in players:
+            print(i, ':', player)
+            i += 1
+        player_number = self.player_to_select(players=players)
+        selected_player = players[player_number]
 
         return selected_player
 
@@ -335,7 +338,12 @@ class Player_view(Msg_Player):
         print('\nClassement des  joueurs  par ordre de classement : ')
         print("{:<25} {:<25} {:<25}".format('Joueur', 'points', 'classement'))
         for player in players:
-            Joueur, points, classement = player
-            print("{:<25} {:<25} {:<25}".format(Joueur, points, classement))
+            if len(player) == 3:
+                Joueur, points, classement = player
+                print("{:<25} {:<25} {:<25}".format(Joueur, points, classement))
+            else:
+                Joueur, classement = player
+                points = 0
+                print("{:<25} {:<25} {:<25}".format(Joueur, points, classement))
 
     # -----------------------------------------------------------------------------------------------------------------#
