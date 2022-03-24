@@ -304,11 +304,7 @@ class TournamentMenu(Tournament, Tournament_view):
         # init
         resultat = 0
         #  Menu tournois
-        try:
-            resultat = int(self.tournament_sub_main_choice())
-        except (ValueError, IndexError):
-            self.print_error_enter_int()
-            self.sub_menu_tournament_1()
+        resultat = self.tournament_sub_main_choice()
         # Ajouter un tournament.
         if resultat == 1:
             nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description = self.adding_tournament()
@@ -358,21 +354,18 @@ class TournamentMenu(Tournament, Tournament_view):
         tournament_number = 0
         resultat_modif = 0
         #  menu modification d'un tournoi
-        try:
-            # voir le nombre de tournois
-            tournaments = self.search_tournament()
-            self.search_tournament_view(tournaments=tournaments)
-            if len(tournaments) == 0:
-                self.no_tournament()
-                self.sub_menu_tournament_1()
-            elif len(tournaments) == 1:
-                tournament_number = 0
-            else:
-                tournament_number = int(self.tournament_modification()) - 1
-            resultat_modif = int(self.tournament_modification_spec())
-        except (ValueError, IndexError):
-            self.print_error_enter_int()
-            self.sub_menu_tournament_2()
+        # voir le nombre de tournois
+        tournaments = self.search_tournament()
+        self.search_tournament_view(tournaments=tournaments)
+        if len(tournaments) == 0:
+            self.no_tournament()
+            self.sub_menu_tournament_1()
+        elif len(tournaments) == 1:
+            tournament_number = 0
+        else:
+            tournament_number = self.tournament_modification(tournaments=tournaments)
+        resultat_modif = self.tournament_modification_spec()
+
         # modifier  le  nom
         if resultat_modif == 1:
             name = self.tournament_name_modification()
@@ -473,7 +466,6 @@ class TournamentMenu(Tournament, Tournament_view):
         tournaments = self.search_tournament()
         self.tournament_chosed_view(tournament_number=tournament_number, tournaments=tournaments)
         return tournament_number, tournaments
-
 
 # ---------------------------------------------------------------------------------------------------------------------#
 

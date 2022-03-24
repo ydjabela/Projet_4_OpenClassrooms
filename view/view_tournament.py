@@ -30,9 +30,7 @@ class Msg_Tournament:
 
 
 class Tournament_view(Msg_Tournament):
-
-    @staticmethod
-    def tournament_sub_main_choice():
+    def tournament_sub_main_choice(self):
         print('\033[92m' +
               "\n * * * Gestionnaire des Tournois. * * *\n" +
               "\x1b[0m"
@@ -45,14 +43,21 @@ class Tournament_view(Msg_Tournament):
         print('\033[93m'+" 5 : Supprimmer tous les tournois." + "\x1b[0m")
         print('\033[93m'+" 6 : Retour au menu principal." + "\x1b[0m")
         print('\033[93m'+" 7 : sortir du logiciel." + "\x1b[0m")
-        resultat = input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
+
+        try:
+            resultat = int(input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m"))
+            if resultat > 7 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.tournament_sub_main_choice()
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.tournament_sub_main_choice()
         print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def tournament_modification_spec():
+    def tournament_modification_spec(self):
         print('\033[92m' +
               " \n* * * Modification des tournois. * * *\n" +
               "\x1b[0m"
@@ -66,12 +71,14 @@ class Tournament_view(Msg_Tournament):
         print('\033[93m'+" 6 : Modifier le Joueurs." + "\x1b[0m")
         print('\033[93m'+" 7 : Modifier le controle_temps." + "\x1b[0m")
         print('\033[93m'+" 8 : Modifier le Description." + "\x1b[0m")
-
-        resultat = input(
-            '\033[91m' +
-            "Numero de l'élement de la  modif: " +
-            "\x1b[0m"
-        )
+        try:
+            resultat = int(input('\033[91m' + "Numero de l'élement de la  modif: " + "\x1b[0m"))
+            if resultat > 8 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.tournament_modification_spec()
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.tournament_modification_spec()
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -197,18 +204,24 @@ class Tournament_view(Msg_Tournament):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def tournament_modification():
+    def tournament_modification(self, tournaments):
         print(
             '\033[92m' +
             "\n * * * Modification des tournois. * * *\n" +
             "\x1b[0m"
         )
-        resultat = input(
-            '\033[91m' +
-            "Numéro  de tournoi que vous souhaité modifier: " +
-            "\x1b[0m"
-        )
+        try:
+            resultat = int(input(
+                '\033[91m' +
+                "Numéro  de tournoi que vous souhaité modifier: " +
+                "\x1b[0m"
+            )) - 1
+            if resultat > len(tournaments):
+                self.print_error_enter_int()
+                resultat = self.tournament_modification(tournaments=tournaments)
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.tournament_modification(tournaments=tournaments)
         return resultat
 
     # -----------------------------------------------------------------------------------------------------------------#
