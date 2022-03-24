@@ -230,11 +230,53 @@ class Tournament_view(Msg_Tournament):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def search_tournament_view(tournaments):
-        print('\033[92m' + " \nTournois:\n" + "\x1b[0m")
+    def match_round_x_view(self, Tournees, dict_points):
+        match_number = 1
+        for match in Tournees:
+            if match_number == 1:
+                print('\nRound 1:')
+            if match_number == 5:
+                print('\nRound 2:')
+            if match_number == 9:
+                print('\nRound 3:')
+            if match_number == 13:
+                print('\nRound 4:')
+            joueur_1, joueur_2, start_match_time, end_match_time = match
+            ref_joueur_1, score_joueur_1, color_joueur_1 = joueur_1
+            ref_joueur_2, score_joueur_2, color_joueur_2 = joueur_2
+            if color_joueur_1 == 'Blanche':
+                bullet_joueur_1 = u"\u2765"
+                bullet_joueur_2 = '\033[90m' + u"\u2765" + "\x1b[0m"
+            else:
+                bullet_joueur_1 = '\033[90m' + u"\u2765" + "\x1b[0m"
+                bullet_joueur_2 = u"\u2765"
+            if start_match_time != 0:
+                start_match = ' Demmarer à: {}'.format(start_match_time)
+                if end_match_time != 0:
+                    end_match = ' Terminé à: {}'.format(end_match_time)
+                else:
+                    end_match = "Le Match n'est pas encore Terminé"
+            else:
+                start_match = "le match n'a pas encore demmaré"
+                end_match = ''
+            print(
+                'Match N°{}:'.format(match_number),
+                '\033[92m' + " joueur N°{}".format(ref_joueur_1) + "\x1b[0m" +
+                " {} ".format(bullet_joueur_1) + "VS " + "{} ".format(bullet_joueur_2) +
+                '\033[92m' + "joueur N°{} ".format(ref_joueur_2) + "\x1b[0m" +
+                "| Score : ({}-{})".format(score_joueur_1, score_joueur_2) +
+                start_match + end_match
+            )
+            match_number += 1
+            dict_points[ref_joueur_1] += score_joueur_1
+            dict_points[ref_joueur_2] += score_joueur_2
+
+    # -----------------------------------------------------------------------------------------------------------------#
+
+    def search_tournament_view(self, tournaments):
         dict_points = dict()
         if not len(tournaments) == 0:
+            print('\033[92m' + " \nTournois:\n" + "\x1b[0m")
             i = 1
             for tournament in tournaments:
                 nom = tournament['nom']
@@ -244,81 +286,23 @@ class Tournament_view(Msg_Tournament):
                 Joueurs = tournament['Joueurs']
                 controle_temps = tournament['controle_temps']
                 Description = tournament['Description']
-
-                print(
-                    "N°: {} \n"
-                    "Nom: {} \n"
-                    "Lieu: {} \n"
-                    "Date: {} \n"
-                    "Tour: {} \n"
-                    "Joueurs: {} \n"
-                    "Controle temps: {} \n"
-                    "Description: {}".format(
-                        i, nom, lieu, date, tour, Joueurs, controle_temps, Description))
+                print("N°: {} \n Nom: {} \n Lieu: {} \n Date: {} \n Tour: {} \n Joueurs: {} \n Controle temps: {} \n "
+                      "Description: {}".format(i, nom, lieu, date, tour, Joueurs, controle_temps, Description))
                 for joueur in Joueurs:
                     dict_points[joueur] = 0
-
                 Tournees = tournament['Tournees']
                 if Tournees != '':
                     try:
-                        match_number = 1
-                        for match in Tournees:
-                            if match_number == 1:
-                                print('\nRound 1:')
-                                match_number = 1
-                            if match_number == 5:
-                                print('\nRound 2:')
-                            if match_number == 9:
-                                print('\nRound 3:')
-                            if match_number == 13:
-                                print('\nRound 4:')
-                            joueur_1, joueur_2, start_match_time, end_match_time = match
-                            ref_joueur_1, score_joueur_1, color_joueur_1 = joueur_1
-                            ref_joueur_2, score_joueur_2, color_joueur_2 = joueur_2
-
-                            if color_joueur_1 == 'Blanche':
-                                bullet_joueur_1 = u"\u2765"
-                                bullet_joueur_2 = '\033[90m' + u"\u2765" + "\x1b[0m"
-                            else:
-                                bullet_joueur_1 = '\033[90m' + u"\u2765" + "\x1b[0m"
-                                bullet_joueur_2 = u"\u2765"
-                            if start_match_time != 0:
-                                start_match = ' Demmarer à: {}'.format(start_match_time)
-                                if end_match_time != 0:
-                                    end_match = ' Terminé à: {}'.format(end_match_time)
-                                else:
-                                    end_match = "Le Match n'est pas encore Terminé"
-                            else:
-                                start_match = "le match n'a pas encore demmaré"
-                                end_match = ''
-                            print(
-                                'Match N°{}:'.format(match_number),
-                                '\033[92m' +
-                                " joueur N°{}".format(ref_joueur_1) +
-                                "\x1b[0m" +
-                                " {} ".format(bullet_joueur_1) +
-                                "VS " +
-                                "{} ".format(bullet_joueur_2) +
-                                '\033[92m' +
-                                "joueur N°{} ".format(ref_joueur_2) + "\x1b[0m" +
-                                "| Score : ({}-{})".format(score_joueur_1, score_joueur_2) +
-                                start_match +
-                                end_match
-                            )
-                            match_number += 1
-                            dict_points[ref_joueur_1] += score_joueur_1
-                            dict_points[ref_joueur_2] += score_joueur_2
+                        self.match_round_x_view(Tournees=Tournees, dict_points=dict_points)
                         sorted_points = sorted(dict_points.items(), key=lambda t: t[1], reverse=True)
                         print('\033[92m' + " \nClassement des joueurs  par  nombre de  points:" + "\x1b[0m")
-
                         print("{:<25} {:<25} {:<25}".format("Classement", "joueurs", "Points"))
                         k = 1
                         for key, value in sorted_points:
-                            print("{:<25} {:<25} {:<25}".format(i, key, value))
+                            print("{:<25} {:<25} {:<25}".format(k, key, value))
                             k += 1
                     except (ValueError, IndexError):
                         print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
-
                 else:
                     print("Les matchs  n'ont pas encore debuté  pour ce tournoi")
                 i += 1

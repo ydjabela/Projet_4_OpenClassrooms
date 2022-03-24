@@ -79,6 +79,8 @@ class Choice:
         # Affichage des rounds
         print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
 
+    # -----------------------------------------------------------------------------------------------------------------#
+
     @staticmethod
     def restart_round_choice():
         # Affichage de menu redemmarer un tournoi ou de quitter
@@ -164,6 +166,7 @@ class Choice:
             resultat = self.enter_resultat_player(ref_joueur)
             self.print_error_enter_int()
         return resultat
+
     # ---------------------------------------------------------------------------------------------------------------------#
 
     @staticmethod

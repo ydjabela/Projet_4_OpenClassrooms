@@ -9,6 +9,8 @@ class Msg_Player:
         # indicates to the user that he must enter a number
         print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à l'age de  joueur! ." + "\x1b[0m")
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     @staticmethod
     def print_error_enter_int_classement():
         # indicates to the user that he must enter a number
@@ -18,14 +20,20 @@ class Msg_Player:
             "\x1b[0m"
         )
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     @staticmethod
     def print_error_enter_int():
         # indicates to the user that he must enter a number
         print('\033[91m'+"\n ERREUR : vous devez entrer un chiffre correspondant à votre choix ." + "\x1b[0m")
 
+    # ---------------------------------------------------------------------------------------------------------------------#
+
     @staticmethod
     def message_visit():
         print('Merci pour  votre visite')
+
+    # ---------------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
     def message_retour():

@@ -4,6 +4,7 @@ from tinydb import TinyDB, Query
 
 
 class Database:
+
     def database_game(
             self,
             select_table,
