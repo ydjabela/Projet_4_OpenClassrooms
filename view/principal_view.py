@@ -107,54 +107,55 @@ class Choice:
 
     def start_end_match_view(
             self,
-            match_situation
+            m_finished_1, m_finished_2, m_finished_3, m_finished_4, m_al_sta_1, m_al_sta_2, m_al_sta_3, m_al_sta_4
     ):
-        m_finished_1, m_finished_2, m_finished_3, m_finished_4, m_alerady_started_1, m_alerady_started_2,\
-        m_alerady_started_3, m_alerady_started_4 = match_situation
-
         # Affichage de menu jouer les matchs et d'inséré les resultats
         print('\033[92m' + " Démarré ou mettre fin a un match \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")
         if not m_finished_1:
-            if m_alerady_started_1:
+            if m_al_sta_1:
                 print('\033[93m'+" 1 : Arreter le match 1." + "\x1b[0m")
             else:
                 print('\033[93m'+" 1 : Démarrer le match 1." + "\x1b[0m")
         else:
             print('\033[93m'+" 1 : le Match 1 est terminé." + "\x1b[0m")
         if not m_finished_2:
-            if m_alerady_started_2:
+            if m_al_sta_2:
                 print('\033[93m'+" 2 : Arreter le match 2." + "\x1b[0m")
             else:
                 print('\033[93m'+" 2 : Démarrer le match 2." + "\x1b[0m")
         else:
             print('\033[93m'+" 2 : le Match 2 est terminé." + "\x1b[0m")
         if not m_finished_3:
-            if m_alerady_started_3:
+            if m_al_sta_3:
                 print('\033[93m'+" 3 : Arreter le match 3." + "\x1b[0m")
             else:
                 print('\033[93m'+" 3 : Démarrer le match 3." + "\x1b[0m")
         else:
             print('\033[93m'+" 3 : le Match 3 est terminé." + "\x1b[0m")
         if not m_finished_4:
-            if m_alerady_started_4:
+            if m_al_sta_4:
                 print('\033[93m'+" 4 : Arreter le match 4." + "\x1b[0m")
             else:
                 print('\033[93m'+" 4 : Démarrer le match 4." + "\x1b[0m")
         else:
             print('\033[93m'+" 4 : le Match 4 est terminé." + "\x1b[0m")
         print('\033[93m' + " 5 : Quitter le tournoi." + "\x1b[0m")
-        print('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m")
         # Inserer le resultat du match
         try:
-            resultat = int(input())
+            resultat = int(input('\033[91m'+"\nQuelle est votre choix : " + "\x1b[0m"))
             if resultat > 5 or resultat <= 0:
-
                 self.print_error_enter_int()
-                resultat = self.start_end_match_view(match_situation=match_situation)
+                resultat = self.start_end_match_view(
+                    m_finished_1=m_finished_1, m_finished_2=m_finished_2, m_finished_3=m_finished_3,
+                    m_finished_4=m_finished_4, m_al_sta_1=m_al_sta_1, m_al_sta_2=m_al_sta_2,  m_al_sta_3=m_al_sta_3,
+                    m_al_sta_4=m_al_sta_4)
         except (ValueError, IndexError):
             self.print_error_enter_int()
-            resultat = self.start_end_match_view(match_situation=match_situation)
+            resultat = self.start_end_match_view(
+                m_finished_1=m_finished_1, m_finished_2=m_finished_2, m_finished_3=m_finished_3,
+                m_finished_4=m_finished_4, m_al_sta_1=m_al_sta_1, m_al_sta_2=m_al_sta_2,  m_al_sta_3=m_al_sta_3,
+                m_al_sta_4=m_al_sta_4)
         print('-----------------------------------------------------------------------------------------------------')
         return resultat
 

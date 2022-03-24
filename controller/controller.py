@@ -741,10 +741,10 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
 
     def sub_menu_start_end_round(self, tour_list):
         # init
-        m_alerady_started_1 = False
-        m_alerady_started_2 = False
-        m_alerady_started_3 = False
-        m_alerady_started_4 = False
+        m_al_sta_1 = False
+        m_al_sta_2 = False
+        m_al_sta_3 = False
+        m_al_sta_4 = False
         m_finished_1 = m_finished_2 = m_finished_3 = m_finished_4 = False
         match = [tour_list[0]]
         match_1 = tour_list[1]
@@ -755,37 +755,35 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
 
         # Demander de demarrer un match  ou de  le finir
         while True:
-            try:
-                if m_finished_1 and m_finished_2 and m_finished_3 and m_finished_4 is True:
-                    match.extend((match_1, match_2, match_3, match_4))
-                    return match
-                    break
-                match_situation = m_finished_1, m_finished_2, m_finished_3, m_finished_4,\
-                                  m_alerady_started_1, m_alerady_started_2, m_alerady_started_3, m_alerady_started_4
-                resultat_enter = self.start_end_match_view(match_situation=match_situation)
-            except (ValueError, IndexError):
-                self.print_error_enter_int()
-                match = self.sub_menu_start_end_round(tour_list)
-            # Demmarrer ou finir  le match  n° 1
+
+            if m_finished_1 and m_finished_2 and m_finished_3 and m_finished_4 is True:
+                match.extend((match_1, match_2, match_3, match_4))
+                return match
+                break
+            resultat_enter = self.start_end_match_view(
+                m_finished_1=m_finished_1, m_finished_2=m_finished_2, m_finished_3=m_finished_3,
+                m_finished_4=m_finished_4, m_al_sta_1=m_al_sta_1, m_al_sta_2=m_al_sta_2,
+                m_al_sta_3=m_al_sta_3, m_al_sta_4=m_al_sta_4)
+            # Demarrer ou finir le match n° 1
             if resultat_enter == 1:
-                m_1_tuple = match_1, m_alerady_started_1, m_finished_1
+                m_1_tuple = match_1, m_al_sta_1, m_finished_1
                 m_1_tuple = self.start_end_match(match_tuple=m_1_tuple)
-                match_1, m_alerady_started_1, m_finished_1 = m_1_tuple
-                # Demmarrer ou finir  le match  n° 2
+                match_1, m_al_sta_1, m_finished_1 = m_1_tuple
+                # Demmarrer ou finir le match n° 2
             elif resultat_enter == 2:
-                m_2_tuple = match_2, m_alerady_started_2, m_finished_2
+                m_2_tuple = match_2, m_al_sta_2, m_finished_2
                 m_2_tuple = self.start_end_match(match_tuple=m_2_tuple)
-                match_2, m_alerady_started_2, m_finished_2 = m_2_tuple
-            # Demmarrer ou finir  le match  n° 3
+                match_2, m_al_sta_2, m_finished_2 = m_2_tuple
+            # Demarrer ou finir le match n° 3
             elif resultat_enter == 3:
-                m_3_tuple = match_3, m_alerady_started_3, m_finished_3
+                m_3_tuple = match_3, m_al_sta_3, m_finished_3
                 m_3_tuple = self.start_end_match(match_tuple=m_3_tuple)
-                match_3, m_alerady_started_3, m_finished_3 = m_3_tuple
-            # Demmarrer ou finir  le match  n° 4
+                match_3, m_al_sta_3, m_finished_3 = m_3_tuple
+            # Demarrer ou finir  le match n° 4
             elif resultat_enter == 4:
-                m_4_tuple = match_4, m_alerady_started_4, m_finished_4
+                m_4_tuple = match_4, m_al_sta_4, m_finished_4
                 m_4_tuple = self.start_end_match(match_tuple=m_4_tuple)
-                match_4, m_alerady_started_4, m_finished_4 = m_4_tuple
+                match_4, m_al_sta_4, m_finished_4 = m_4_tuple
             # Arreter la tournee et le tournoi
             elif resultat_enter == 5:
                 self.message_retour()
@@ -799,7 +797,7 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
 
     def start_end_match(self, match_tuple):
         # Init
-        match, match_alerady_started, match_finished = match_tuple
+        match, match_al_sta, match_finished = match_tuple
         ref_joueur_1, score_joueur_1, color_joueur_1 = match[0]
         ref_joueur_2, score_joueur_2, color_joueur_2 = match[1]
         start_match_time = match[2]
@@ -807,8 +805,8 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
         # Si le match n'est pas fini
         if not match_finished:
             # Si le  match n'a pas demarrer
-            if not match_alerady_started:
-                match_alerady_started = True
+            if not match_al_sta:
+                match_al_sta = True
                 # Date de debut de match
                 start_match_time = time.time()
             else:
@@ -845,7 +843,7 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
             start_match_time=start_match_time,
             end_match_time=end_match_time
         )
-        return match, match_alerady_started, match_finished
+        return match, match_al_sta, match_finished
 
     # -----------------------------------------------------------------------------------------------------------------#
 
