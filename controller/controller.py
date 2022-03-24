@@ -15,11 +15,13 @@ import numpy as np
 class PlayerMenu(Player, Player_view, Player_Stat):
 
     def sub_menu_player_1(self):
+        # reactualiser les joueurs
+        players = self.search_player()
         # Demander et affichage du menu gestion des joueurs
         resultat = self.player_sub_main_choice()
         # Ajouter un joueur.
         if resultat == 1:
-            familly_name, first_name, age, sex, classement = self.adding_player()
+            familly_name, first_name, age, sex, classement = self.adding_player(players=players)
             # sauvegarde du joueur ajouter
             player = Player(
                 familly_name=familly_name,
@@ -216,7 +218,7 @@ class PlayerMenu(Player, Player_view, Player_Stat):
                 #  Affichage de message qu'il faut ajouter des joueurs
                 self.need_add_players()
                 # Ajouter un joueur
-                familly_name, first_name, age, sex, classement = self.adding_player()
+                familly_name, first_name, age, sex, classement = self.adding_player(players=players)
                 # créer un object player
                 player = Player(
                     familly_name=familly_name, first_name=first_name, age=age, sex=sex, classement=classement
@@ -510,10 +512,10 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
         player_list_inf = list()
         length = len(players_tried)
         div_length = int(length / 2)
-        # liste des joueurs partie superieur
+        # liste des joueurs partie supérieure
         for i in range(0, div_length):
             player_list_sup.append(instance_players_tried[i])
-        # liste des joueurs partie inférieur
+        # liste des joueurs partie inférieure
         for j in range(div_length, length):
             player_list_inf.append(instance_players_tried[j])
 
@@ -522,15 +524,15 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
         # Définir les paires de joueurs
 
         for k in range(0, div_length):
-            # joueur de la partie superieur
+            # joueur de la partie supérieure
             ref_joueur_1 = player_list_sup[k]
-            # joueur de la partie inferieur
+            # joueur de la partie inférieure
             ref_joueur_2 = player_list_inf[k]
             # match à jouer
             match_to_play_1 = ref_joueur_1, ref_joueur_2
             match_to_play_2 = ref_joueur_2, ref_joueur_1
 
-            # Enregistre les  match deja jouer sachant que
+            # Enregistre les matchs deja jouer sachant que
             # match_to_play_1 et match_to_play_1 est le meme match
             matchs_already_played.append(match_to_play_1)
             matchs_already_played.append(match_to_play_2)
@@ -592,7 +594,7 @@ class MatchMenu(TournamentMenu, PlayerMenu, Match):
     def select_players_for_tournament(self, tournament_number, tournaments):
         tournament = tournaments[tournament_number]
         joueurs = tournament['Joueurs']
-        # Si les joueurs sont pas deja selectionnés
+        # Si les joueurs ne sont pas deja selectionnés
         if joueurs == '':
             # Choisir la liste des joueurs
             selected_players = self.select_and_add_players()

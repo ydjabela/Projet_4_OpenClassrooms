@@ -50,6 +50,18 @@ class Msg_Player:
     @staticmethod
     def message_selection_complete():
         print('\033[91m'+'\nLa selection des  joueur est complete' + "\x1b[0m")
+
+    # ---------------------------------------------------------------------------------------------------------------------#
+
+    @staticmethod
+    def print_error_classement_exist():
+        # indicates to the user that he must enter a number
+        print(
+            '\033[91m' +
+            "\n ERREUR :classement existe deja! ." +
+            "\x1b[0m"
+        )
+
     # -----------------------------------------------------------------------------------------------------------------#
 
 
@@ -161,7 +173,6 @@ class Player_view(Msg_Player):
 
     def player_to_select(self, players):
         try:
-            print(len(players))
             resultat = int(input('\033[91m' + "Numéro  de joueur que vous souhaité selectionné: " + "\x1b[0m"))
             if resultat > len(players) - 1 or resultat < 0:
                 self.print_error_enter_int()
@@ -186,15 +197,22 @@ class Player_view(Msg_Player):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def add_classement(self):
+    def add_classement(self, players):
+        first_list = list()
+        # construire une liste avec les noms de tous les joueurs
+        for player in players:
+            first_list.append(player['classement'])
         try:
             Classement = int(input('Classement: '))
             if Classement <= 0:
                 self.print_error_enter_int_age()
-                Classement = self.add_classement()
+                Classement = self.add_classement(players=players)
+            if Classement in first_list:
+                self.print_error_classement_exist()
+                Classement = self.add_classement(players=players)
         except ValueError:
             self.print_error_enter_int_classement()
-            Classement = self.add_classement()
+            Classement = self.add_classement(players=players)
         return Classement
 
     # -----------------------------------------------------------------------------------------------------------------#
@@ -208,13 +226,13 @@ class Player_view(Msg_Player):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def adding_player(self):
+    def adding_player(self, players):
 
         familly_name = str(input('Nom : '))
         first_name = str(input('prénom: '))
         age = self.add_age()
         sex = self.add_sex()
-        classement = self.add_classement()
+        classement = self.add_classement(players=players)
 
         return familly_name, first_name, age, sex, classement
 

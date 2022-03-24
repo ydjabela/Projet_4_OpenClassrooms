@@ -192,7 +192,7 @@ class Tournament_view(Msg_Tournament):
                 "\nNuméro  de tournoi que vous souhaité commencé a jouer: " +
                 "\x1b[0m"
             )) - 1
-            if resultat > len(tournaments)-1 or resultat <= 0:
+            if resultat > len(tournaments)-1 or resultat < 0:
                 self.print_error_enter_int()
                 resultat = self.tournament_to_play(tournaments=tournaments)
         except (ValueError, IndexError):
