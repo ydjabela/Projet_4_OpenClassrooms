@@ -34,7 +34,6 @@ class Choice:
             joueur_2,
             match_number,
             color_joueur_1,
-            color_joueur_2,
             score_joueur_1=0,
             score_joueur_2=0,
             start_match_time=0,
@@ -75,20 +74,25 @@ class Choice:
     # -----------------------------------------------------------------------------------------------------------------#
 
     @staticmethod
-    def round_view(Round):
+    def round_view(round_x):
         # Affichage des rounds
-        print('\033[92m' + '\n{}:'.format(Round) + "\x1b[0m")
+        print('\033[92m' + '\n{}:'.format(round_x) + "\x1b[0m")
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    @staticmethod
-    def restart_round_choice():
+    def restart_round_choice(self):
         # Affichage de menu redemmarer un tournoi ou de quitter
         print("\n /// Selectionnez le menu souhaité. /// \n")
         print('\033[93m' + " 1 : Redemarrer le tournoi." + "\x1b[0m")
         print('\033[93m' + " 2 : Sortir du tournoi." + "\x1b[0m")
-        print('\033[91m' + "\nQuelle est votre choix : " + "\x1b[0m")
-        resultat = input()
+        try:
+            resultat = int(input('\033[91m' + "\nQuelle est votre choix : " + "\x1b[0m"))
+            if resultat > 2 or resultat <= 0:
+                self.print_error_enter_int()
+                resultat = self.restart_round_choice()
+        except (ValueError, IndexError):
+            self.print_error_enter_int()
+            resultat = self.restart_round_choice()
         print('-----------------------------------------------------------------------------------------------------')
         return resultat
 
@@ -105,8 +109,9 @@ class Choice:
             self,
             match_situation
     ):
-        m_finished_1, m_finished_2, m_finished_3, m_finished_4, \
-        m_alerady_started_1, m_alerady_started_2, m_alerady_started_3, m_alerady_started_4 = match_situation
+        m_finished_1, m_finished_2, m_finished_3, m_finished_4, m_alerady_started_1, m_alerady_started_2,\
+        m_alerady_started_3, m_alerady_started_4 = match_situation
+
         # Affichage de menu jouer les matchs et d'inséré les resultats
         print('\033[92m' + " Démarré ou mettre fin a un match \n" + "\x1b[0m")
         print(" /// Selectionnez le menu souhaité. /// \n")

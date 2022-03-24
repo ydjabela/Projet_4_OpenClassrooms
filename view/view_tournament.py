@@ -232,14 +232,14 @@ class Tournament_view(Msg_Tournament):
         lieu = str(input('lieu: '))
         date = str(input('date: '))
         tour = settings.TURNS
-        Tournees = ''
-        Joueurs = ''
+        tournees = ''
+        joueurs = ''
         if not without_player:
-            Joueurs = list(input('Joueurs: '))
+            joueurs = list(input('Joueurs: '))
         controle_temps = input('controle_temps: ')
-        Description = str(input('Description: '))
+        description = str(input('Description: '))
 
-        return nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description
+        return nom, lieu, date, tour, tournees, joueurs, controle_temps, description
 
     # -----------------------------------------------------------------------------------------------------------------#
 

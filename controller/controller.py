@@ -74,8 +74,6 @@ class PlayerMenu(Player, Player_view, Player_Stat):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def sub_menu_player_2(self):
-        # init
-        resultat_modif = 0
         player_number = 0
         # voir les joueurs existent dans la base de donnée
         players = self.search_player()
@@ -203,7 +201,8 @@ class PlayerMenu(Player, Player_view, Player_Stat):
         # Chercher les joueurs existent
         players = self.search_player()
         # Si aucun joueur n'existe'
-        if len(players) == 0: self.no_player()
+        if len(players) == 0:
+            self.no_player()
         # construire une liste avec les noms de tous les joueurs
         for player in players:
             first_list.append(player['familly_name'])
@@ -301,22 +300,20 @@ class PlayerMenu(Player, Player_view, Player_Stat):
 class TournamentMenu(Tournament, Tournament_view):
 
     def sub_menu_tournament_1(self):
-        # init
-        resultat = 0
         #  Menu tournois
         resultat = self.tournament_sub_main_choice()
         # Ajouter un tournament.
         if resultat == 1:
-            nom, lieu, date, tour, Tournees, Joueurs, controle_temps, Description = self.adding_tournament()
+            nom, lieu, date, tour, tournees, joueurs, controle_temps, description = self.adding_tournament()
             tournament = Tournament(
                 nom=nom,
                 lieu=lieu,
                 date=date,
                 tour=tour,
-                Tournees=Tournees,
-                Joueurs=Joueurs,
+                Tournees=tournees,
+                Joueurs=joueurs,
                 controle_temps=controle_temps,
-                Description=Description
+                Description=description
             )
             # SAuvegarder un Tournoi
             tournament.save_tournament()
@@ -352,7 +349,6 @@ class TournamentMenu(Tournament, Tournament_view):
     def sub_menu_tournament_2(self):
         # Init
         tournament_number = 0
-        resultat_modif = 0
         #  menu modification d'un tournoi
         # voir le nombre de tournois
         tournaments = self.search_tournament()
@@ -388,8 +384,8 @@ class TournamentMenu(Tournament, Tournament_view):
             self.tournament_tournees_modification()
         # modifier les joueurs
         elif resultat_modif == 6:
-            Joueurs = self.tournament_Joueurs_modification()
-            self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(Joueurs))
+            joueurs = self.tournament_Joueurs_modification()
+            self.ask_change_tournament_value(tournament_number=tournament_number, key='Joueurs', value=list(joueurs))
         elif resultat_modif == 7:
             controle_temps = self.tournament_controle_temps_modification()
             self.ask_change_tournament_value(tournament_number=tournament_number, key='controle_temps',
@@ -470,14 +466,14 @@ class TournamentMenu(Tournament, Tournament_view):
 # ---------------------------------------------------------------------------------------------------------------------#
 
 
-class Match_Menu(TournamentMenu, PlayerMenu, Match):
+class MatchMenu(TournamentMenu, PlayerMenu, Match):
 
     # -----------------------------------------------------------------------------------------------------------------#
 
-    def rounds_matchs(self, Round, matchs_already_played, instance_players_tried):
+    def rounds_matchs(self, round, matchs_already_played, instance_players_tried):
 
         # jumelé Le meilleur joueur de avec le deuxieme meilleur joueur
-        tour_list = [Round]
+        tour_list = [round]
         for k in range(1, settings.TURNS + 1):
             ref_joueur_1 = instance_players_tried[0]
             ref_joueur_2 = self.matchs_already_played_function(
@@ -631,17 +627,17 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
     # -----------------------------------------------------------------------------------------------------------------#
 
     def start_round_x(self, tuple_round_x):
-        tournament, matchs_round, matchs_already_played, dict_points, selected_players= tuple_round_x
+        tournament, matchs_round, matchs_already_played, dict_points, selected_players = tuple_round_x
         # verifier la tournée
-        Tournees = tournament['Tournees']
+        tournes = tournament['Tournees']
 
         start_round = 1
-        # si aucune tournee n'existe
-        if Tournees == '':
+        # si aucune tournees n'existe
+        if tournes == '':
             start_round = 1
-        # S'il existe aumoins  une tournee voir  le  nombre de  match qui ont ete  jouer deja
+        # S'il existe aumoins une tourne voir le nombre de match qui ont ete jouer deja
         else:
-            for match in Tournees:
+            for match in tournes:
                 matchs_round.append(match)
                 joueur_1, joueur_2, start_match_time, end_match_time = match
                 ref_joueur_1, score_joueur_1, color_joueur_1 = joueur_1
@@ -653,7 +649,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                 dict_points[ref_joueur_1] += score_joueur_1
                 dict_points[ref_joueur_2] += score_joueur_2
 
-            tournee_length = len(Tournees)
+            tournee_length = len(tournes)
             if tournee_length == 4:
                 start_round = 2
             elif tournee_length == 8:
@@ -662,13 +658,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                 start_round = 4
             else:
                 # check if  he need to restart or quit
-                resultat = 0
-                try:
-                    resultat = int(self.restart_round_choice())
-                except (ValueError, IndexError):
-                    self.print_error_enter_int()
-                    self.start_playing_tournament()
-
+                resultat = self.restart_round_choice()
                 if resultat == 1:
                     matchs_round = list()
                     dict_points = dict()
@@ -704,13 +694,13 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
         tuple_round_x = self.start_round_x(tuple_round_x=tuple_round_x)
         tournament, matchs_round, matchs_already_played, dict_points, selected_players, start_round = tuple_round_x
         # Demarrer  le  round
-        for round in range(start_round, settings.TURNS + 1):
+        for round_x in range(start_round, settings.TURNS + 1):
             # 1 er tour
-            Round = 'Round {}'.format(round)
-            self.round_view(Round=Round)
+            round_x = 'Round {}'.format(round_x)
+            self.round_view(round_x=round_x)
 
-            if round == 1:
-                tour_list = [Round]
+            if round_x == 1:
+                tour_list = [round_x]
                 match_player, matchs_already_played = self.round_1(
                     tour_list=tour_list,
                     selected_players=selected_players,
@@ -727,7 +717,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
                     ref_joueur, points, classement = players_tried[i]
                     instance_players_tried.append(ref_joueur)
                 tour_list, matchs_already_played = self.rounds_matchs(
-                    Round=Round,
+                    round=round_x,
                     matchs_already_played=matchs_already_played,
                     instance_players_tried=instance_players_tried
                 )
@@ -860,7 +850,7 @@ class Match_Menu(TournamentMenu, PlayerMenu, Match):
     # -----------------------------------------------------------------------------------------------------------------#
 
 
-class MainMenu(Choice, Match_Menu):
+class MainMenu(Choice, MatchMenu):
 
     def menu(self):
         # init
